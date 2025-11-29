@@ -20,8 +20,8 @@ public class Grupo {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "organigrama")
-    private String organigrama;
+    @Column(name = "organigrama", columnDefinition = "LONGBLOB")
+    private byte[] organigrama;
 
     @Column(name = "objetivoYDesarollo")
     private String objetivoYDesarollo;
@@ -31,7 +31,7 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(String nombreGrupo, String sigla, String email, String organigrama, String objetivoYDesarollo) {
+    public Grupo(String nombreGrupo, String sigla, String email, byte[] organigrama, String objetivoYDesarollo) {
         this.nombreGrupo = nombreGrupo;
         this.sigla = sigla;
         this.email = email;
@@ -56,7 +56,7 @@ public class Grupo {
         return email;
     }
 
-    public String getOrganigrama() {
+    public byte[] getOrganigrama() {
         return organigrama;
     }
 
@@ -69,7 +69,7 @@ public class Grupo {
         this.objetivoYDesarollo = objetivoYDesarollo;
     }
 
-    public void setOrganigrama(String organigrama) {
+    public void setOrganigrama(byte[] organigrama) {
         this.organigrama = organigrama;
     }
 

@@ -13,8 +13,8 @@ public class Usuario {
     @Column(nullable = false,unique = true)
     private String email;
 
-   // @Column(nullable = false)
-    //private Role role;
+   @Column(nullable = false)
+    private Role role;
 
     @Column(nullable = false)
     private String password;
@@ -23,8 +23,9 @@ public class Usuario {
     public Usuario(){
     }
 
-    public Usuario(String email, String password){
+    public Usuario(String email,Role role ,String password ){
         this.email = email;
+        this.role = role;
         setPassword(password);
     }
 
@@ -39,9 +40,9 @@ public class Usuario {
         return email;
     }
 
-   // public Role getRole() {
-     //   return role;
-    //}
+    public Role getRole() {
+       return role;
+    }
 
     public String getPassword(){
         return password;
@@ -56,9 +57,9 @@ public class Usuario {
         this.email = email;
     }
 
-  //  public void setRole(Role role) {
-    //    this.role = role;
-    //}
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public void setPassword(String password) {
         this.password = password;

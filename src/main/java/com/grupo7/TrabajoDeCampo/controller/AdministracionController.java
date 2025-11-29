@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/AdministracionController")
+@RequestMapping("/AdminController")
 public class AdministracionController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class AdministracionController {
     }
 
     //actualizar grupo
-    @PutMapping("/grupos/actualizarGrupo/{idGrupo}")
+    @PutMapping("/grupos/actualizarGrupo/{oidGrupo}")
     public Grupo actualizarGrupo(@PathVariable("oidGrupo") Long oidGrupo, @RequestBody Grupo grupo) {
         return grupoService.actualizarGrupo(oidGrupo, grupo);
     }

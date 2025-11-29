@@ -48,6 +48,7 @@ public class AuthController {
         Usuario usuario = userOpt.get();
 
         if (passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
+
             return "Login exitoso: " + usuario.getEmail();
         } else {
             return "Contraseña incorrecta.";
