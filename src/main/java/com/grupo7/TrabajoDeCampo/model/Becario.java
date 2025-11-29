@@ -18,9 +18,9 @@ public class Becario {
     @Enumerated(EnumType.STRING)
     private TipoBecario tipoBecario;
 
-    @ManyToOne
-    @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona", nullable = false)
-    private Persona Persona;
+    @OneToOne
+    @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona")
+    private Persona persona;
 
 
     public Becario() {
@@ -30,7 +30,7 @@ public class Becario {
         this.oidBecario = oidBecario;
         this.fuenteFinanciamiento = fuenteFinanciamiento;
         this.tipoBecario = tipoBecario;
-        Persona = persona;
+        this.persona = persona;
     }
 
     public Long getOidBecario() {
@@ -46,7 +46,7 @@ public class Becario {
     }
 
     public Persona getPersona() {
-        return Persona;
+        return persona;
     }
 
     public void setOidBecario(Long oidBecario) {
@@ -62,6 +62,6 @@ public class Becario {
     }
 
     public void setPersona(Persona persona) {
-        Persona = persona;
+        this.persona = persona;
     }
 }

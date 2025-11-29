@@ -22,7 +22,7 @@ public class Investigador {
     @JoinColumn(name = "gradoAcademico")
     private String gradoAcademico;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona")
     private Persona persona;
 

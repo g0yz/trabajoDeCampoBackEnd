@@ -14,7 +14,7 @@ public class IntegranteConsejoEducativo {
     @JoinColumn(name = "oidCargo")
     private Cargo Cargo;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona", nullable = false)
     private Persona persona;
 

@@ -19,14 +19,30 @@ public class Persona {
     @Column(name = "horasSemanales")
     private String horasSemanales;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="tipoPersona",nullable = false)
+    private TipoPersona tipoPersona;
+
     @OneToOne
     @JoinColumn(name="oidUsuario",referencedColumnName = "oidUsuario",nullable = true)
     private Usuario Usuario;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
-    private Grupo Grupo;
+    private Grupo grupo;
 
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private Personal personal;
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private Investigador investigador;
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private Becario becario;
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private IntegranteConsejoEducativo integranteConsejoEducativo;
 
 
 
@@ -35,10 +51,11 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String horasSemanales){
+    public Persona(String nombre, String apellido, String horasSemanales , TipoPersona tipoPersona ){
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
+        this.tipoPersona = tipoPersona;
     }
 
     //GETTERS
@@ -62,8 +79,28 @@ public class Persona {
         return horasSemanales;
     }
 
+    public TipoPersona getTipoPersona() {
+        return tipoPersona;
+    }
+
+    public Personal getPersonal() {
+        return personal;
+    }
+
+    public Investigador getInvestigador() {
+        return investigador;
+    }
+
+    public Becario getBecario() {
+        return becario;
+    }
+
+    public IntegranteConsejoEducativo getIntegranteConsejoEducativo() {
+        return integranteConsejoEducativo;
+    }
+
     public Grupo getGrupo() {
-        return Grupo;
+        return grupo;
     }
 
     //SETTERS
@@ -87,8 +124,28 @@ public class Persona {
         this.horasSemanales = horasSemanales;
     }
 
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
+    }
+
+    public void setPersonal(Personal personal) {
+        this.personal = personal;
+    }
+
+    public void setInvestigador(Investigador investigador) {
+        this.investigador = investigador;
+    }
+
+    public void setBecario(Becario becario) {
+        this.becario = becario;
+    }
+
+    public void setIntegranteConsejoEducativo(IntegranteConsejoEducativo integranteConsejoEducativo) {
+        this.integranteConsejoEducativo = integranteConsejoEducativo;
+    }
+
     public void setGrupo(Grupo grupo) {
-        Grupo = grupo;
+        this.grupo = grupo;
     }
 
 }

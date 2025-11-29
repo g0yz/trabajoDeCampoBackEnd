@@ -27,7 +27,7 @@ public class Equipo {
 
     @ManyToOne
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
-    private Grupo Grupo;
+    private Grupo grupo;
 
 
     //CONSTRUCTORES
@@ -65,12 +65,12 @@ public class Equipo {
     }
 
     public Grupo getGrupo() {
-        return Grupo;
+        return grupo;
     }
 
     //SETTERS
     public void setGrupo(Grupo grupo) {
-        Grupo = grupo;
+        this.grupo = grupo;
     }
 
     public void setDescripcion(String descripcion) {
