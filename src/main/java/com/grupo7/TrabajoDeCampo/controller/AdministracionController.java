@@ -2,6 +2,7 @@ package com.grupo7.TrabajoDeCampo.controller;
 import com.grupo7.TrabajoDeCampo.service.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.GrupoService;
+import com.grupo7.TrabajoDeCampo.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,8 @@ public class AdministracionController {
     private DocumentoService documentoService;
     @Autowired
     private EquipoService equipoService;
+    @Autowired
+    private PersonaService personaService;
 
     //-----------------------------------GRUPOS-----------------------------------
     //crear nuevo grupo
@@ -90,10 +93,42 @@ public class AdministracionController {
     public Equipo actualizarEquipo(@PathVariable("oidEquipo") Long oidEquipo, @RequestBody Equipo equipoActualizado) {
         return equipoService.actualizarEquipo(oidEquipo, equipoActualizado);
     }
+
     //eliminar un equipo
     @DeleteMapping("/equipos/eliminarEquipo/{oidEquipo}")
     public void eliminarEquipo(@PathVariable Long oidEquipo) {
         equipoService.eliminarEquipo(oidEquipo);
+    }
+
+
+    //-----------------------------------PERSONAS-----------------------------------
+    //crear una persona a grupo
+    @PostMapping("/personas/agregarPersona/{oidGrupo}")
+    public Persona crearPersona(@RequestBody Persona persona, @PathVariable("oidGrupo") Long oidGrupo){
+        return personaService.crearPersona(persona, oidGrupo);
+    }
+
+    //listar todas las personas
+    @GetMapping ("/personas/listarPersonas")
+    public List<Persona> listarPersonas(){ return personaService.listarPersonas();}
+
+
+    //obtener una persona en especifico por ID
+    @GetMapping("/personas/obtenerPersona/{oidPersona}")
+    public Optional<Persona> obtenerPersonaPorId(@PathVariable("oidPersona") Long oidPersona) {
+        return personaService.obtenerPersonaPorId(oidPersona);
+    }
+
+    //actualizar una persona
+    @PutMapping("/personas/actualizarPersona/{oidPersona}")
+    public Persona actualizarPersona(@PathVariable("oidPersona") Long oidPersona, @RequestBody Persona personaActualizada) {
+        return personaService.actualizarPersona(oidPersona, personaActualizada);
+    }
+
+    //eliminar una persona
+    @DeleteMapping("/personas/eliminarPersona/{oidPersona}")
+    public void eliminarPersona (@PathVariable Long oidPersona) {
+        personaService.eliminarPersona(oidPersona);
     }
 
 

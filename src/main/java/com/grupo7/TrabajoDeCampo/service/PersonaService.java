@@ -37,17 +37,11 @@ public class PersonaService {
     }
 
 
-    public Persona actualizarPersona(Long id, Persona personaActualizada, Long idGrupo) {
+    public Persona actualizarPersona(Long id, Persona personaActualizada) {
 
         Persona persona = personaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada con id: " + id));
 
-
-        if (idGrupo != null) {
-            Grupo grupo = grupoRepository.findById(idGrupo)
-                    .orElseThrow(() -> new RuntimeException("Grupo no encontrado con id: " + idGrupo));
-            persona.setGrupo(grupo);
-        }
 
         if (personaActualizada.getNombre() != null)
             persona.setNombre(personaActualizada.getNombre());
