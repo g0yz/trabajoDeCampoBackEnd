@@ -26,6 +26,7 @@ public class BecarioService {
     public Becario crearBecario (Persona persona){
         Becario becario = new Becario();
         becario.setPersona(persona);
+
         return becarioRepository.save(becario);
     }
 

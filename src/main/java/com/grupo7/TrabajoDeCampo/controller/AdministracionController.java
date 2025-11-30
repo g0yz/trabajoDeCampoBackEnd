@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/AdminController")
+@RequestMapping("/AdministracionController")
 public class AdministracionController {
 
     @Autowired

@@ -62,7 +62,7 @@ public class Documento {
     public Grupo getGrupo() {
         return grupo;
     }
-    
+
     //SETTERS
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
