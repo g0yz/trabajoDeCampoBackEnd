@@ -66,10 +66,22 @@ public class AdministracionController {
     public List<Documento> listarDocumentos(){ return documentoService.listarDocumentos();}
 
     //obtener un documento por ID
+    @GetMapping("/documentos/obtenerDocumento/{oidDocumento}")
+    public Optional<Documento> obtenerDocumentoPorId(@PathVariable("oidDocumento") Long oidDocumento){
+        return documentoService.obtenerDocumentoPorId(oidDocumento);
+    }
 
     //actualizar un Documento
+    @PutMapping("/documentos/actualizarDocumento/{oidDocumento}")
+    public Documento actualizarDocumento(@PathVariable("oidDocumento") Long oidDocumento, @RequestBody Documento docuemntoActualizado){
+        return documentoService.actualizarDocumento(oidDocumento, docuemntoActualizado);
+    }
 
     //eliminar un Documento
+    @DeleteMapping("/documentos/eliminarDocumentos/{oidDocumetos}")
+    public void eliminarDocumento(@PathVariable Long oidDocumento) {
+        documentoService.eliminarDocumento(oidDocumento);
+    }
 
     //-----------------------------------EQUIPOS-----------------------------------
     //crear nuevo equipo
@@ -130,7 +142,4 @@ public class AdministracionController {
     public void eliminarPersona (@PathVariable Long oidPersona) {
         personaService.eliminarPersona(oidPersona);
     }
-
-
-
 }
