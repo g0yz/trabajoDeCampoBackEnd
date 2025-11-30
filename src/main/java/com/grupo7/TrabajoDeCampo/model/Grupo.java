@@ -28,14 +28,6 @@ public class Grupo {
     @Column(name = "objetivoYDesarollo")
     private String objetivoYDesarollo;
 
-    @OneToMany(mappedBy = "grupo")
-    private List<Persona> personas;
-
-    @OneToMany(mappedBy = "grupo")
-    private List<Equipo> equipos;
-
-    @OneToMany(mappedBy = "grupo")
-    private List<Documento> documentos;
 
     //CONSTRUCTORES
     public Grupo() {
@@ -47,6 +39,7 @@ public class Grupo {
         this.email = email;
         this.organigrama = organigrama;
         this.objetivoYDesarollo = objetivoYDesarollo;
+
     }
 
     //GETTERS
@@ -74,17 +67,7 @@ public class Grupo {
         return objetivoYDesarollo;
     }
 
-    public List<Persona> getPersonas() {
-        return personas;
-    }
 
-    public List<Equipo> getEquipos() {
-        return equipos;
-    }
-
-    public List<Documento> getDocumentos() {
-        return documentos;
-    }
 
     //SETTERS
     public void setObjetivoYDesarollo(String objetivoYDesarollo) {
@@ -111,16 +94,6 @@ public class Grupo {
         this.oidGrupo = oidGrupo;
     }
 
-    public void setPersonas(List<Persona> personas) {
-        this.personas = personas;
-    }
 
-    public void setEquipos(List<Equipo> equipos) {
-        this.equipos = equipos;
-    }
-
-    public void setDocumentos(List<Documento> documentos) {
-        this.documentos = documentos;
-    }
 
 }
