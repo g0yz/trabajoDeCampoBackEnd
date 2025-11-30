@@ -31,6 +31,8 @@ public class GrupoService {
     public Grupo actualizarGrupo(Long id, Grupo grupoActualizado) {
         return grupoRepository.findById(id)
                 .map(grupo -> {
+                    if (grupoActualizado.getFacultadRegional() != null)
+                        grupo.setFacultadRegional(grupoActualizado.getFacultadRegional());
                     if (grupoActualizado.getNombreGrupo() != null)
                         grupo.setNombreGrupo(grupoActualizado.getNombreGrupo());
                     if (grupoActualizado.getSigla() != null)

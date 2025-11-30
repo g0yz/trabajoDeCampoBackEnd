@@ -13,6 +13,10 @@ public class Grupo {
     @Column(name="oidGrupo")
     private Long oidGrupo;
 
+    @Column(name = "facultadRegional")
+    private String facultadRegional;
+
+
     @Column(name = "nombreGrupo")
     private String nombreGrupo;
 
@@ -33,7 +37,8 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(String nombreGrupo, String sigla, String email, String organigrama, String objetivoYDesarollo) {
+    public Grupo(String facultadRegional,String nombreGrupo, String sigla, String email, String organigrama, String objetivoYDesarollo) {
+        this.facultadRegional = facultadRegional;
         this.nombreGrupo = nombreGrupo;
         this.sigla = sigla;
         this.email = email;
@@ -45,6 +50,10 @@ public class Grupo {
     //GETTERS
     public long getOidGrupo() {
         return oidGrupo;
+    }
+
+    public String getFacultadRegional() {
+        return facultadRegional;
     }
 
     public String getNombreGrupo() {
@@ -70,6 +79,12 @@ public class Grupo {
 
 
     //SETTERS
+
+
+    public void setFacultadRegional(String facultadRegional) {
+        this.facultadRegional = facultadRegional;
+    }
+
     public void setObjetivoYDesarollo(String objetivoYDesarollo) {
         this.objetivoYDesarollo = objetivoYDesarollo;
     }
