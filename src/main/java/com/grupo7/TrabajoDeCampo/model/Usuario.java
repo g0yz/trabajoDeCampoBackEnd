@@ -23,7 +23,7 @@ public class Usuario {
     public Usuario(){
     }
 
-    public Usuario(String email,Role role ,String password ){
+    public Usuario(String email,String password ){
         this.email = email;
        // this.role = role;
         setPassword(password);
