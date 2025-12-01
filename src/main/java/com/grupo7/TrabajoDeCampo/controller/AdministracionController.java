@@ -134,6 +134,27 @@ public class AdministracionController {
         return personaService.crearPersona(persona, oidGrupo);
     }
 
+    //listar todos los equipos
+    @GetMapping ("/personas/listarPersonas")
+    public List<Persona> listarPersonas(){ return personaService.listarPersonas();}
+
+    //obtener una persona en especifico por ID
+    @GetMapping("/personas/obtenerPersona/{oidPersona}")
+    public Optional<Persona> obtenerPersonaPorId(@PathVariable("oidPersona") Long oidPersona) {
+        return personaService.obtenerPersonaPorId(oidPersona); }
+
+
+    //actualizar una persona
+    @PutMapping("/personas/actualizarPersona/{oidPersona}") public Persona actualizarPersona(@PathVariable("oidPersona") Long oidPersona, @RequestBody Persona personaActualizada) {
+        return personaService.actualizarPersona(oidPersona, personaActualizada); }
+
+
+
+    //eliminar una persona
+    @DeleteMapping("/personas/eliminarPersona/{oidPersona}") public void eliminarPersona (@PathVariable Long oidPersona) {
+        personaService.eliminarPersona(oidPersona); }
+
+
     //-----------------------------------BECARIOS-----------------------------------
 
     //listar todas las becarios

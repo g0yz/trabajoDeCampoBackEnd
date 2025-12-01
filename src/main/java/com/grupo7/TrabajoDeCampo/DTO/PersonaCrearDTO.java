@@ -1,5 +1,6 @@
 package com.grupo7.TrabajoDeCampo.DTO;
 
+import com.grupo7.TrabajoDeCampo.model.TipoBecario;
 import com.grupo7.TrabajoDeCampo.model.TipoPersona;
 import com.grupo7.TrabajoDeCampo.model.TipoPersonal;
 

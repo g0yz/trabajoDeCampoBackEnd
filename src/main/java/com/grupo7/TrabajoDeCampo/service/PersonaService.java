@@ -15,6 +15,9 @@ import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.InvestigadorRepos
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.PersonalRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class PersonaService {
@@ -37,6 +40,13 @@ public class PersonaService {
         this.personalRepository = personalRepository;
         this.investigadorRepository = investigadorRepository;
     }
+
+
+    public List<Persona> listarPersonas(){
+        return personaRepository.findAll(); }
+
+    public Optional<Persona> obtenerPersonaPorId(Long id){
+        return personaRepository.findById(id); }
 
 
     public Persona crearPersona(PersonaCrearDTO personaDto, Long oidGrupo) {
@@ -110,5 +120,25 @@ public class PersonaService {
         }
             return personaRepository.save(persona);
     }
+
+
+    public Persona actualizarPersona(Long id, Persona personaActualizada) {
+        Persona persona = personaRepository.findById(id) .orElseThrow(() -> new RuntimeException("Persona no encontrada con id: " + id));
+
+        if (personaActualizada.getNombre() != null)
+            persona.setNombre(personaActualizada.getNombre());
+        if (personaActualizada.getApellido() != null)
+            persona.setApellido(personaActualizada.getApellido());
+        if (personaActualizada.getHorasSemanales() != null)
+            persona.setHorasSemanales(personaActualizada.getHorasSemanales());
+        return personaRepository.save(persona);
+    }
+
+
+
+    public void eliminarPersona(Long id) {
+        personaRepository.deleteById(id);
+    }
+
 
 }
