@@ -3,6 +3,7 @@ package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
 import com.grupo7.TrabajoDeCampo.model.Becario;
 import com.grupo7.TrabajoDeCampo.model.Persona;
+import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.BecarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +14,28 @@ import java.util.Optional;
 public class BecarioService {
 
     private final BecarioRepository becarioRepository;
+    private final PersonaRepository personaRepository;
 
 
-    public BecarioService (BecarioRepository becarioRepository){
+    public BecarioService (BecarioRepository becarioRepository, PersonaRepository personaRepository){
         this.becarioRepository = becarioRepository;
+        this.personaRepository = personaRepository;
     }
 
     public List<Becario> listarBecarios(){ return becarioRepository.findAll();}
 
     public Optional<Becario> obtenerBecarioPorId(Long id){return becarioRepository.findById(id);}
 
-    public Becario crearBecario (Persona persona){
+    public Becario crearBecario (Becario datosBecario, Long personaId) {
+
+        Persona persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+
         Becario becario = new Becario();
         becario.setPersona(persona);
-        persona.setBecario(becario);
+
+        becario.setFuenteFinanciamiento(datosBecario.getFuenteFinanciamiento());
+        becario.setTipoBecario(datosBecario.getTipoBecario());
 
         return becarioRepository.save(becario);
     }

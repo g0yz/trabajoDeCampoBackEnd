@@ -10,16 +10,16 @@ public class Investigador {
     @Column(name="oidInverstigador")
     private Long oidInverstigador;
 
-    @JoinColumn(name = "categoriaUTN")
+    @Column(name = "categoriaUTN")
     private String categoriaUTN;
 
-    @JoinColumn(name = "programaDeIncentivos")
+    @Column(name = "programaDeIncentivos")
     private String programaDeIncentivos;
 
-    @JoinColumn(name = "dedicacion")
+    @Column(name = "dedicacion")
     private String dedicacion;
 
-    @JoinColumn(name = "gradoAcademico")
+    @Column(name = "gradoAcademico")
     private String gradoAcademico;
 
     @OneToOne

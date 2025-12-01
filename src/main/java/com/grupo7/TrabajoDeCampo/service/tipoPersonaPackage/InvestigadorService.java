@@ -1,7 +1,9 @@
 package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
+import com.grupo7.TrabajoDeCampo.model.Becario;
 import com.grupo7.TrabajoDeCampo.model.Investigador;
 import com.grupo7.TrabajoDeCampo.model.Persona;
+import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.InvestigadorRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,20 +13,33 @@ import java.util.Optional;
 @Service
 public class InvestigadorService {
     private final InvestigadorRepository investigadorRepository;
+    private final PersonaRepository personaRepository;
 
-    public InvestigadorService(InvestigadorRepository investigadorRepository){
+    public InvestigadorService(InvestigadorRepository investigadorRepository, PersonaRepository personaRepository){
         this.investigadorRepository= investigadorRepository;
+        this.personaRepository = personaRepository;
     }
 
     public List<Investigador> listarInvestigadores(){ return investigadorRepository.findAll();}
 
     public Optional<Investigador> obtenerInvestigadorPorId(Long id){return investigadorRepository.findById(id);}
 
-    public Investigador crearInvestigador (Persona persona){
+    public Investigador crearInvestigador (Investigador datosInvestigador, Long personaId){
+        Persona persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+
+
         Investigador investigador = new Investigador();
         investigador.setPersona(persona);
+
+        investigador.setCategoriaUTN(datosInvestigador.getCategoriaUTN());
+        investigador.setProgramaDeIncentivos(datosInvestigador.getProgramaDeIncentivos());
+        investigador.setDedicacion(datosInvestigador.getDedicacion());
+        investigador.setGradoAcademico(datosInvestigador.getGradoAcademico());
+
         return investigadorRepository.save(investigador);
     }
+
 
 
     public Investigador actualizarInvestigador (Long id, Investigador investigadorActualizado){

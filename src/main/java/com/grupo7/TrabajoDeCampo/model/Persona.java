@@ -1,4 +1,5 @@
 package com.grupo7.TrabajoDeCampo.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -6,9 +7,9 @@ import jakarta.persistence.*;
 public class Persona {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="oidPersona")
-    private Long idPersona;
+    private Long oidPersona;
 
     @Column(name = "nombre")
     private String nombre;
@@ -33,15 +34,19 @@ public class Persona {
 
 
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Personal personal;
 
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Investigador investigador;
 
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Becario becario;
 
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    @JsonIgnore
     private IntegranteConsejoEducativo integranteConsejoEducativo;
 
 
@@ -60,7 +65,7 @@ public class Persona {
 
     //GETTERS
     public long getIdPersona() {
-        return idPersona;
+        return oidPersona;
     }
 
     public String getNombre() {
@@ -105,7 +110,7 @@ public class Persona {
 
     //SETTERS
     public void setIdPersona(Long idPersona) {
-        this.idPersona = idPersona;
+        this.oidPersona = idPersona;
     }
 
     public void setNombre(String nombre) {

@@ -158,60 +158,59 @@ public class AdministracionController {
 
     //-----------------------------------BECARIOS-----------------------------------
     //crear una becario a grupo
-    @PostMapping("/becarios/agregarBecario/{oidGrupo}")
-    public Becario crearBecario(@RequestBody Persona becario, @PathVariable("oidGrupo") Long oidGrupo){
-        return becarioService.crearBecario(becario);
-    } // Me parece raro que pida una persona y no un becario
-
+    @PostMapping("/personas/{oidPersona}/becario")
+    public Becario crearBecario(@RequestBody Becario becario, @PathVariable("oidPersona") Long oidPersona){
+        return becarioService.crearBecario(becario,oidPersona);
+    }
     //listar todas las becarios
-    @GetMapping ("/becarios/listarBecarios")
+    @GetMapping ("/personas/becarios/listarBecarios")
     public List<Becario> listarBecarios(){ return becarioService.listarBecarios();}
 
 
     //obtener una becario en especifico por ID
-    @GetMapping("/becarios/obtenerBecario/{oidBecario}")
+    @GetMapping("/personas/becarios/obtenerBecario/{oidBecario}")
     public Optional<Becario> obtenerBecarioPorId(@PathVariable("oidBecario") Long oidBecario) {
         return becarioService.obtenerBecarioPorId(oidBecario);
     }
 
     //actualizar una becario
-    @PutMapping("/becarios/actualizarBecario/{oidBecario}")
+    @PutMapping("/personas/becarios/actualizarBecario/{oidBecario}")
     public Becario actualizarBecario(@PathVariable("oidBecario") Long oidBecario, @RequestBody Becario becarioActualizada) {
         return becarioService.actualizarBecario(oidBecario, becarioActualizada);
     }
 
     //eliminar una becario
-    @DeleteMapping("/becarios/eliminarBecario/{oidBecario}")
+    @DeleteMapping("/personas/becarios/eliminarBecario/{oidBecario}")
     public void eliminarBecario (@PathVariable Long oidBecario) {
         becarioService.eliminarBecario(oidBecario);
     }
 
     //-----------------------------------INVESTIGADORES-----------------------------------
     //crear una investigador a grupo
-    @PostMapping("/investigadores/agregarInvestigador/{oidGrupo}")
-    public Investigador crearInvestigador(@RequestBody Persona persona, @PathVariable("oidGrupo") Long oidGrupo){
-        return investigadorService.crearInvestigador(persona);
+    @PostMapping("/personas/{oidPersona}/investigador")
+    public Investigador crearInvestigador(@RequestBody Investigador investigador, @PathVariable("oidPersona") Long oidPersona){
+        return investigadorService.crearInvestigador(investigador,oidPersona);
     }
 
     //listar todas las investigadores
-    @GetMapping ("/investigadores/listarInvestigadors")
+    @GetMapping ("/personas/investigadores/listarInvestigadores")
     public List<Investigador> listarInvestigadors(){ return investigadorService.listarInvestigadores();}
 
 
     //obtener una investigador en especifico por ID
-    @GetMapping("/investigadores/obtenerInvestigador/{oidInvestigador}")
+    @GetMapping("/personas/investigadores/obtenerInvestigador/{oidInvestigador}")
     public Optional<Investigador> obtenerInvestigadorPorId(@PathVariable("oidInvestigador") Long oidInvestigador) {
         return investigadorService.obtenerInvestigadorPorId(oidInvestigador);
     }
 
     //actualizar una investigador
-    @PutMapping("/investigadores/actualizarInvestigador/{oidInvestigador}")
+    @PutMapping("/personas/investigadores/actualizarInvestigador/{oidInvestigador}")
     public Investigador actualizarInvestigador(@PathVariable("oidInvestigador") Long oidInvestigador, @RequestBody Investigador investigadorActualizada) {
         return investigadorService.actualizarInvestigador(oidInvestigador, investigadorActualizada);
     }
 
     //eliminar una investigador
-    @DeleteMapping("/investigadores/eliminarInvestigador/{oidInvestigador}")
+    @DeleteMapping("/personas/investigadores/eliminarInvestigador/{oidInvestigador}")
     public void eliminarInvestigador (@PathVariable Long oidInvestigador) {
         investigadorService.eliminarInvestigador(oidInvestigador);
     }
