@@ -33,6 +33,11 @@ public class Becario {
         this.persona = persona;
     }
 
+    public Becario(TipoBecario tipoBecario, String fuenteFinanciamiento) {
+        this.tipoBecario = tipoBecario;
+        this.fuenteFinanciamiento = fuenteFinanciamiento;
+    }
+
     public Long getOidBecario() {
         return oidBecario;
     }

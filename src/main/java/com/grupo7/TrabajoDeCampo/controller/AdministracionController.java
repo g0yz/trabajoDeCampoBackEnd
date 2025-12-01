@@ -1,4 +1,5 @@
 package com.grupo7.TrabajoDeCampo.controller;
+import com.grupo7.TrabajoDeCampo.DTO.PersonaCrearDTO;
 import com.grupo7.TrabajoDeCampo.service.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.GrupoService;
@@ -129,39 +130,12 @@ public class AdministracionController {
     //-----------------------------------PERSONAS-----------------------------------
     //crear una persona a grupo
     @PostMapping("/personas/agregarPersona/{oidGrupo}")
-    public Persona crearPersona(@RequestBody Persona persona, @PathVariable("oidGrupo") Long oidGrupo){
+    public Persona crearPersona(@RequestBody PersonaCrearDTO persona, @PathVariable("oidGrupo") Long oidGrupo){
         return personaService.crearPersona(persona, oidGrupo);
     }
 
-    //listar todas las personas
-    @GetMapping ("/personas/listarPersonas")
-    public List<Persona> listarPersonas(){ return personaService.listarPersonas();}
-
-
-    //obtener una persona en especifico por ID
-    @GetMapping("/personas/obtenerPersona/{oidPersona}")
-    public Optional<Persona> obtenerPersonaPorId(@PathVariable("oidPersona") Long oidPersona) {
-        return personaService.obtenerPersonaPorId(oidPersona);
-    }
-
-    //actualizar una persona
-    @PutMapping("/personas/actualizarPersona/{oidPersona}")
-    public Persona actualizarPersona(@PathVariable("oidPersona") Long oidPersona, @RequestBody Persona personaActualizada) {
-        return personaService.actualizarPersona(oidPersona, personaActualizada);
-    }
-
-    //eliminar una persona
-    @DeleteMapping("/personas/eliminarPersona/{oidPersona}")
-    public void eliminarPersona (@PathVariable Long oidPersona) {
-        personaService.eliminarPersona(oidPersona);
-    }
-
     //-----------------------------------BECARIOS-----------------------------------
-    //crear una becario a grupo
-    @PostMapping("/personas/{oidPersona}/becario")
-    public Becario crearBecario(@RequestBody Becario becario, @PathVariable("oidPersona") Long oidPersona){
-        return becarioService.crearBecario(becario,oidPersona);
-    }
+
     //listar todas las becarios
     @GetMapping ("/personas/becarios/listarBecarios")
     public List<Becario> listarBecarios(){ return becarioService.listarBecarios();}
@@ -186,11 +160,6 @@ public class AdministracionController {
     }
 
     //-----------------------------------INVESTIGADORES-----------------------------------
-    //crear una investigador a grupo
-    @PostMapping("/personas/{oidPersona}/investigador")
-    public Investigador crearInvestigador(@RequestBody Investigador investigador, @PathVariable("oidPersona") Long oidPersona){
-        return investigadorService.crearInvestigador(investigador,oidPersona);
-    }
 
     //listar todas las investigadores
     @GetMapping ("/personas/investigadores/listarInvestigadores")
@@ -216,61 +185,51 @@ public class AdministracionController {
     }
 
     //-----------------------------------INTEGRANTES CONSEJO EDUCATIVO-----------------------------------
-    //crear una integranteConsejoEducativo a grupo
-    @PostMapping("/integranteConsejoEducativos/agregarIntegranteConsejoEducativo/{oidGrupo}")
-    public IntegranteConsejoEducativo crearIntegranteConsejoEducativo(@RequestBody Persona persona, @PathVariable("oidGrupo") Long oidGrupo){
-        return integranteConsejoEducativoService.crearIntegranteConsejoEducativo(persona);
-    }
 
     //listar todas las integranteConsejoEducativos
-    @GetMapping ("/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
+    @GetMapping ("/personas/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
     public List<IntegranteConsejoEducativo> listarIntegrantesConsejoEducativo(){ return integranteConsejoEducativoService.listarIntegrantesConsejoEducativo();}
 
 
     //obtener una integranteConsejoEducativo en especifico por ID
-    @GetMapping("/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    @GetMapping("/personas/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
     public Optional<IntegranteConsejoEducativo> obtenerIntegranteConsejoEducativoPorId(@PathVariable("oidIntegranteConsejoEducativo") Long oidIntegranteConsejoEducativo) {
         return integranteConsejoEducativoService.obtenerIntegranteConsejoEducativoPorId(oidIntegranteConsejoEducativo);
     }
 
     //actualizar una integranteConsejoEducativo
-    @PutMapping("/integranteConsejoEducativos/actualizarIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    @PutMapping("/personas/integranteConsejoEducativos/actualizarIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
     public IntegranteConsejoEducativo actualizarIntegranteConsejoEducativo(@PathVariable("oidIntegranteConsejoEducativo") Long oidIntegranteConsejoEducativo, @RequestBody IntegranteConsejoEducativo integranteConsejoEducativoActualizada) {
         return integranteConsejoEducativoService.actualizarIntegranteConsejoEducativo(oidIntegranteConsejoEducativo, integranteConsejoEducativoActualizada);
     }
 
     //eliminar una integranteConsejoEducativo
-    @DeleteMapping("/integranteConsejoEducativos/eliminarIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    @DeleteMapping("/personas/integranteConsejoEducativos/eliminarIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
     public void eliminarIntegranteConsejoEducativo (@PathVariable Long oidIntegranteConsejoEducativo) {
         integranteConsejoEducativoService.eliminarIntegranteConsejoEducativo(oidIntegranteConsejoEducativo);
     }
 
     //-----------------------------------PERSONAL-----------------------------------
-    //crear una personal a grupo
-    @PostMapping("/personal/agregarPersonal/{oidGrupo}")
-    public Personal crearPersonal(@RequestBody Persona persona, @PathVariable("oidGrupo") Long oidGrupo){
-        return personalService.crearPersonal(persona);
-    }
 
     //listar todas las personal
-    @GetMapping ("/personal/listarPersonal")
+    @GetMapping ("/personas/personal/listarPersonal")
     public List<Personal> listarPersonal(){ return personalService.listarPersonal();}
 
 
     //obtener una personal en especifico por ID
-    @GetMapping("/personal/obtenerPersonal/{oidPersonal}")
+    @GetMapping("/personas/personal/obtenerPersonal/{oidPersonal}")
     public Optional<Personal> obtenerPersonalPorId(@PathVariable("oidPersonal") Long oidPersonal) {
         return personalService.obtenerPersonalPorId(oidPersonal);
     }
 
     //actualizar una personal
-    @PutMapping("/personal/actualizarPersonal/{oidPersonal}")
+    @PutMapping("/personas/personal/actualizarPersonal/{oidPersonal}")
     public Personal actualizarPersonal(@PathVariable("oidPersonal") Long oidPersonal, @RequestBody Personal personalActualizada) {
         return personalService.actualizarPersonal(oidPersonal, personalActualizada);
     }
 
     //eliminar una personal
-    @DeleteMapping("/personal/eliminarPersonal/{oidPersonal}")
+    @DeleteMapping("/personas/personal/eliminarPersonal/{oidPersonal}")
     public void eliminarPersonal (@PathVariable Long oidPersonal) {
         personalService.eliminarPersonal(oidPersonal);
     }

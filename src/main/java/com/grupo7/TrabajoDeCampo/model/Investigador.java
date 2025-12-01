@@ -40,6 +40,9 @@ public class Investigador {
         this.categoriaUTN = categoriaUTN;
     }
 
+    public Investigador(String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico) {
+    }
+
     //GETTERS
     public Long getOidInverstigador() {
         return oidInverstigador;

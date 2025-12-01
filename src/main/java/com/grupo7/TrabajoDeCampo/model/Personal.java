@@ -29,6 +29,10 @@ public class Personal {
         this.persona = persona;
     }
 
+    public Personal(TipoPersonal tipoPersonal) {
+        this.tipoPersonal = tipoPersonal;
+    }
+
 
     public Long getOidPersonal() {
         return oidPersonal;
