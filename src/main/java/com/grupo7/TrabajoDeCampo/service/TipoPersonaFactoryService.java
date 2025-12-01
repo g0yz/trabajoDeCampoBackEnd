@@ -39,7 +39,7 @@ public class TipoPersonaFactoryService {
             personalService.crearPersonal(persona);
         }
         else if (persona.getTipoPersona() == TipoPersona.IntegranteConsejoEducativo) {
-            integranteConsejoEducativoService.crearintegranteConsejoEducativo(persona);
+            integranteConsejoEducativoService.crearIntegranteConsejoEducativo(persona);
         }
         else {
             throw new RuntimeException("TipoPersona desconocido: " + persona.getTipoPersona());
