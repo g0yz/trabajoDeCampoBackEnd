@@ -5,7 +5,6 @@ import com.grupo7.TrabajoDeCampo.model.Grupo;
 import com.grupo7.TrabajoDeCampo.model.Persona;
 import com.grupo7.TrabajoDeCampo.repository.GrupoRepository;
 import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
-import com.grupo7.TrabajoDeCampo.service.TipoPersonaFactoryService;
 
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,10 @@ public class PersonaService {
 
     private final PersonaRepository personaRepository;
     private final GrupoRepository grupoRepository;
-    private final TipoPersonaFactoryService tipoPersonaFactoryService;
 
-    public PersonaService(PersonaRepository personaRepository, GrupoRepository grupoRepository, TipoPersonaFactoryService tipoPersonaFactoryService) {
+    public PersonaService(PersonaRepository personaRepository, GrupoRepository grupoRepository) {
         this.personaRepository = personaRepository;
         this.grupoRepository = grupoRepository;
-        this.tipoPersonaFactoryService = tipoPersonaFactoryService;
     }
 
     public List<Persona> listarPersonas(){
@@ -38,14 +35,7 @@ public class PersonaService {
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado con id: " + idGrupo));
         persona.setGrupo(grupo);
 
-        Persona personaGuardada = personaRepository.save(persona);
-
-        // se delega la asignacion del rol al service TipoPersonaFactoryService
-        tipoPersonaFactoryService.agregarTipoPersonaAPersona(personaGuardada);
-
-
-
-        return personaGuardada;
+       return personaRepository.save(persona);
 
 
     }

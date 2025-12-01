@@ -3,10 +3,10 @@ import com.grupo7.TrabajoDeCampo.service.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.GrupoService;
 import com.grupo7.TrabajoDeCampo.service.PersonaService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackageService.BecarioService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackageService.IntegranteConsejoEducativoService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackageService.InvestigadorService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackageService.PersonalService;
+import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.BecarioService;
+import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.IntegranteConsejoEducativoService;
+import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.InvestigadorService;
+import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.PersonalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -19,7 +19,7 @@ public class Becario {
     private TipoBecario tipoBecario;
 
     @OneToOne
-    @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona")
+    @JoinColumn(name = "oidPersona" , unique = true , nullable = false)
     private Persona persona;
 
 

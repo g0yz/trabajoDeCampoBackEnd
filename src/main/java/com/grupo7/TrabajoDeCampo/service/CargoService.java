@@ -4,7 +4,7 @@ import com.grupo7.TrabajoDeCampo.model.Cargo;
 import com.grupo7.TrabajoDeCampo.model.IntegranteConsejoEducativo;
 //import com.grupo7.TrabajoDeCampo.model.Persona;
 import com.grupo7.TrabajoDeCampo.repository.CargoRepository;
-import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackageRepository.IntegranteConsejoEducativoRepository;
+import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.IntegranteConsejoEducativoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

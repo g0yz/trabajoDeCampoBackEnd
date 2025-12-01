@@ -1,9 +1,9 @@
-package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackageService;
+package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
 
 import com.grupo7.TrabajoDeCampo.model.Becario;
 import com.grupo7.TrabajoDeCampo.model.Persona;
-import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackageRepository.BecarioRepository;
+import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.BecarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +26,7 @@ public class BecarioService {
     public Becario crearBecario (Persona persona){
         Becario becario = new Becario();
         becario.setPersona(persona);
+        persona.setBecario(becario);
 
         return becarioRepository.save(becario);
     }

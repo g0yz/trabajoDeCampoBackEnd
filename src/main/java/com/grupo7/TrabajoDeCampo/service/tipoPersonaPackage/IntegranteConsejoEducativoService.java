@@ -1,8 +1,8 @@
-package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackageService;
+package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
 import com.grupo7.TrabajoDeCampo.model.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.Persona;
-import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackageRepository.IntegranteConsejoEducativoRepository;
+import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.IntegranteConsejoEducativoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

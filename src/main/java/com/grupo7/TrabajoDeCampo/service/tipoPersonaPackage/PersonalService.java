@@ -1,8 +1,8 @@
-package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackageService;
+package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
 import com.grupo7.TrabajoDeCampo.model.Persona;
 import com.grupo7.TrabajoDeCampo.model.Personal;
-import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackageRepository.PersonalRepository;
+import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.PersonalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

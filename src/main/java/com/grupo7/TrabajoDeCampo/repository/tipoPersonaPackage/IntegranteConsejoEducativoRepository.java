@@ -1,4 +1,4 @@
-package com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackageRepository;
+package com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage;
 
 import com.grupo7.TrabajoDeCampo.model.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.Persona;

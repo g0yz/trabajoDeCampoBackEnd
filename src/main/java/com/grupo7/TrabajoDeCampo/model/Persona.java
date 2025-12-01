@@ -32,6 +32,20 @@ public class Persona {
     private Grupo grupo;
 
 
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private Personal personal;
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private Investigador investigador;
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private Becario becario;
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
+    private IntegranteConsejoEducativo integranteConsejoEducativo;
+
+
+
     //CONSTRUCTORES
 
     public Persona() {
@@ -69,6 +83,21 @@ public class Persona {
         return tipoPersona;
     }
 
+    public Personal getPersonal() {
+        return personal;
+    }
+
+    public Investigador getInvestigador() {
+        return investigador;
+    }
+
+    public Becario getBecario() {
+        return becario;
+    }
+
+    public IntegranteConsejoEducativo getIntegranteConsejoEducativo() {
+        return integranteConsejoEducativo;
+    }
 
     public Grupo getGrupo() {
         return grupo;
@@ -99,6 +128,21 @@ public class Persona {
         this.tipoPersona = tipoPersona;
     }
 
+    public void setPersonal(Personal personal) {
+        this.personal = personal;
+    }
+
+    public void setInvestigador(Investigador investigador) {
+        this.investigador = investigador;
+    }
+
+    public void setBecario(Becario becario) {
+        this.becario = becario;
+    }
+
+    public void setIntegranteConsejoEducativo(IntegranteConsejoEducativo integranteConsejoEducativo) {
+        this.integranteConsejoEducativo = integranteConsejoEducativo;
+    }
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
