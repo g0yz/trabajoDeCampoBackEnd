@@ -21,13 +21,13 @@ public class IntegranteConsejoEducativoService {
 
     public Optional<IntegranteConsejoEducativo> obtenerIntegranteConsejoEducativoPorId(Long id){return integranteConsejoEducativoRepository.findById(id);}
 
-    public IntegranteConsejoEducativo crearintegranteConsejoEducativo (Persona persona){
+    public IntegranteConsejoEducativo crearIntegranteConsejoEducativo (Persona persona){
         IntegranteConsejoEducativo integranteConsejoEducativo = new IntegranteConsejoEducativo();
         integranteConsejoEducativo.setPersona(persona);
         return integranteConsejoEducativoRepository.save(integranteConsejoEducativo);
     }
 
-    public IntegranteConsejoEducativo integranteConsejoEducativo (Long id, IntegranteConsejoEducativo integranteConsejoEducativoActualizado){
+    public IntegranteConsejoEducativo actualizarIntegranteConsejoEducativo (Long id, IntegranteConsejoEducativo integranteConsejoEducativoActualizado){
         IntegranteConsejoEducativo integranteConsejoEducativo = integranteConsejoEducativoRepository.findById(id).orElseThrow(() -> new RuntimeException("IntegranteConsejoEducativo no encontrada con id: " + id));
 
         if (integranteConsejoEducativoActualizado.getCargo() != null)

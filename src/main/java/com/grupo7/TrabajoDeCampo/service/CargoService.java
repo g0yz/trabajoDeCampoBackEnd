@@ -2,7 +2,7 @@ package com.grupo7.TrabajoDeCampo.service;
 
 import com.grupo7.TrabajoDeCampo.model.Cargo;
 import com.grupo7.TrabajoDeCampo.model.IntegranteConsejoEducativo;
-import com.grupo7.TrabajoDeCampo.model.Persona;
+//import com.grupo7.TrabajoDeCampo.model.Persona;
 import com.grupo7.TrabajoDeCampo.repository.CargoRepository;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackageRepository.IntegranteConsejoEducativoRepository;
 import org.springframework.stereotype.Service;

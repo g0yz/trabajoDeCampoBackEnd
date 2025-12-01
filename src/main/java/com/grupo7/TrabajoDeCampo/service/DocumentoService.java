@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 public class DocumentoService {
 
-
     private final DocumentoRepository documentoRepository;
     private final GrupoRepository grupoRepository;
 
@@ -38,13 +37,28 @@ public class DocumentoService {
         return documentoRepository.save(documento);
     }
 
-
-    //public Documento actualizarDocumento(Long id, Documento documentoActualizado){}
-
+    public Documento actualizarDocumento(Long id, Documento documentoActualizado){
+        Documento documento = documentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Documento No encontrado con id: " + id));
+        if (documentoActualizado.getTitulo() != null){
+            documento.setTitulo(documentoActualizado.getTitulo());
+        }
+        if (documentoActualizado.getAutores() != null){
+            documento.setAutores(documentoActualizado.getAutores());
+        }
+        if (documentoActualizado.getEditorial() != null){
+            documento.setEditorial(documentoActualizado.getEditorial());
+        }
+        if (documentoActualizado.getAnio() != null){
+            documento.setAnio(documentoActualizado.getAnio());
+        }
+        if (documentoActualizado.getGrupo() != null){
+            documento.setGrupo(documentoActualizado.getGrupo());
+        }
+        return documentoRepository.save(documento);
+    }
 
     public void eliminarDocumento(Long id){
         documentoRepository.deleteById(id);
     }
-
-
 }
