@@ -1,5 +1,5 @@
 package com.grupo7.TrabajoDeCampo.controller;
-import com.grupo7.TrabajoDeCampo.DTO.PersonaCrearDTO;
+import com.grupo7.TrabajoDeCampo.DTO.PersonaRequest;
 import com.grupo7.TrabajoDeCampo.service.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.GrupoService;
@@ -130,7 +130,7 @@ public class AdministracionController {
     //-----------------------------------PERSONAS-----------------------------------
     //crear una persona a grupo
     @PostMapping("/personas/agregarPersona/{oidGrupo}")
-    public Persona crearPersona(@RequestBody PersonaCrearDTO persona, @PathVariable("oidGrupo") Long oidGrupo){
+    public Persona crearPersona(@RequestBody PersonaRequest persona, @PathVariable("oidGrupo") Long oidGrupo){
         return personaService.crearPersona(persona, oidGrupo);
     }
 
@@ -145,8 +145,8 @@ public class AdministracionController {
 
 
     //actualizar una persona
-    @PutMapping("/personas/actualizarPersona/{oidPersona}") public Persona actualizarPersona(@PathVariable("oidPersona") Long oidPersona, @RequestBody Persona personaActualizada) {
-        return personaService.actualizarPersona(oidPersona, personaActualizada); }
+    @PutMapping("/personas/actualizarPersona/{oidPersona}") public Persona actualizarPersona(@PathVariable("oidPersona") Long oidPersona, @RequestBody PersonaRequest personaDto) {
+        return personaService.actualizarPersona(personaDto, oidPersona); }
 
 
 
@@ -174,12 +174,6 @@ public class AdministracionController {
         return becarioService.actualizarBecario(oidBecario, becarioActualizada);
     }
 
-    //eliminar una becario
-    @DeleteMapping("/personas/becarios/eliminarBecario/{oidBecario}")
-    public void eliminarBecario (@PathVariable Long oidBecario) {
-        becarioService.eliminarBecario(oidBecario);
-    }
-
     //-----------------------------------INVESTIGADORES-----------------------------------
 
     //listar todas las investigadores
@@ -197,12 +191,6 @@ public class AdministracionController {
     @PutMapping("/personas/investigadores/actualizarInvestigador/{oidInvestigador}")
     public Investigador actualizarInvestigador(@PathVariable("oidInvestigador") Long oidInvestigador, @RequestBody Investigador investigadorActualizada) {
         return investigadorService.actualizarInvestigador(oidInvestigador, investigadorActualizada);
-    }
-
-    //eliminar una investigador
-    @DeleteMapping("/personas/investigadores/eliminarInvestigador/{oidInvestigador}")
-    public void eliminarInvestigador (@PathVariable Long oidInvestigador) {
-        investigadorService.eliminarInvestigador(oidInvestigador);
     }
 
     //-----------------------------------INTEGRANTES CONSEJO EDUCATIVO-----------------------------------
@@ -224,12 +212,6 @@ public class AdministracionController {
         return integranteConsejoEducativoService.actualizarIntegranteConsejoEducativo(oidIntegranteConsejoEducativo, integranteConsejoEducativoActualizada);
     }
 
-    //eliminar una integranteConsejoEducativo
-    @DeleteMapping("/personas/integranteConsejoEducativos/eliminarIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
-    public void eliminarIntegranteConsejoEducativo (@PathVariable Long oidIntegranteConsejoEducativo) {
-        integranteConsejoEducativoService.eliminarIntegranteConsejoEducativo(oidIntegranteConsejoEducativo);
-    }
-
     //-----------------------------------PERSONAL-----------------------------------
 
     //listar todas las personal
@@ -249,9 +231,5 @@ public class AdministracionController {
         return personalService.actualizarPersonal(oidPersonal, personalActualizada);
     }
 
-    //eliminar una personal
-    @DeleteMapping("/personas/personal/eliminarPersonal/{oidPersonal}")
-    public void eliminarPersonal (@PathVariable Long oidPersonal) {
-        personalService.eliminarPersonal(oidPersonal);
-    }
+
 }

@@ -24,11 +24,12 @@ public class BecarioService {
 
     public List<Becario> listarBecarios(){ return becarioRepository.findAll();}
 
-    public Optional<Becario> obtenerBecarioPorId(Long id){return becarioRepository.findById(id);}
+    public Optional<Becario> obtenerBecarioPorId(Long oid){
+        return becarioRepository.findById(oid);}
 
-    public Becario crearBecario (Becario datosBecario, Long personaId) {
+    public Becario crearBecario (Becario datosBecario, Long oid) {
 
-        Persona persona = personaRepository.findById(personaId)
+        Persona persona = personaRepository.findById(oid)
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
 
         Becario becario = new Becario();
@@ -40,8 +41,8 @@ public class BecarioService {
         return becarioRepository.save(becario);
     }
 
-    public Becario actualizarBecario (Long id, Becario becarioActualizado){
-        Becario becario = becarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Becario no encontrada con id: " + id));
+    public Becario actualizarBecario ( Long oid,Becario becarioActualizado){
+        Becario becario = becarioRepository.findById(oid).orElseThrow(() -> new RuntimeException("Becario no encontrada con oid: " + oid));
 
         if (becarioActualizado.getFuenteFinanciamiento() != null)
             becario.setFuenteFinanciamiento(becarioActualizado.getFuenteFinanciamiento());
@@ -53,7 +54,7 @@ public class BecarioService {
 
     }
 
-    public void eliminarBecario (Long id){ becarioRepository.deleteById(id);}
+    public void eliminarBecario (Long oid){ becarioRepository.deleteById(oid);}
 
 
 }

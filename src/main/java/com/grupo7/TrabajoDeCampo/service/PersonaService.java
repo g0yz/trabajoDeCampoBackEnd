@@ -1,13 +1,12 @@
 package com.grupo7.TrabajoDeCampo.service;
 
-import com.grupo7.TrabajoDeCampo.DTO.PersonaCrearDTO;
+import com.grupo7.TrabajoDeCampo.DTO.PersonaRequest;
 
 import com.grupo7.TrabajoDeCampo.model.*;
 
 
 import com.grupo7.TrabajoDeCampo.repository.GrupoRepository;
 import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
-import com.grupo7.TrabajoDeCampo.repository.CargoRepository;
 
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.BecarioRepository;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.IntegranteConsejoEducativoRepository;
@@ -24,17 +23,15 @@ public class PersonaService {
 
     private final PersonaRepository personaRepository;
     private final GrupoRepository grupoRepository;
-    private final CargoRepository cargoRepository;
     private final BecarioRepository becarioRepository;
     private final IntegranteConsejoEducativoRepository integranteConsejoEducativoRepository;
     private final PersonalRepository personalRepository;
     private final InvestigadorRepository investigadorRepository;
 
-    public PersonaService(PersonaRepository personaRepository, GrupoRepository grupoRepository, CargoRepository cargoRepository, BecarioRepository becarioRepository, IntegranteConsejoEducativoRepository integranteConsejoEducativoRepository, PersonalRepository personalRepository,
+    public PersonaService(PersonaRepository personaRepository, GrupoRepository grupoRepository, BecarioRepository becarioRepository, IntegranteConsejoEducativoRepository integranteConsejoEducativoRepository, PersonalRepository personalRepository,
                           InvestigadorRepository investigadorRepository) {
         this.personaRepository = personaRepository;
         this.grupoRepository = grupoRepository;
-        this.cargoRepository = cargoRepository;
         this.becarioRepository = becarioRepository;
         this.integranteConsejoEducativoRepository = integranteConsejoEducativoRepository;
         this.personalRepository = personalRepository;
@@ -45,11 +42,11 @@ public class PersonaService {
     public List<Persona> listarPersonas(){
         return personaRepository.findAll(); }
 
-    public Optional<Persona> obtenerPersonaPorId(Long id){
-        return personaRepository.findById(id); }
+    public Optional<Persona> obtenerPersonaPorId(Long oid){
+        return personaRepository.findById(oid); }
 
 
-    public Persona crearPersona(PersonaCrearDTO personaDto, Long oidGrupo) {
+    public Persona crearPersona(PersonaRequest personaDto, Long oidGrupo) {
 
         Grupo grupo = grupoRepository.findById(oidGrupo)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
@@ -112,7 +109,7 @@ public class PersonaService {
 
             IntegranteConsejoEducativo integranteConsejoEducativo = new IntegranteConsejoEducativo();
 
-
+            integranteConsejoEducativo.setCargo(personaDto.getCargo());
             integranteConsejoEducativo.setPersona(persona);
             persona.setIntegranteConsejoEducativo(integranteConsejoEducativo);
             integranteConsejoEducativoRepository.save(integranteConsejoEducativo);
@@ -122,22 +119,56 @@ public class PersonaService {
     }
 
 
-    public Persona actualizarPersona(Long id, Persona personaActualizada) {
-        Persona persona = personaRepository.findById(id) .orElseThrow(() -> new RuntimeException("Persona no encontrada con id: " + id));
+    public Persona actualizarPersona( PersonaRequest personaDto,Long oid) {
 
-        if (personaActualizada.getNombre() != null)
-            persona.setNombre(personaActualizada.getNombre());
-        if (personaActualizada.getApellido() != null)
-            persona.setApellido(personaActualizada.getApellido());
-        if (personaActualizada.getHorasSemanales() != null)
-            persona.setHorasSemanales(personaActualizada.getHorasSemanales());
+        Persona persona = personaRepository.findById(oid) .orElseThrow(() -> new RuntimeException("Persona no encontrada con oid: " + oid));
+
+        if (personaDto.getNombre() != null)
+            persona.setNombre(personaDto.getNombre());
+        if (personaDto.getApellido() != null)
+            persona.setApellido(personaDto.getApellido());
+        if (personaDto.getHorasSemanales() != null)
+            persona.setHorasSemanales(personaDto.getHorasSemanales());
+
+        if(persona.getBecario() != null){
+            if (personaDto.getTipoBecario() != null)
+                persona.getBecario().setTipoBecario(personaDto.getTipoBecario());
+            if (personaDto.getFuenteFinanciamiento() != null)
+                persona.getBecario().setFuenteFinanciamiento(personaDto.getFuenteFinanciamiento());
+        }
+
+
+        if(persona.getInvestigador() != null){
+            if (personaDto.getGradoAcademico() != null)
+                persona.getInvestigador().setGradoAcademico(personaDto.getGradoAcademico());
+            if (personaDto.getDedicacion() != null)
+                persona.getInvestigador().setDedicacion(personaDto.getDedicacion());
+            if (personaDto.getCategoriaUTN() != null)
+                persona.getInvestigador().setCategoriaUTN(personaDto.getCategoriaUTN());
+            if (personaDto.getProgramaDeIncentivos() != null)
+                persona.getInvestigador().setProgramaDeIncentivos(personaDto.getProgramaDeIncentivos());
+        }
+
+
+        if(persona.getIntegranteConsejoEducativo() != null){
+            if (personaDto.getCargo() != null)
+                persona.getIntegranteConsejoEducativo().setCargo((personaDto.getCargo()));
+        }
+
+
+        if(persona.getPersonal() != null){
+            if (personaDto.getTipoPersonal() != null)
+                persona.getPersonal().setTipoPersonal(personaDto.getTipoPersonal());
+        }
+
         return personaRepository.save(persona);
-    }
+
+        }
 
 
 
-    public void eliminarPersona(Long id) {
-        personaRepository.deleteById(id);
+    public void eliminarPersona(Long oid) {
+        personaRepository.deleteById(oid);
     }
 
 

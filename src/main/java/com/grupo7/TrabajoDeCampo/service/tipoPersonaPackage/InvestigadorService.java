@@ -22,10 +22,10 @@ public class InvestigadorService {
 
     public List<Investigador> listarInvestigadores(){ return investigadorRepository.findAll();}
 
-    public Optional<Investigador> obtenerInvestigadorPorId(Long id){return investigadorRepository.findById(id);}
+    public Optional<Investigador> obtenerInvestigadorPorId(Long oid){return investigadorRepository.findById(oid);}
 
-    public Investigador crearInvestigador (Investigador datosInvestigador, Long personaId){
-        Persona persona = personaRepository.findById(personaId)
+    public Investigador crearInvestigador (Investigador datosInvestigador, Long oid){
+        Persona persona = personaRepository.findById(oid)
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
 
 
@@ -42,8 +42,8 @@ public class InvestigadorService {
 
 
 
-    public Investigador actualizarInvestigador (Long id, Investigador investigadorActualizado){
-        Investigador investigador = investigadorRepository.findById(id).orElseThrow(() -> new RuntimeException("Investigador no encontrada con id: " + id));
+    public Investigador actualizarInvestigador (Long oid, Investigador investigadorActualizado){
+        Investigador investigador = investigadorRepository.findById(oid).orElseThrow(() -> new RuntimeException("Investigador no encontrada con oid: " + oid));
 
         if (investigadorActualizado.getCategoriaUTN() != null)
             investigador.setCategoriaUTN(investigadorActualizado.getCategoriaUTN());
@@ -61,7 +61,7 @@ public class InvestigadorService {
     }
 
 
-    public void eliminarInvestigador(Long id){ investigadorRepository.deleteById(id);}
+    public void eliminarInvestigador(Long oid){ investigadorRepository.deleteById(oid);}
 
 
 

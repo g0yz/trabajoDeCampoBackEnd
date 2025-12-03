@@ -4,7 +4,7 @@ import com.grupo7.TrabajoDeCampo.model.TipoBecario;
 import com.grupo7.TrabajoDeCampo.model.TipoPersona;
 import com.grupo7.TrabajoDeCampo.model.TipoPersonal;
 
-public class PersonaCrearDTO {
+public class PersonaRequest {
 
     private String nombre;
     private String apellido;
@@ -24,10 +24,15 @@ public class PersonaCrearDTO {
     // PERSONAL
     private TipoPersonal tipoPersonal;
 
-    // CONSEJO EDUCATIVO
+    // CONSEJO EDUCATVO
+    private String Cargo;
+
+
+
+
     private Long oidGrupo;
 
-    public PersonaCrearDTO(String nombre, String apellido, String horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal) {
+    public PersonaRequest(String nombre, String apellido, String horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal , String cargo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
@@ -39,6 +44,7 @@ public class PersonaCrearDTO {
         this.fuenteFinanciamiento = fuenteFinanciamiento;
         this.tipoBecario = tipoBecario;
         this.tipoPersonal = tipoPersonal;
+        this.Cargo = cargo;
     }
 
 
@@ -88,6 +94,14 @@ public class PersonaCrearDTO {
 
     public void setProgramaDeIncentivos(String programaDeIncentivos) {
         this.programaDeIncentivos = programaDeIncentivos;
+    }
+
+    public String getCargo() {
+        return Cargo;
+    }
+
+    public void setCargo(String cargo) {
+        Cargo = cargo;
     }
 
     public String getDedicacion() {

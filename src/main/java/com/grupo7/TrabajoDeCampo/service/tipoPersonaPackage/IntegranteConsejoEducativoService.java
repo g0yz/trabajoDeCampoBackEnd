@@ -19,7 +19,7 @@ public class IntegranteConsejoEducativoService {
 
     public List<IntegranteConsejoEducativo> listarIntegrantesConsejoEducativo(){ return integranteConsejoEducativoRepository.findAll();}
 
-    public Optional<IntegranteConsejoEducativo> obtenerIntegranteConsejoEducativoPorId(Long id){return integranteConsejoEducativoRepository.findById(id);}
+    public Optional<IntegranteConsejoEducativo> obtenerIntegranteConsejoEducativoPorId(Long oid){return integranteConsejoEducativoRepository.findById(oid);}
 
     public IntegranteConsejoEducativo crearIntegranteConsejoEducativo (Persona persona){
         IntegranteConsejoEducativo integranteConsejoEducativo = new IntegranteConsejoEducativo();
@@ -27,8 +27,8 @@ public class IntegranteConsejoEducativoService {
         return integranteConsejoEducativoRepository.save(integranteConsejoEducativo);
     }
 
-    public IntegranteConsejoEducativo actualizarIntegranteConsejoEducativo (Long id, IntegranteConsejoEducativo integranteConsejoEducativoActualizado){
-        IntegranteConsejoEducativo integranteConsejoEducativo = integranteConsejoEducativoRepository.findById(id).orElseThrow(() -> new RuntimeException("IntegranteConsejoEducativo no encontrada con id: " + id));
+    public IntegranteConsejoEducativo actualizarIntegranteConsejoEducativo (Long oid, IntegranteConsejoEducativo integranteConsejoEducativoActualizado){
+        IntegranteConsejoEducativo integranteConsejoEducativo = integranteConsejoEducativoRepository.findById(oid).orElseThrow(() -> new RuntimeException("IntegranteConsejoEducativo no encontrada con oid: " + oid));
 
         if (integranteConsejoEducativoActualizado.getCargo() != null)
             integranteConsejoEducativo.setCargo(integranteConsejoEducativoActualizado.getCargo());
@@ -37,6 +37,6 @@ public class IntegranteConsejoEducativoService {
 
     }
 
-    public void eliminarIntegranteConsejoEducativo (Long id){ integranteConsejoEducativoRepository.deleteById(id);}
+    public void eliminarIntegranteConsejoEducativo (Long oid){ integranteConsejoEducativoRepository.deleteById(oid);}
 
 }

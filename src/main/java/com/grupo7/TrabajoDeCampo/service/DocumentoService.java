@@ -26,20 +26,20 @@ public class DocumentoService {
         return documentoRepository.findAll();
     }
 
-    public Optional<Documento> obtenerDocumentoPorId(Long id){
-        return documentoRepository.findById(id);
+    public Optional<Documento> obtenerDocumentoPorId(Long oid){
+        return documentoRepository.findById(oid);
     }
 
-    public Documento crearDocumento(Documento documento, Long idGrupo){
-        Grupo grupo = grupoRepository.findById(idGrupo)
-        .orElseThrow(() -> new RuntimeException("Grupo no encontrado con id: " + idGrupo));
+    public Documento crearDocumento(Documento documento, Long oid){
+        Grupo grupo = grupoRepository.findById(oid)
+        .orElseThrow(() -> new RuntimeException("Grupo no encontrado con oid: " + oid));
         documento.setGrupo(grupo);
         return documentoRepository.save(documento);
     }
 
-    public Documento actualizarDocumento(Long id, Documento documentoActualizado){
-        Documento documento = documentoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Documento No encontrado con id: " + id));
+    public Documento actualizarDocumento(Long oid, Documento documentoActualizado){
+        Documento documento = documentoRepository.findById(oid)
+                .orElseThrow(() -> new RuntimeException("Documento No encontrado con oid: " + oid));
         if (documentoActualizado.getTitulo() != null){
             documento.setTitulo(documentoActualizado.getTitulo());
         }
@@ -58,7 +58,7 @@ public class DocumentoService {
         return documentoRepository.save(documento);
     }
 
-    public void eliminarDocumento(Long id){
-        documentoRepository.deleteById(id);
+    public void eliminarDocumento(Long oid){
+        documentoRepository.deleteById(oid);
     }
 }

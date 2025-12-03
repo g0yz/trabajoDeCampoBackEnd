@@ -10,9 +10,9 @@ public class IntegranteConsejoEducativo {
     @Column(name="oidIntegranteConsejoEducativo")
     private Long oidIntegranteConsejoEducativo;
 
-    @ManyToOne
-    @JoinColumn(name = "oidCargo")
-    private Cargo Cargo;
+
+    @Column(name = "Cargo")
+    private String cargo;
 
     @OneToOne
     @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona", nullable = false)
@@ -22,9 +22,9 @@ public class IntegranteConsejoEducativo {
     public IntegranteConsejoEducativo() {
     }
 
-    public IntegranteConsejoEducativo(Long oidIntegranteConsejoEducativo, Cargo cargo, Persona persona) {
+    public IntegranteConsejoEducativo(Long oidIntegranteConsejoEducativo, String cargo, Persona persona) {
         this.oidIntegranteConsejoEducativo = oidIntegranteConsejoEducativo;
-        Cargo = cargo;
+        this.cargo = cargo;
         this.persona = persona;
     }
 
@@ -32,8 +32,8 @@ public class IntegranteConsejoEducativo {
         return oidIntegranteConsejoEducativo;
     }
 
-    public Cargo getCargo() {
-        return Cargo;
+    public String getCargo() {
+        return cargo;
     }
 
     public Persona getPersona() {
@@ -44,8 +44,8 @@ public class IntegranteConsejoEducativo {
         this.oidIntegranteConsejoEducativo = oidIntegranteConsejoEducativo;
     }
 
-    public void setCargo(Cargo cargo) {
-        Cargo = cargo;
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public void setPersona(Persona persona) {

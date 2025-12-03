@@ -20,7 +20,7 @@ public class PersonalService {
 
     public List<Personal> listarPersonal(){ return personalRepository.findAll();}
 
-    public Optional<Personal> obtenerPersonalPorId(Long id){return personalRepository.findById(id);}
+    public Optional<Personal> obtenerPersonalPorId(Long oid){return personalRepository.findById(oid);}
 
     public Personal crearPersonal (Persona persona){
         Personal personal = new Personal();
@@ -29,8 +29,8 @@ public class PersonalService {
     }
 
 
-    public Personal actualizarPersonal (Long id, Personal personalActualizado){
-        Personal personal = personalRepository.findById(id).orElseThrow(() -> new RuntimeException("Personal no encontrado con id: " + id));
+    public Personal actualizarPersonal (Long oid, Personal personalActualizado){
+        Personal personal = personalRepository.findById(oid).orElseThrow(() -> new RuntimeException("Personal no encontrado con oid: " + oid));
 
         if (personalActualizado.getTipoPersonal() != null)
             personal.setTipoPersonal(personalActualizado.getTipoPersonal());
@@ -40,7 +40,7 @@ public class PersonalService {
 
     }
 
-    public void eliminarPersonal (Long id){ personalRepository.deleteById(id);}
+    public void eliminarPersonal (Long oid){ personalRepository.deleteById(oid);}
 
 
 
