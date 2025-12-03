@@ -10,19 +10,19 @@ public class Investigador {
     @Column(name="oidInverstigador")
     private Long oidInverstigador;
 
-    @JoinColumn(name = "categoriaUTN")
+    @Column(name = "categoriaUTN")
     private String categoriaUTN;
 
-    @JoinColumn(name = "programaDeIncentivos")
+    @Column(name = "programaDeIncentivos")
     private String programaDeIncentivos;
 
-    @JoinColumn(name = "dedicacion")
+    @Column(name = "dedicacion")
     private String dedicacion;
 
-    @JoinColumn(name = "gradoAcademico")
+    @Column(name = "gradoAcademico")
     private String gradoAcademico;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona")
     private Persona persona;
 
@@ -38,6 +38,9 @@ public class Investigador {
         this.dedicacion = dedicacion;
         this.programaDeIncentivos = programaDeIncentivos;
         this.categoriaUTN = categoriaUTN;
+    }
+
+    public Investigador(String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico) {
     }
 
     //GETTERS

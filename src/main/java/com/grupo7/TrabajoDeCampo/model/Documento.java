@@ -25,7 +25,7 @@ public class Documento {
 
     @ManyToOne
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
-    private Grupo Grupo;
+    private Grupo grupo;
 
     //CONSTRUCTORES
     public Documento() {
@@ -60,12 +60,12 @@ public class Documento {
     }
 
     public Grupo getGrupo() {
-        return Grupo;
+        return grupo;
     }
 
     //SETTERS
     public void setGrupo(Grupo grupo) {
-        Grupo = grupo;
+        this.grupo = grupo;
     }
 
     public void setAnio(Integer anio) {

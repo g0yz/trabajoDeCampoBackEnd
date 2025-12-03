@@ -15,9 +15,9 @@ public class Personal {
     @Column(name="tipoPersonal")
     private TipoPersonal tipoPersonal;
 
-    @ManyToOne
-    @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona", nullable = false)
-    private Persona Persona;
+    @OneToOne
+    @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona")
+    private Persona persona;
 
 
     public Personal() {
@@ -26,7 +26,11 @@ public class Personal {
     public Personal(Long oidPersonal, TipoPersonal tipoPersonal, Persona persona) {
         this.oidPersonal = oidPersonal;
         this.tipoPersonal = tipoPersonal;
-        Persona = persona;
+        this.persona = persona;
+    }
+
+    public Personal(TipoPersonal tipoPersonal) {
+        this.tipoPersonal = tipoPersonal;
     }
 
 
@@ -39,7 +43,7 @@ public class Personal {
     }
 
     public Persona getPersona() {
-        return Persona;
+        return persona;
     }
 
 
@@ -52,6 +56,6 @@ public class Personal {
     }
 
     public void setPersona(Persona persona) {
-        Persona = persona;
+        this.persona = persona;
     }
 }

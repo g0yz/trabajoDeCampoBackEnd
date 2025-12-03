@@ -25,20 +25,20 @@ public class EquipoService {
         return equipoRepository.findAll();
     }
 
-    public Optional<Equipo> obtenerEquipoPorId(Long id){
-        return equipoRepository.findById(id);
+    public Optional<Equipo> obtenerEquipoPorId(Long oid){
+        return equipoRepository.findById(oid);
     }
 
-    public Equipo crearEquipo(Equipo equipo, Long idGrupo){
-        Grupo grupo = grupoRepository.findById(idGrupo)
-                .orElseThrow(() -> new RuntimeException("Grupo no encontrado con id: " + idGrupo));
+    public Equipo crearEquipo(Equipo equipo, Long oid){
+        Grupo grupo = grupoRepository.findById(oid)
+                .orElseThrow(() -> new RuntimeException("Grupo no encontrado con oid: " + oid));
         equipo.setGrupo(grupo);
         return equipoRepository.save(equipo);
     }
 
-    public Equipo actualizarEquipo(Long id, Equipo equipoActualizado){
-        Equipo equipo = equipoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipo no encontrado con id: " + id));
+    public Equipo actualizarEquipo(Long oid, Equipo equipoActualizado){
+        Equipo equipo = equipoRepository.findById(oid)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado con oid: " + oid));
 
         if (equipoActualizado.getDenominacion() != null) {
             equipo.setDenominacion(equipoActualizado.getDenominacion());
@@ -62,8 +62,8 @@ public class EquipoService {
         return equipoRepository.save(equipo);
     }
 
-    public void eliminarEquipo(Long id){
-        equipoRepository.deleteById(id);
+    public void eliminarEquipo(Long oid){
+        equipoRepository.deleteById(oid);
     }
 }
 

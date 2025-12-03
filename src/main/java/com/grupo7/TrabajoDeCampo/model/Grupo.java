@@ -1,6 +1,8 @@
 package com.grupo7.TrabajoDeCampo.model;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Grupo")
@@ -11,6 +13,10 @@ public class Grupo {
     @Column(name="oidGrupo")
     private Long oidGrupo;
 
+    @Column(name = "facultadRegional")
+    private String facultadRegional;
+
+
     @Column(name = "nombreGrupo")
     private String nombreGrupo;
 
@@ -20,8 +26,8 @@ public class Grupo {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "organigrama", columnDefinition = "LONGBLOB")
-    private byte[] organigrama;
+    @Column(name = "organigrama")
+    private String organigrama;
 
     @Column(name = "objetivoYDesarollo")
     private String objetivoYDesarollo;
@@ -31,17 +37,23 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(String nombreGrupo, String sigla, String email, byte[] organigrama, String objetivoYDesarollo) {
+    public Grupo(String facultadRegional,String nombreGrupo, String sigla, String email, String organigrama, String objetivoYDesarollo) {
+        this.facultadRegional = facultadRegional;
         this.nombreGrupo = nombreGrupo;
         this.sigla = sigla;
         this.email = email;
         this.organigrama = organigrama;
         this.objetivoYDesarollo = objetivoYDesarollo;
+
     }
 
     //GETTERS
     public long getOidGrupo() {
         return oidGrupo;
+    }
+
+    public String getFacultadRegional() {
+        return facultadRegional;
     }
 
     public String getNombreGrupo() {
@@ -56,7 +68,7 @@ public class Grupo {
         return email;
     }
 
-    public byte[] getOrganigrama() {
+    public String getOrganigrama() {
         return organigrama;
     }
 
@@ -64,12 +76,20 @@ public class Grupo {
         return objetivoYDesarollo;
     }
 
+
+
     //SETTERS
+
+
+    public void setFacultadRegional(String facultadRegional) {
+        this.facultadRegional = facultadRegional;
+    }
+
     public void setObjetivoYDesarollo(String objetivoYDesarollo) {
         this.objetivoYDesarollo = objetivoYDesarollo;
     }
 
-    public void setOrganigrama(byte[] organigrama) {
+    public void setOrganigrama(String organigrama) {
         this.organigrama = organigrama;
     }
 
@@ -88,4 +108,7 @@ public class Grupo {
     public void setOidGrupo(Long oidGrupo) {
         this.oidGrupo = oidGrupo;
     }
+
+
+
 }
