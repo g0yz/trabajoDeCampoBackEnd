@@ -24,9 +24,12 @@ public class Persona {
     @Column(name="tipoPersona",nullable = false)
     private TipoPersona tipoPersona;
 
+    @Column(name = "activo")
+    private Boolean activo = true;
+
     @OneToOne
     @JoinColumn(name="oidUsuario",referencedColumnName = "oidUsuario",nullable = true)
-    private Usuario Usuario;
+    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
@@ -61,12 +64,13 @@ public class Persona {
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
         this.tipoPersona = tipoPersona;
+        this.activo = true;
     }
 
     //GETTERS
-    public long getIdPersona() {
-        return oidPersona;
-    }
+
+
+    public Long getOidPersona() { return oidPersona; }
 
     public String getNombre() {
         return nombre;
@@ -77,7 +81,7 @@ public class Persona {
     }
 
     public Usuario getUsuario() {
-        return Usuario;
+        return usuario;
     }
 
     public String getHorasSemanales() {
@@ -108,11 +112,15 @@ public class Persona {
         return grupo;
     }
 
-    //SETTERS
-    public void setIdPersona(Long idPersona) {
-        this.oidPersona = idPersona;
+    public Boolean getActivo() {
+        return activo;
     }
 
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    //SETTERS
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -122,7 +130,7 @@ public class Persona {
     }
 
     public void setUsuario(Usuario usuario) {
-        Usuario = usuario;
+        this.usuario = usuario;
     }
 
     public void setHorasSemanales(String horasSemanales) {

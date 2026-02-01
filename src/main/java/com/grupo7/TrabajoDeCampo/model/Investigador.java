@@ -7,8 +7,8 @@ public class Investigador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="oidInverstigador")
-    private Long oidInverstigador;
+    @Column(name="oidInvestigador")
+    private Long oidInvestigador;
 
     @Column(name = "categoriaUTN")
     private String categoriaUTN;
@@ -22,8 +22,11 @@ public class Investigador {
     @Column(name = "gradoAcademico")
     private String gradoAcademico;
 
+    @Column(name = "activo")
+    private Boolean activo = true;
+
     @OneToOne
-    @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona")
+    @JoinColumn(name = "oidPersona" , unique = true , nullable = false)
     private Persona persona;
 
 
@@ -31,21 +34,19 @@ public class Investigador {
     public Investigador() {
     }
 
-    public Investigador(Long oidInverstigador, Persona persona, String gradoAcademico, String dedicacion, String programaDeIncentivos, String categoriaUTN) {
-        this.oidInverstigador = oidInverstigador;
+    public Investigador( Persona persona, String gradoAcademico, String dedicacion, String programaDeIncentivos, String categoriaUTN) {
         this.persona = persona;
         this.gradoAcademico = gradoAcademico;
         this.dedicacion = dedicacion;
         this.programaDeIncentivos = programaDeIncentivos;
         this.categoriaUTN = categoriaUTN;
+        this.activo = true;
     }
 
-    public Investigador(String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico) {
-    }
 
     //GETTERS
-    public Long getOidInverstigador() {
-        return oidInverstigador;
+    public Long getOidInvestigador() {
+        return oidInvestigador;
     }
 
     public String getCategoriaUTN() {
@@ -68,10 +69,15 @@ public class Investigador {
         return persona;
     }
 
-    //SETTERS
-    public void setOidInverstigador(Long oidInverstigador) {
-        this.oidInverstigador = oidInverstigador;
+    public Boolean getActivo() {
+        return activo;
     }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    //SETTERS
 
     public void setCategoriaUTN(String categoriaUTN) {
         this.categoriaUTN = categoriaUTN;

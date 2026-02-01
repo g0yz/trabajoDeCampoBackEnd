@@ -29,19 +29,21 @@ public class Equipo {
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
     private Grupo grupo;
 
+    @Column(name = "activo")
+    private Boolean activo = true;
 
     //CONSTRUCTORES
     public Equipo() {
     }
 
-    public Equipo(Long oidEquipo, String descripcion, String denominacion, Timestamp fechaIncorporacion, Double montoInvertido) {
-        this.oidEquipo = oidEquipo;
-        this.descripcion = descripcion;
+    public Equipo(String denominacion, Timestamp fechaIncorporacion, Double montoInvertido, String descripcion, Grupo grupo) {
         this.denominacion = denominacion;
         this.fechaIncorporacion = fechaIncorporacion;
         this.montoInvertido = montoInvertido;
+        this.descripcion = descripcion;
+        this.grupo = grupo;
+        this.activo = true;
     }
-
 
     //GETTERS
     public Long getOidEquipo() {
@@ -68,6 +70,14 @@ public class Equipo {
         return grupo;
     }
 
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
     //SETTERS
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
@@ -89,7 +99,4 @@ public class Equipo {
         this.denominacion = denominacion;
     }
 
-    public void setOidEquipo(Long oidEquipo) {
-        this.oidEquipo = oidEquipo;
-    }
 }

@@ -105,10 +105,6 @@ public class Grupo {
         this.nombreGrupo = nombreGrupo;
     }
 
-    public void setOidGrupo(Long oidGrupo) {
-        this.oidGrupo = oidGrupo;
-    }
-
 
 
 }

@@ -23,6 +23,19 @@ public class Documento {
     @Column(name = "anio")
     private Integer anio;
 
+    @Lob
+    @Column(name = "archivo_base64", columnDefinition = "TEXT")
+    private String archivoBase64;
+
+    @Column(name = "nombre_archivo")
+    private String nombreArchivo;
+
+    @Column(name = "tipo_archivo")
+    private String tipoArchivo;
+
+    @Column(name = "activo")
+    private Boolean activo = true;
+
     @ManyToOne
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
     private Grupo grupo;
@@ -31,15 +44,21 @@ public class Documento {
     public Documento() {
     }
 
-    public Documento(String autores, String editorial, Integer anio, String titulo) {
+
+    public Documento(String titulo, String autores, String editorial, Integer anio, String archivoBase64, String nombreArchivo, String tipoArchivo, Grupo grupo) {
+        this.titulo = titulo;
         this.autores = autores;
         this.editorial = editorial;
         this.anio = anio;
-        this.titulo = titulo;
+        this.archivoBase64 = archivoBase64;
+        this.nombreArchivo = nombreArchivo;
+        this.tipoArchivo = tipoArchivo;
+        this.activo = true;
+        this.grupo = grupo;
     }
 
     //GETTERS
-    public long getOidDocumento() {
+    public Long getOidDocumento() {
         return oidDocumento;
     }
 
@@ -63,6 +82,39 @@ public class Documento {
         return grupo;
     }
 
+
+    public String getArchivoBase64() {
+        return archivoBase64;
+    }
+
+    public void setArchivoBase64(String archivoBase64) {
+        this.archivoBase64 = archivoBase64;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
+    }
+
+    public String getTipoArchivo() {
+        return tipoArchivo;
+    }
+
+    public void setTipoArchivo(String tipoArchivo) {
+        this.tipoArchivo = tipoArchivo;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
     //SETTERS
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
@@ -84,9 +136,6 @@ public class Documento {
         this.titulo = titulo;
     }
 
-    public void setOidDocumento(Long oidDocumento) {
-        this.oidDocumento = oidDocumento;
-    }
 
 
 

@@ -19,6 +19,10 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "activo")
+    private Boolean activo = true;
+
+
     //CONSTRUCTORES
     public Usuario(){
     }
@@ -27,6 +31,7 @@ public class Usuario {
         this.email = email;
        // this.role = role;
         setPassword(password);
+        this.activo = true;
     }
 
     //GETTERS
@@ -48,10 +53,15 @@ public class Usuario {
         return password;
     }
 
-    //SETTERS
-    public void setOidUsuario(Long oidUsuario) {
-        this.oidUsuario = oidUsuario;
+    public Boolean getActivo() {
+        return activo;
     }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    //SETTERS
 
     public void setEmail(String email){
         this.email = email;

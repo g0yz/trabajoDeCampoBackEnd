@@ -4,6 +4,10 @@ import com.grupo7.TrabajoDeCampo.service.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.GrupoService;
 import com.grupo7.TrabajoDeCampo.service.PersonaService;
+import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaDocumentoService;
+import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaEquipoService;
+import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaPersonaService;
+import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaService;
 import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.BecarioService;
 import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.IntegranteConsejoEducativoService;
 import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.InvestigadorService;
@@ -19,8 +23,8 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/AdministracionController")
-public class AdministracionController {
+@RequestMapping("/Administrador")
+public class AdministradorController {
 
     @Autowired
     private GrupoService grupoService;
@@ -38,6 +42,15 @@ public class AdministracionController {
     private IntegranteConsejoEducativoService integranteConsejoEducativoService;
     @Autowired
     private PersonalService personalService;
+    @Autowired
+    private MemoriaService memoriaService;
+    @Autowired
+    private MemoriaPersonaService memoriaPersonaService;
+    @Autowired
+    private MemoriaDocumentoService memoriaDocumentoService;
+    @Autowired
+    private MemoriaEquipoService memoriaEquipoService;
+
 
     //-----------------------------------GRUPOS-----------------------------------
     //crear nuevo grupo
@@ -231,5 +244,7 @@ public class AdministracionController {
         return personalService.actualizarPersonal(oidPersonal, personalActualizada);
     }
 
+
+    //-----------------------------------MEMORIA-----------------------------------
 
 }

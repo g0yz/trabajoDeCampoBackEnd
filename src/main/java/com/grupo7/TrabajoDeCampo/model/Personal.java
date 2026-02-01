@@ -15,22 +15,21 @@ public class Personal {
     @Column(name="tipoPersonal")
     private TipoPersonal tipoPersonal;
 
+    @Column(name = "activo")
+    private Boolean activo = true;
+
     @OneToOne
-    @JoinColumn(name = "oidPersona", referencedColumnName = "oidPersona")
+    @JoinColumn(name = "oidPersona" , unique = true , nullable = false)
     private Persona persona;
 
 
     public Personal() {
     }
 
-    public Personal(Long oidPersonal, TipoPersonal tipoPersonal, Persona persona) {
-        this.oidPersonal = oidPersonal;
+    public Personal(TipoPersonal tipoPersonal, Persona persona) {
         this.tipoPersonal = tipoPersonal;
         this.persona = persona;
-    }
-
-    public Personal(TipoPersonal tipoPersonal) {
-        this.tipoPersonal = tipoPersonal;
+        this.activo = true;
     }
 
 
@@ -46,9 +45,12 @@ public class Personal {
         return persona;
     }
 
+    public Boolean getActivo() {
+        return activo;
+    }
 
-    public void setOidPersonal(Long oidPersonal) {
-        this.oidPersonal = oidPersonal;
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     public void setTipoPersonal(TipoPersonal tipoPersonal) {

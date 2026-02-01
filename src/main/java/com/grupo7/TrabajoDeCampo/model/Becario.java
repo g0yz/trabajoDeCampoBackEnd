@@ -18,6 +18,10 @@ public class Becario {
     @Enumerated(EnumType.STRING)
     private TipoBecario tipoBecario;
 
+    @Column(name = "activo")
+    private Boolean activo = true;
+
+
     @OneToOne
     @JoinColumn(name = "oidPersona" , unique = true , nullable = false)
     private Persona persona;
@@ -26,17 +30,13 @@ public class Becario {
     public Becario() {
     }
 
-    public Becario(Long oidBecario, String fuenteFinanciamiento, TipoBecario tipoBecario, Persona persona) {
-        this.oidBecario = oidBecario;
+    public Becario( String fuenteFinanciamiento, TipoBecario tipoBecario, Persona persona) {
         this.fuenteFinanciamiento = fuenteFinanciamiento;
         this.tipoBecario = tipoBecario;
         this.persona = persona;
+        this.activo = true;
     }
 
-    public Becario(TipoBecario tipoBecario, String fuenteFinanciamiento) {
-        this.tipoBecario = tipoBecario;
-        this.fuenteFinanciamiento = fuenteFinanciamiento;
-    }
 
     public Long getOidBecario() {
         return oidBecario;
@@ -54,8 +54,12 @@ public class Becario {
         return persona;
     }
 
-    public void setOidBecario(Long oidBecario) {
-        this.oidBecario = oidBecario;
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     public void setFuenteFinanciamiento(String fuenteFinanciamiento) {
