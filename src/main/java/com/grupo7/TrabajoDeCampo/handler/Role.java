@@ -4,5 +4,5 @@ public enum Role {
     ROLE_Administrador,
     ROLE_Director,
     ROLE_ViceDirector,
-    ROLE_Usuario,
+    ROLE_Integrante,
 }
