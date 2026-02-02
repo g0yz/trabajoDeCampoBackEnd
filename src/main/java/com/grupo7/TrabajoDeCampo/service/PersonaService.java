@@ -2,9 +2,14 @@ package com.grupo7.TrabajoDeCampo.service;
 
 import com.grupo7.TrabajoDeCampo.DTO.PersonaRequest;
 
+import com.grupo7.TrabajoDeCampo.DTO.PersonaResponse;
 import com.grupo7.TrabajoDeCampo.model.*;
 
 
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Becario;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.IntegranteConsejoEducativo;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Investigador;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Personal;
 import com.grupo7.TrabajoDeCampo.repository.GrupoRepository;
 import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
 
@@ -39,12 +44,36 @@ public class PersonaService {
     }
 
 
-    public List<Persona> listarPersonas(){
-        return personaRepository.findAll(); }
+    public List<PersonaResponse> listarPersonas() {
+
+        return personaRepository.findAll()
+                .stream()
+                .map(p -> new PersonaResponse(
+                        p.getOidPersona(),
+                        p.getNombre(),
+                        p.getApellido(),
+                        p.getHorasSemanales(),
+                        p.getTipoPersona().name(),
+                        p.getActivo(),
+                        p.getGrupo().getOidGrupo(),
+                        p.getGrupo().getNombreGrupo()
+                ))
+                .toList();
+    }
+
+
+
+
 
     public Optional<Persona> obtenerPersonaPorId(Long oid){
         return personaRepository.findById(oid); }
 
+
+    public Grupo obtenerGrupoDePersona(Long oidPersona) {
+        return personaRepository.findById(oidPersona)
+                .map(Persona::getGrupo)
+                .orElse(null);
+    }
 
     public Persona crearPersona(PersonaRequest personaDto, Long oidGrupo) {
 

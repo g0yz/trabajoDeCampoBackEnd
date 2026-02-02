@@ -1,7 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
+import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.PersonalResponse;
 import com.grupo7.TrabajoDeCampo.model.Persona;
-import com.grupo7.TrabajoDeCampo.model.Personal;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Personal;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.PersonalRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,38 @@ public class PersonalService {
 
     }
 
-    public List<Personal> listarPersonal(){ return personalRepository.findAll();}
+    public List<PersonalResponse> listarPersonal() {
+        return personalRepository.findAll()
+                .stream()
+                .map(this::mapearAResponse)
+                .toList();
+    }
 
-    public Optional<Personal> obtenerPersonalPorId(Long oid){return personalRepository.findById(oid);}
+    public PersonalResponse obtenerPersonalPorId(Long oidPersonal) {
+
+        Personal personal = personalRepository.findById(oidPersonal)
+                .orElseThrow(() -> new RuntimeException("Personal no encontrado"));
+
+        return mapearAResponse(personal);
+    }
+
+    private PersonalResponse mapearAResponse(Personal p) {
+        return new PersonalResponse(
+                p.getOidPersonal(),
+                p.getTipoPersonal(),
+                p.getActivo(),
+
+                // Persona
+                p.getPersona().getNombre(),
+                p.getPersona().getApellido(),
+                p.getPersona().getHorasSemanales(),
+
+                // Grupo
+                p.getPersona().getGrupo().getOidGrupo(),
+                p.getPersona().getGrupo().getNombreGrupo()
+        );
+    }
+
 
     public Personal crearPersonal (Persona persona){
         Personal personal = new Personal();

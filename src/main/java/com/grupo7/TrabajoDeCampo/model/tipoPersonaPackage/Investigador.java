@@ -1,4 +1,5 @@
-package com.grupo7.TrabajoDeCampo.model;
+package com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage;
+import com.grupo7.TrabajoDeCampo.model.Persona;
 import jakarta.persistence.*;
 
 @Entity

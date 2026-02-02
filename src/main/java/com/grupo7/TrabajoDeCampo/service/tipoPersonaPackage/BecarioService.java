@@ -1,7 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
 
-import com.grupo7.TrabajoDeCampo.model.Becario;
+import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.BecarioResponse;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Becario;
 import com.grupo7.TrabajoDeCampo.model.Persona;
 import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.BecarioRepository;
@@ -22,10 +23,41 @@ public class BecarioService {
         this.personaRepository = personaRepository;
     }
 
-    public List<Becario> listarBecarios(){ return becarioRepository.findAll();}
 
-    public Optional<Becario> obtenerBecarioPorId(Long oid){
-        return becarioRepository.findById(oid);}
+    public List<BecarioResponse> listarBecarios() {
+        return becarioRepository.findAll()
+                .stream()
+                .map(this::mapearAResponse)
+                .toList();
+    }
+
+    public BecarioResponse obtenerBecarioPorId(Long oidBecario) {
+        Becario becario = becarioRepository.findById(oidBecario)
+                .orElseThrow(() -> new RuntimeException("Becario no encontrado"));
+
+        return mapearAResponse(becario);
+    }
+
+    private BecarioResponse mapearAResponse(Becario b) {
+        return new BecarioResponse(
+                b.getOidBecario(),
+                b.getTipoBecario(),
+                b.getFuenteFinanciamiento(),
+                b.getActivo(),
+
+                // Persona
+                b.getPersona().getNombre(),
+                b.getPersona().getApellido(),
+                b.getPersona().getHorasSemanales(),
+
+                // Grupo
+                b.getPersona().getGrupo().getOidGrupo(),
+                b.getPersona().getGrupo().getNombreGrupo()
+        );
+    }
+
+
+
 
     public Becario crearBecario (Becario datosBecario, Long oid) {
 

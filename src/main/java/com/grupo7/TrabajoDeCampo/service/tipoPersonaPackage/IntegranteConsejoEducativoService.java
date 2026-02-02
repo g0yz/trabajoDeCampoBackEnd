@@ -1,6 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
-import com.grupo7.TrabajoDeCampo.model.IntegranteConsejoEducativo;
+import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.IntegranteConsejoEducativoResponse;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.Persona;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.IntegranteConsejoEducativoRepository;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,43 @@ public class IntegranteConsejoEducativoService {
         this.integranteConsejoEducativoRepository = integranteConsejoEducativoRepository;
     }
 
-    public List<IntegranteConsejoEducativo> listarIntegrantesConsejoEducativo(){ return integranteConsejoEducativoRepository.findAll();}
 
-    public Optional<IntegranteConsejoEducativo> obtenerIntegranteConsejoEducativoPorId(Long oid){return integranteConsejoEducativoRepository.findById(oid);}
+    public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativo() {
+        return integranteConsejoEducativoRepository.findAll()
+                .stream()
+                .map(this::mapearAResponse)
+                .toList();
+    }
+
+    public IntegranteConsejoEducativoResponse obtenerIntegranteConsejoEducativoPorId(
+            Long oidIntegranteConsejoEducativo) {
+
+        IntegranteConsejoEducativo integrante =
+                integranteConsejoEducativoRepository.findById(oidIntegranteConsejoEducativo)
+                        .orElseThrow(() -> new RuntimeException(
+                                "Integrante del Consejo Educativo no encontrado"));
+
+        return mapearAResponse(integrante);
+    }
+
+    private IntegranteConsejoEducativoResponse mapearAResponse(
+            IntegranteConsejoEducativo i) {
+
+        return new IntegranteConsejoEducativoResponse(
+                i.getOidIntegranteConsejoEducativo(),
+                i.getCargo(),
+                i.getActivo(),
+
+                // Persona
+                i.getPersona().getNombre(),
+                i.getPersona().getApellido(),
+                i.getPersona().getHorasSemanales(),
+
+                // Grupo
+                i.getPersona().getGrupo().getOidGrupo(),
+                i.getPersona().getGrupo().getNombreGrupo()
+        );
+    }
 
     public IntegranteConsejoEducativo crearIntegranteConsejoEducativo (Persona persona){
         IntegranteConsejoEducativo integranteConsejoEducativo = new IntegranteConsejoEducativo();

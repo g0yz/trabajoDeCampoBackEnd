@@ -1,7 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage;
 
-import com.grupo7.TrabajoDeCampo.model.Becario;
-import com.grupo7.TrabajoDeCampo.model.Investigador;
+import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.InvestigadorResponse;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Investigador;
 import com.grupo7.TrabajoDeCampo.model.Persona;
 import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
 import com.grupo7.TrabajoDeCampo.repository.tipoPersonaPackage.InvestigadorRepository;
@@ -20,9 +20,56 @@ public class InvestigadorService {
         this.personaRepository = personaRepository;
     }
 
-    public List<Investigador> listarInvestigadores(){ return investigadorRepository.findAll();}
 
-    public Optional<Investigador> obtenerInvestigadorPorId(Long oid){return investigadorRepository.findById(oid);}
+    public List<InvestigadorResponse> listarInvestigadores() {
+        return investigadorRepository.findAll()
+                .stream()
+                .map(i -> new InvestigadorResponse(
+                        i.getOidInvestigador(),
+                        i.getCategoriaUTN(),
+                        i.getProgramaDeIncentivos(),
+                        i.getDedicacion(),
+                        i.getGradoAcademico(),
+                        i.getActivo(),
+
+                        // Persona
+                        i.getPersona().getNombre(),
+                        i.getPersona().getApellido(),
+                        i.getPersona().getHorasSemanales(),
+
+                        // Grupo
+                        i.getPersona().getGrupo().getOidGrupo(),
+                        i.getPersona().getGrupo().getNombreGrupo()
+                ))
+                .toList();
+    }
+
+    public InvestigadorResponse obtenerInvestigadorPorId(Long oidInvestigador) {
+
+        Investigador i = investigadorRepository.findById(oidInvestigador)
+                .orElseThrow(() -> new RuntimeException("Investigador no encontrado"));
+
+        return new InvestigadorResponse(
+                i.getOidInvestigador(),
+                i.getCategoriaUTN(),
+                i.getProgramaDeIncentivos(),
+                i.getDedicacion(),
+                i.getGradoAcademico(),
+                i.getActivo(),
+
+                // Persona
+                i.getPersona().getNombre(),
+                i.getPersona().getApellido(),
+                i.getPersona().getHorasSemanales(),
+
+                // Grupo
+                i.getPersona().getGrupo().getOidGrupo(),
+                i.getPersona().getGrupo().getNombreGrupo()
+        );
+    }
+
+
+
 
     public Investigador crearInvestigador (Investigador datosInvestigador, Long oid){
         Persona persona = personaRepository.findById(oid)

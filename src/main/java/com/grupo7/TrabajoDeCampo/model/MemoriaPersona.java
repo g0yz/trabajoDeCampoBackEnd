@@ -17,21 +17,22 @@ public class MemoriaPersona {
     @JoinColumn(name = "oidPersona", nullable = false)
     private Persona persona;
 
-    @Column(name = "rolEnMemoria")
-    private String rolEnMemoria;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoPersonaMemoria tipoPersonaMemoria;
+
 
     @Column(name = "horasSemanales")
     private Integer horasSemanales;
 
     public MemoriaPersona(){}
 
-    public MemoriaPersona(Memoria memoria, Persona persona, String rolEnMemoria, Integer horasSemanales) {
+    public MemoriaPersona(Memoria memoria, Persona persona, TipoPersonaMemoria tipoPersonaMemoria, Integer horasSemanales) {
         this.memoria = memoria;
         this.persona = persona;
-        this.rolEnMemoria = rolEnMemoria;
+        this.tipoPersonaMemoria = tipoPersonaMemoria;
         this.horasSemanales = horasSemanales;
     }
-
 
     public Long getOidMemoriaPersona() {
         return oidMemoriaPersona;
@@ -54,12 +55,12 @@ public class MemoriaPersona {
         this.persona = persona;
     }
 
-    public String getRolEnMemoria() {
-        return rolEnMemoria;
+    public TipoPersonaMemoria getTipoPersonaMemoria() {
+        return tipoPersonaMemoria;
     }
 
-    public void setRolEnMemoria(String rolEnMemoria) {
-        this.rolEnMemoria = rolEnMemoria;
+    public void setTipoPersonaMemoria(TipoPersonaMemoria tipoPersonaMemoria) {
+        this.tipoPersonaMemoria = tipoPersonaMemoria;
     }
 
     public Integer getHorasSemanales() {

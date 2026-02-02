@@ -1,5 +1,9 @@
 package com.grupo7.TrabajoDeCampo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Becario;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.IntegranteConsejoEducativo;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Investigador;
+import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Personal;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,7 +22,7 @@ public class Persona {
     private String apellido;
 
     @Column(name = "horasSemanales")
-    private String horasSemanales;
+    private Integer horasSemanales;
 
     @Enumerated(EnumType.STRING)
     @Column(name="tipoPersona",nullable = false)
@@ -59,13 +63,14 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String horasSemanales , TipoPersona tipoPersona ){
+    public Persona(String nombre, String apellido, Integer horasSemanales , TipoPersona tipoPersona ){
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
         this.tipoPersona = tipoPersona;
         this.activo = true;
     }
+
 
     //GETTERS
 
@@ -84,7 +89,7 @@ public class Persona {
         return usuario;
     }
 
-    public String getHorasSemanales() {
+    public Integer getHorasSemanales() {
         return horasSemanales;
     }
 
@@ -133,7 +138,7 @@ public class Persona {
         this.usuario = usuario;
     }
 
-    public void setHorasSemanales(String horasSemanales) {
+    public void setHorasSemanales(Integer horasSemanales) {
         this.horasSemanales = horasSemanales;
     }
 

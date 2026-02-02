@@ -8,7 +8,7 @@ public class PersonaRequest {
 
     private String nombre;
     private String apellido;
-    private String horasSemanales;
+    private Integer horasSemanales;
     private TipoPersona tipoPersona;
 
     // INVESTIGADOR
@@ -32,7 +32,7 @@ public class PersonaRequest {
 
     private Long oidGrupo;
 
-    public PersonaRequest(String nombre, String apellido, String horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal , String cargo) {
+    public PersonaRequest(String nombre, String apellido, Integer horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal , String cargo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
@@ -64,11 +64,11 @@ public class PersonaRequest {
         this.apellido = apellido;
     }
 
-    public String getHorasSemanales() {
+    public Integer getHorasSemanales() {
         return horasSemanales;
     }
 
-    public void setHorasSemanales(String horasSemanales) {
+    public void setHorasSemanales(Integer horasSemanales) {
         this.horasSemanales = horasSemanales;
     }
 

@@ -1,6 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service;
 
 
+import com.grupo7.TrabajoDeCampo.DTO.EquipoResponse;
 import com.grupo7.TrabajoDeCampo.model.Equipo;
 import com.grupo7.TrabajoDeCampo.model.Grupo;
 import com.grupo7.TrabajoDeCampo.repository.EquipoRepository;
@@ -21,10 +22,22 @@ public class EquipoService {
         this.grupoRepository = grupoRepository;
     }
 
-    public List<Equipo> listarEquipos(){
-        return equipoRepository.findAll();
-    }
+    public List<EquipoResponse> listarEquipos() {
 
+        return equipoRepository.findAll()
+                .stream()
+                .map(e -> new EquipoResponse(
+                        e.getOidEquipo(),
+                        e.getDenominacion(),
+                        e.getFechaIncorporacion(),
+                        e.getMontoInvertido(),
+                        e.getDescripcion(),
+                        e.getActivo(),
+                        e.getGrupo().getOidGrupo(),
+                        e.getGrupo().getNombreGrupo()
+                ))
+                .toList();
+    }
     public Optional<Equipo> obtenerEquipoPorId(Long oid){
         return equipoRepository.findById(oid);
     }
