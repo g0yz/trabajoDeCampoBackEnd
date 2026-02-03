@@ -13,25 +13,22 @@ public class Usuario {
     @Column(nullable = false,unique = true)
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "activo")
-    private Boolean activo = true;
-
 
     //CONSTRUCTORES
     public Usuario(){
     }
 
-    public Usuario(String email,String password ){
+    public Usuario(String email,String password,Role role ){
         this.email = email;
         this.role = role;
         setPassword(password);
-        this.activo = true;
     }
 
     //GETTERS
@@ -53,13 +50,6 @@ public class Usuario {
         return password;
     }
 
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
 
     //SETTERS
 

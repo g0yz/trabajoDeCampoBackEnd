@@ -27,6 +27,8 @@ import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.PersonalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.grupo7.TrabajoDeCampo.model.*;
@@ -36,6 +38,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
+@PreAuthorize("hasRole('Administrador')")
 @RequestMapping("/Administrador")
 public class AdministradorController {
 
