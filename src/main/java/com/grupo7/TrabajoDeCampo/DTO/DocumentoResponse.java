@@ -34,7 +34,7 @@ public class DocumentoResponse {
         this.anio = anio;
         this.nombreArchivo = nombreArchivo;
         this.tipoArchivo = tipoArchivo;
-        this.activo = activo;
+        this.activo = true;
         this.oidGrupo = oidGrupo;
         this.nombreGrupo = nombreGrupo;
     }

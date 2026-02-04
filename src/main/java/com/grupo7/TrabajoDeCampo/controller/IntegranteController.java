@@ -1,10 +1,17 @@
 package com.grupo7.TrabajoDeCampo.controller;
 
 
+import com.grupo7.TrabajoDeCampo.DTO.DocumentoResponse;
+import com.grupo7.TrabajoDeCampo.DTO.DocumentoResponseGrupo;
+import com.grupo7.TrabajoDeCampo.DTO.GrupoResponse;
 import com.grupo7.TrabajoDeCampo.DTO.PersonaRequest;
 import com.grupo7.TrabajoDeCampo.model.*;
+import com.grupo7.TrabajoDeCampo.service.DocumentoService;
+import com.grupo7.TrabajoDeCampo.service.GrupoService;
 import com.grupo7.TrabajoDeCampo.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,30 +19,47 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/Integrante")
+@PreAuthorize("hasRole('Integrante')")
+@RequestMapping("/integrante")
 public class IntegranteController {
 
+    @Autowired
+    private GrupoService grupoService;
 
     @Autowired
     private PersonaService personaService;
 
+    @Autowired
+    private DocumentoService documentoService;
+
 
     //-----------------------------------GRUPOS-----------------------------------
     //visualizar grupo del integrante
-    // @GetMapping("/grupo/visualizarGrupo/{oidPersona}")
-    // public Grupo visualizarGrupo(@PathVariable("oidPersona") Long oidPersona) {
-        //    return personaService.obtenerGrupoDePersona(oidPersona);
-        //}
+    @GetMapping("/grupo/ver")
+    public GrupoResponse verGrupo(Authentication auth) { Usuario usuario = (Usuario) auth.getPrincipal();
+        return grupoService.obtenerGrupoDelUsuario(usuario);
+    }
 
 
 
     //-----------------------------------DOCUMENTOS-----------------------------------
     //listar todos los documentos del grupo
-    //@GetMapping ("/documentos/listarDocumentos")
+    @GetMapping ("/documentos/listarDocumentos")
+    public List<DocumentoResponseGrupo> listarDocumentosDelGrupo(Authentication auth) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+
+        return documentoService.listarDocumentosPorGrupo(oidGrupo);
+    }
+
 
     //obtener un documento en especifico del grupo
-    //@GetMapping("/documentos/obtenerDocumento/{oidDocumento}")
-
+    @GetMapping("/documentos/visualizarDocumento/{oidDocumento}")
+    public DocumentoResponseGrupo obtenerDocumento(@PathVariable Long oidDocumento,Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        return documentoService.obtenerDocumentoDelGrupo(oidDocumento, usuario);
+    }
 
     //-----------------------------------EQUIPOS-----------------------------------
 

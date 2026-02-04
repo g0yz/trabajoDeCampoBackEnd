@@ -12,10 +12,7 @@ import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Becario;
 import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Investigador;
 import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Personal;
-import com.grupo7.TrabajoDeCampo.service.DocumentoService;
-import com.grupo7.TrabajoDeCampo.service.EquipoService;
-import com.grupo7.TrabajoDeCampo.service.GrupoService;
-import com.grupo7.TrabajoDeCampo.service.PersonaService;
+import com.grupo7.TrabajoDeCampo.service.*;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaDocumentoService;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaEquipoService;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaPersonaService;
@@ -39,7 +36,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 @RestController
 @PreAuthorize("hasRole('Administrador')")
-@RequestMapping("/Administrador")
+@RequestMapping("/administrador")
 public class AdministradorController {
 
     @Autowired
@@ -66,6 +63,16 @@ public class AdministradorController {
     private MemoriaDocumentoService memoriaDocumentoService;
     @Autowired
     private MemoriaEquipoService memoriaEquipoService;
+    @Autowired
+    private UsuarioService usuarioService;
+
+
+
+    @PostMapping("/usuarios/asociarUsuario")
+    public Usuario crearUsuario(@RequestBody CrearUsuarioRequest dto) {
+        return usuarioService.crearUsuarioParaPersona(dto);
+    }
+
 
 
     //-----------------------------------GRUPOS-----------------------------------

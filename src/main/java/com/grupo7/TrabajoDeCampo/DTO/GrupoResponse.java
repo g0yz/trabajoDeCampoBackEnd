@@ -1,27 +1,30 @@
 package com.grupo7.TrabajoDeCampo.DTO;
 
-import java.sql.Timestamp;
+import com.grupo7.TrabajoDeCampo.model.Grupo;
 
 public class GrupoResponse {
 
     private Long oidGrupo;
+    private String facultadRegional;
     private String nombreGrupo;
     private String sigla;
-    private String facultadRegional;
+    private String email;
+    private String organigrama;
+    private String objetivoYDesarollo;
 
-    public GrupoResponse(
-            Long oidGrupo,
-            String nombreGrupo,
-            String sigla,
-            String facultadRegional) {
-        this.oidGrupo = oidGrupo;
-        this.nombreGrupo = nombreGrupo;
-        this.sigla = sigla;
-        this.facultadRegional = facultadRegional;
+    public GrupoResponse(Grupo grupo) {
+        this.oidGrupo = grupo.getOidGrupo();
+        this.facultadRegional = grupo.getFacultadRegional();
+        this.nombreGrupo = grupo.getNombreGrupo();
+        this.sigla = grupo.getSigla();
+        this.email = grupo.getEmail();
+        this.organigrama = grupo.getOrganigrama();
+        this.objetivoYDesarollo = grupo.getObjetivoYDesarollo();
     }
 
-    public Long getOidGrupo() {
-        return oidGrupo;
+
+    public String getFacultadRegional() {
+        return facultadRegional;
     }
 
     public String getNombreGrupo() {
@@ -32,35 +35,19 @@ public class GrupoResponse {
         return sigla;
     }
 
-    public String getFacultadRegional() {
-        return facultadRegional;
+    public String getEmail() {
+        return email;
     }
 
-    public static class MemoriaResponse {
+    public String getOrganigrama() {
+        return organigrama;
+    }
 
-        private Long oidMemoria;
-        private Integer anio;
-        private Timestamp fechaCreacion;
+    public String getObjetivoYDesarollo() {
+        return objetivoYDesarollo;
+    }
 
-        public MemoriaResponse(
-                Long oidMemoria,
-                Integer anio,
-                Timestamp fechaCreacion) {
-            this.oidMemoria = oidMemoria;
-            this.anio = anio;
-            this.fechaCreacion = fechaCreacion;
-        }
-
-        public Long getOidMemoria() {
-            return oidMemoria;
-        }
-
-        public Integer getAnio() {
-            return anio;
-        }
-
-        public Timestamp getFechaCreacion() {
-            return fechaCreacion;
-        }
+    public Long getOidGrupo() {
+        return oidGrupo;
     }
 }

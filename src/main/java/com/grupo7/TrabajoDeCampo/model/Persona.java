@@ -63,11 +63,12 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, Integer horasSemanales , TipoPersona tipoPersona ){
+    public Persona(String nombre, String apellido, Integer horasSemanales , TipoPersona tipoPersona, Grupo grupo ){
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
         this.tipoPersona = tipoPersona;
+        this.grupo = grupo;
         this.activo = true;
     }
 

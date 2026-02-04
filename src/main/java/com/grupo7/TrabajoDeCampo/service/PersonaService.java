@@ -80,12 +80,12 @@ public class PersonaService {
         Grupo grupo = grupoRepository.findById(oidGrupo)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
 
-        Persona persona = new Persona(
-                personaDto.getNombre(),
-                personaDto.getApellido(),
-                personaDto.getHorasSemanales(),
-                personaDto.getTipoPersona()
-        );
+        Persona persona = new Persona();
+        persona.setNombre(personaDto.getNombre());
+        persona.setApellido(personaDto.getApellido());
+        persona.setHorasSemanales(personaDto.getHorasSemanales());
+        persona.setTipoPersona(personaDto.getTipoPersona());
+        persona.setActivo(true);
 
         persona.setGrupo(grupo);
         persona = personaRepository.save(persona);

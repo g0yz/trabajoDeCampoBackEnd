@@ -38,7 +38,7 @@ public class AuthController {
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
         usuario.setPassword(passwordEncoder.encode(request.getPassword()));
-        usuario.setRole(Role.ROLE_Administrador); // IMPORTANTE
+        usuario.setRole(Role.Administrador); // IMPORTANTE este metodo crea un usuario sin persona y registra al usuario como admin
 
         usuarioRepository.save(usuario);
 

@@ -1,8 +1,10 @@
 package com.grupo7.TrabajoDeCampo.service;
 
 import com.grupo7.TrabajoDeCampo.DTO.DocumentoResponse;
+import com.grupo7.TrabajoDeCampo.DTO.DocumentoResponseGrupo;
 import com.grupo7.TrabajoDeCampo.model.Documento;
 import com.grupo7.TrabajoDeCampo.model.Grupo;
+import com.grupo7.TrabajoDeCampo.model.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.DocumentoRepository;
 import com.grupo7.TrabajoDeCampo.repository.GrupoRepository;
 import org.springframework.http.ContentDisposition;
@@ -109,6 +111,56 @@ public class DocumentoService {
                 .headers(headers)
                 .body(archivoBytes);
     }
+
+
+    public List<DocumentoResponseGrupo> listarDocumentosPorGrupo(Long oidGrupo) {
+
+        return documentoRepository.findByGrupoOidGrupo(oidGrupo)
+                .stream()
+                .map(doc -> new DocumentoResponseGrupo(
+                        doc.getOidDocumento(),
+                        doc.getTitulo(),
+                        doc.getAutores(),
+                        doc.getEditorial(),
+                        doc.getAnio(),
+                        doc.getNombreArchivo(),
+                        doc.getTipoArchivo(),
+                        doc.getActivo()
+                ))
+                .toList();
+    }
+
+
+    public DocumentoResponseGrupo obtenerDocumentoDelGrupo(
+            Long oidDocumento,
+            Usuario usuario
+    ) {
+
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+
+        Documento doc = documentoRepository
+                .findByOidDocumentoAndGrupoOidGrupo(oidDocumento, oidGrupo)
+                .orElseThrow(() ->
+                        new RuntimeException("Documento no encontrado o no pertenece a su grupo")
+                );
+
+        return new DocumentoResponseGrupo(
+                doc.getOidDocumento(),
+                doc.getTitulo(),
+                doc.getAutores(),
+                doc.getEditorial(),
+                doc.getAnio(),
+                doc.getNombreArchivo(),
+                doc.getTipoArchivo(),
+                doc.getActivo()
+        );
+    }
+
+
 
 }
 

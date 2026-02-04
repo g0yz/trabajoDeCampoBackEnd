@@ -20,6 +20,10 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
+    @OneToOne
+    @JoinColumn(name="oidPersona",referencedColumnName = "oidPersona",nullable = true)
+    private Persona persona;
+
 
     //CONSTRUCTORES
     public Usuario(){
@@ -30,6 +34,15 @@ public class Usuario {
         this.role = role;
         setPassword(password);
     }
+
+
+    public Usuario(String email,String password,Role role ,Persona persona){
+        this.email = email;
+        this.role = role;
+        this.persona = persona;
+        setPassword(password);
+    }
+
 
     //GETTERS
 
@@ -50,8 +63,14 @@ public class Usuario {
         return password;
     }
 
+    public Persona getPersona() {
+        return persona;
+    }
 
-    //SETTERS
+
+
+
+//SETTERS
 
     public void setEmail(String email){
         this.email = email;
@@ -63,6 +82,10 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
 }

@@ -1,6 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service;
 
+import com.grupo7.TrabajoDeCampo.DTO.GrupoResponse;
 import com.grupo7.TrabajoDeCampo.model.Grupo;
+import com.grupo7.TrabajoDeCampo.model.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
 
@@ -51,4 +53,24 @@ public class GrupoService {
     public void eliminarGrupo(Long id) {
         grupoRepository.deleteById(id);
     }
+
+
+    public GrupoResponse obtenerGrupoDelUsuario(Usuario usuario) {
+
+        if (usuario.getPersona() == null) {
+            throw new RuntimeException("El usuario no tiene persona asociada");
+        }
+
+        if (usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("La persona no pertenece a ningún grupo");
+        }
+
+        Grupo grupo = usuario.getPersona().getGrupo();
+
+        return new GrupoResponse(grupo);
+    }
+
+
+
+
 }
