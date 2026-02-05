@@ -1,6 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.IntegranteConsejoEducativoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.IntegranteConsejoEducativoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.IntegranteConsejoEducativoRepository;
@@ -72,5 +73,49 @@ public class IntegranteConsejoEducativoService {
     }
 
     public void eliminarIntegranteConsejoEducativo (Long oid){ integranteConsejoEducativoRepository.deleteById(oid);}
+
+    public List<IntegranteConsejoEducativoResponseIntegrante>
+    listarIntegrantesConsejoEducativoDelGrupo(Long oidGrupo) {
+
+        return integranteConsejoEducativoRepository
+                .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
+                .stream()
+                .map(i -> new IntegranteConsejoEducativoResponseIntegrante(
+                        i.getOidIntegranteConsejoEducativo(),
+                        i.getCargo(),
+                        i.getActivo(),
+                        i.getPersona().getNombre(),
+                        i.getPersona().getApellido(),
+                        i.getPersona().getHorasSemanales()
+                ))
+                .toList();
+    }
+
+
+    public IntegranteConsejoEducativoResponseIntegrante obtenerIntegranteConsejoEducativoDelGrupo(
+            Long oidGrupo,
+            Long oidIntegranteConsejoEducativo) {
+
+        IntegranteConsejoEducativo integrante =
+                integranteConsejoEducativoRepository
+                        .findByOidIntegranteConsejoEducativoAndPersonaGrupoOidGrupoAndPersonaActivoTrue(
+                                oidIntegranteConsejoEducativo, oidGrupo
+                        )
+                        .orElseThrow(() -> new RuntimeException("Integrante no encontrado"));
+
+        return new IntegranteConsejoEducativoResponseIntegrante(
+                integrante.getOidIntegranteConsejoEducativo(),
+                integrante.getCargo(),
+                integrante.getActivo(),
+                integrante.getPersona().getNombre(),
+                integrante.getPersona().getApellido(),
+                integrante.getPersona().getHorasSemanales()
+        );
+    }
+
+
+
+
+
 
 }

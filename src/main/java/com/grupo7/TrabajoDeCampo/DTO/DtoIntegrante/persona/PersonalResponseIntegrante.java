@@ -20,9 +20,7 @@ public class PersonalResponseIntegrante {
             Boolean activo,
             String nombre,
             String apellido,
-            Integer horasSemanales,
-            Long oidGrupo,
-            String nombreGrupo) {
+            Integer horasSemanales) {
 
         this.oidPersonal = oidPersonal;
         this.tipoPersonal = tipoPersonal;

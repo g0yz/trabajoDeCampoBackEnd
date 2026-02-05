@@ -1,6 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.PersonalResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.PersonalResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Personal;
 import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.PersonalRepository;
@@ -70,6 +71,51 @@ public class PersonalService {
     }
 
     public void eliminarPersonal (Long oid){ personalRepository.deleteById(oid);}
+
+
+
+    public List<PersonalResponseIntegrante> listarPersonalDelGrupo(Long oidGrupo) {
+
+        return personalRepository
+                .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
+                .stream()
+                .map(p -> new PersonalResponseIntegrante(
+                        p.getOidPersonal(),
+                        p.getTipoPersonal(),
+                        p.getActivo(),
+                        p.getPersona().getNombre(),
+                        p.getPersona().getApellido(),
+                        p.getPersona().getHorasSemanales()
+                ))
+                .toList();
+    }
+
+
+
+    public PersonalResponseIntegrante obtenerPersonalDelGrupo(
+            Long oidGrupo,
+            Long oidPersonal) {
+
+        Personal personal = personalRepository
+                .findByOidPersonalAndPersonaGrupoOidGrupoAndPersonaActivoTrue(
+                        oidPersonal, oidGrupo
+                )
+                .orElseThrow(() -> new RuntimeException("Personal no encontrado"));
+
+        return new PersonalResponseIntegrante(
+                personal.getOidPersonal(),
+                personal.getTipoPersonal(),
+                personal.getActivo(),
+                personal.getPersona().getNombre(),
+                personal.getPersona().getApellido(),
+                personal.getPersona().getHorasSemanales()
+        );
+    }
+
+
+
+
+
 
 
 
