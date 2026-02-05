@@ -4,6 +4,8 @@ package com.grupo7.TrabajoDeCampo.controller;
 import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.documento.DocumentoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.equipo.EquipoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.grupo.GrupoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.memoria.MemoriaDetalleResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.memoria.MemoriaResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.BecarioResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.IntegranteConsejoEducativoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.InvestigadorResponseIntegrante;
@@ -12,6 +14,7 @@ import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
+import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaService;
 import com.grupo7.TrabajoDeCampo.service.persona.PersonaService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.BecarioService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.IntegranteConsejoEducativoService;
@@ -34,8 +37,6 @@ public class IntegranteController {
     @Autowired
     private GrupoService grupoService;
 
-    @Autowired
-    private PersonaService personaService;
 
     @Autowired
     private DocumentoService documentoService;
@@ -55,6 +56,9 @@ public class IntegranteController {
     @Autowired
     private PersonalService personalService;
 
+    @Autowired
+    private MemoriaService memoriaService;
+
 
     //-----------------------------------GRUPOS-----------------------------------
     //visualizar grupo del integrante
@@ -62,8 +66,6 @@ public class IntegranteController {
     public GrupoResponseAdministrador verGrupo(Authentication auth) { Usuario usuario = (Usuario) auth.getPrincipal();
         return grupoService.obtenerGrupoDelUsuario(usuario);
     }
-
-
 
     //-----------------------------------DOCUMENTOS-----------------------------------
     //listar todos los documentos del grupo
@@ -75,7 +77,6 @@ public class IntegranteController {
 
         return documentoService.listarDocumentosPorGrupo(oidGrupo);
     }
-
 
     //obtener un documento en especifico del grupo
     @GetMapping("/documentos/visualizarDocumento/{oidDocumento}")
@@ -113,7 +114,6 @@ public class IntegranteController {
         return becarioService.listarBecariosDelGrupo(oidGrupo);
     }
 
-
     //obtener una becario en especifico del grupo
     @GetMapping("/personas/becarios/obtenerBecario/{oidBecario}")
     public BecarioResponseIntegrante obtenerBecario( @PathVariable Long oidBecario, Authentication auth) {
@@ -121,7 +121,6 @@ public class IntegranteController {
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
         return becarioService.obtenerBecarioDelGrupo(oidGrupo, oidBecario);
     }
-
 
     //-----------------------------------INVESTIGADORES-----------------------------------
 
@@ -142,7 +141,6 @@ public class IntegranteController {
         return investigadorService.obtenerInvestigadorDelGrupo(oidGrupo, oidInvestigador);
     }
 
-
     //-----------------------------------INTEGRANTES CONSEJO EDUCATIVO-----------------------------------
 
     //listar todos las integrantes del Consejo Educativo del grupo
@@ -162,7 +160,6 @@ public class IntegranteController {
                         oidIntegranteConsejoEducativo
                 );
     }
-
 
     //-----------------------------------PERSONAL-----------------------------------
 
@@ -188,18 +185,22 @@ public class IntegranteController {
     //-----------------------------------MEMORIA-----------------------------------
 
     //listar todas las memorias del grupo
+    @GetMapping("/memorias/listarMemorias")
+    public List <MemoriaResponseIntegrante> listarMemoriasDelGrupo(Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
+        return memoriaService.listarMemoriasDelGrupo(oidGrupo);
+    }
 
-    //listar una memoria en especifico
-
-
-
-
-
-
-
-
-
+    //obtener una memoria en especifico
+    @GetMapping("/memorias/{oidMemoria}")
+        public MemoriaDetalleResponseIntegrante obtenerMemoriaCompleta(@PathVariable Long oidMemoria){
+            return memoriaService.obtenerMemoriaIntegrante(oidMemoria);
+        }
 
 
 }
+
+
+

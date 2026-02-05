@@ -59,8 +59,6 @@ public class MemoriaDocumentoService {
                         md.getDocumento().getAutores(),
                         md.getDocumento().getEditorial(),
                         md.getDocumento().getAnio(),
-                        md.getDocumento().getNombreArchivo(),
-                        md.getDocumento().getTipoArchivo(),
                         md.getDocumento().getActivo()
                 ))
                 .toList();

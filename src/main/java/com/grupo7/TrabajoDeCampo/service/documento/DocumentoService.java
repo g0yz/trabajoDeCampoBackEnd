@@ -41,8 +41,6 @@ public class DocumentoService {
                         d.getAutores(),
                         d.getEditorial(),
                         d.getAnio(),
-                        d.getNombreArchivo(),
-                        d.getTipoArchivo(),
                         d.getActivo(),
                         d.getGrupo().getOidGrupo(),
                         d.getGrupo().getNombreGrupo()
@@ -86,31 +84,7 @@ public class DocumentoService {
         documentoRepository.deleteById(oid);
     }
 
-    public ResponseEntity<byte[]> descargarArchivo(Long oidDocumento) {
 
-        Documento documento = documentoRepository.findById(oidDocumento)
-                .orElseThrow(() -> new RuntimeException("Documento no encontrado"));
-
-        if (documento.getArchivoBase64() == null) {
-            throw new RuntimeException("El documento no tiene archivo asociado");
-        }
-
-        byte[] archivoBytes = Base64.getDecoder()
-                .decode(documento.getArchivoBase64());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(documento.getTipoArchivo()));
-        headers.setContentDisposition(
-                ContentDisposition.attachment()
-                        .filename(documento.getNombreArchivo())
-                        .build()
-        );
-        headers.setContentLength(archivoBytes.length);
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(archivoBytes);
-    }
 
 
     public List<DocumentoResponseIntegrante> listarDocumentosPorGrupo(Long oidGrupo) {
@@ -123,8 +97,6 @@ public class DocumentoService {
                         doc.getAutores(),
                         doc.getEditorial(),
                         doc.getAnio(),
-                        doc.getNombreArchivo(),
-                        doc.getTipoArchivo(),
                         doc.getActivo()
                 ))
                 .toList();
@@ -154,8 +126,6 @@ public class DocumentoService {
                 doc.getAutores(),
                 doc.getEditorial(),
                 doc.getAnio(),
-                doc.getNombreArchivo(),
-                doc.getTipoArchivo(),
                 doc.getActivo()
         );
     }

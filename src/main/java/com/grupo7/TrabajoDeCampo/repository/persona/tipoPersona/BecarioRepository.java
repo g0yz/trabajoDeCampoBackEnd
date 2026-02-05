@@ -1,4 +1,4 @@
-package com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage;
+package com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona;
 
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Becario;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;

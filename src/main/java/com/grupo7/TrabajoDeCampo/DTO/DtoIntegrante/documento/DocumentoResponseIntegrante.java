@@ -7,8 +7,6 @@ public class DocumentoResponseIntegrante {
         private String autores;
         private String editorial;
         private Integer anio;
-        private String nombreArchivo;
-        private String tipoArchivo;
         private Boolean activo;
 
         public DocumentoResponseIntegrante(
@@ -17,8 +15,6 @@ public class DocumentoResponseIntegrante {
                 String autores,
                 String editorial,
                 Integer anio,
-                String nombreArchivo,
-                String tipoArchivo,
                 Boolean activo) {
 
             this.oidDocumento = oidDocumento;
@@ -26,8 +22,6 @@ public class DocumentoResponseIntegrante {
             this.autores = autores;
             this.editorial = editorial;
             this.anio = anio;
-            this.nombreArchivo = nombreArchivo;
-            this.tipoArchivo = tipoArchivo;
             this.activo = true;
         }
 
@@ -36,8 +30,6 @@ public class DocumentoResponseIntegrante {
         public String getAutores() { return autores; }
         public String getEditorial() { return editorial; }
         public Integer getAnio() { return anio; }
-        public String getNombreArchivo() { return nombreArchivo; }
-        public String getTipoArchivo() { return tipoArchivo; }
         public Boolean getActivo() { return activo; }
     }
 

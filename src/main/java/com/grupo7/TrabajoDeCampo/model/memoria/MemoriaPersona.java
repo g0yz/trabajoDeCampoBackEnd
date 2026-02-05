@@ -1,5 +1,6 @@
 package com.grupo7.TrabajoDeCampo.model.memoria;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
+import com.grupo7.TrabajoDeCampo.model.persona.TipoPersona;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,7 +21,7 @@ public class MemoriaPersona {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoPersonaMemoria tipoPersonaMemoria;
+    private TipoPersona tipoPersona;
 
 
     @Column(name = "horasSemanales")
@@ -28,10 +29,10 @@ public class MemoriaPersona {
 
     public MemoriaPersona(){}
 
-    public MemoriaPersona(Memoria memoria, Persona persona, TipoPersonaMemoria tipoPersonaMemoria, Integer horasSemanales) {
+    public MemoriaPersona(Memoria memoria, Persona persona, TipoPersona tipoPersona, Integer horasSemanales) {
         this.memoria = memoria;
         this.persona = persona;
-        this.tipoPersonaMemoria = tipoPersonaMemoria;
+        this.tipoPersona = tipoPersona;
         this.horasSemanales = horasSemanales;
     }
 
@@ -56,12 +57,12 @@ public class MemoriaPersona {
         this.persona = persona;
     }
 
-    public TipoPersonaMemoria getTipoPersonaMemoria() {
-        return tipoPersonaMemoria;
+    public TipoPersona getTipoPersona() {
+        return tipoPersona;
     }
 
-    public void setTipoPersonaMemoria(TipoPersonaMemoria tipoPersonaMemoria) {
-        this.tipoPersonaMemoria = tipoPersonaMemoria;
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
     }
 
     public Integer getHorasSemanales() {

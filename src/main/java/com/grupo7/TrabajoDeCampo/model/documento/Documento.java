@@ -28,11 +28,6 @@ public class Documento {
     @Column(name = "archivo_base64", columnDefinition = "TEXT")
     private String archivoBase64;
 
-    @Column(name = "nombre_archivo")
-    private String nombreArchivo;
-
-    @Column(name = "tipo_archivo")
-    private String tipoArchivo;
 
     @Column(name = "activo")
     private Boolean activo = true;
@@ -46,14 +41,12 @@ public class Documento {
     }
 
 
-    public Documento(String titulo, String autores, String editorial, Integer anio, String archivoBase64, String nombreArchivo, String tipoArchivo, Grupo grupo) {
+    public Documento(String titulo, String autores, String editorial, Integer anio, String archivoBase64, Grupo grupo) {
         this.titulo = titulo;
         this.autores = autores;
         this.editorial = editorial;
         this.anio = anio;
         this.archivoBase64 = archivoBase64;
-        this.nombreArchivo = nombreArchivo;
-        this.tipoArchivo = tipoArchivo;
         this.activo = true;
         this.grupo = grupo;
     }
@@ -92,21 +85,6 @@ public class Documento {
         this.archivoBase64 = archivoBase64;
     }
 
-    public String getNombreArchivo() {
-        return nombreArchivo;
-    }
-
-    public void setNombreArchivo(String nombreArchivo) {
-        this.nombreArchivo = nombreArchivo;
-    }
-
-    public String getTipoArchivo() {
-        return tipoArchivo;
-    }
-
-    public void setTipoArchivo(String tipoArchivo) {
-        this.tipoArchivo = tipoArchivo;
-    }
 
     public Boolean getActivo() {
         return activo;

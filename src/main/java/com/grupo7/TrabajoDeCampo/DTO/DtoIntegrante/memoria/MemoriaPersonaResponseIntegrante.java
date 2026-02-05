@@ -1,12 +1,11 @@
-package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria;
+package com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.memoria;
 
 import com.grupo7.TrabajoDeCampo.model.persona.TipoPersona;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.TipoBecario;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.TipoPersonal;
 
-public class MemoriaPersonaResponseAdministrador {
+public class MemoriaPersonaResponseIntegrante {
 
-    private Long oidPersona;
     private String nombre;
     private String apellido;
     private Integer horasSemanales;
@@ -28,10 +27,8 @@ public class MemoriaPersonaResponseAdministrador {
     // CONSEJO EDUCATVO
     private String Cargo;
 
-    private Long oidGrupo;
 
-    public MemoriaPersonaResponseAdministrador(Long oidPersona, String nombre, String apellido, Integer horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal, String cargo, Long oidGrupo) {
-        this.oidPersona = oidPersona;
+    public MemoriaPersonaResponseIntegrante(String nombre, String apellido, Integer horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal , String cargo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
@@ -43,12 +40,7 @@ public class MemoriaPersonaResponseAdministrador {
         this.fuenteFinanciamiento = fuenteFinanciamiento;
         this.tipoBecario = tipoBecario;
         this.tipoPersonal = tipoPersonal;
-        Cargo = cargo;
-        this.oidGrupo = oidGrupo;
-    }
-
-    public Long getOidPersona() {
-        return oidPersona;
+        this.Cargo = cargo;
     }
 
     public String getNombre() {
@@ -97,9 +89,5 @@ public class MemoriaPersonaResponseAdministrador {
 
     public String getCargo() {
         return Cargo;
-    }
-
-    public Long getOidGrupo() {
-        return oidGrupo;
     }
 }

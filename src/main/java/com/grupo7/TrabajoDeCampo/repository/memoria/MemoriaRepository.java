@@ -12,4 +12,12 @@ public interface MemoriaRepository extends JpaRepository<Memoria, Long> {
     Optional<Memoria> findByGrupoAndAnio(Grupo grupo, Integer anio);
 
     List<Memoria> findByGrupo(Grupo grupo);
+
+
+    // listar memorias de un grupo
+    List<Memoria> findByGrupoOidGrupo(Long oidGrupo);
+
+    // buscar una memoria específica del grupo
+    Optional<Memoria> findByOidMemoriaAndGrupoOidGrupo(Long oidMemoria, Long oidGrupo);
+
 }

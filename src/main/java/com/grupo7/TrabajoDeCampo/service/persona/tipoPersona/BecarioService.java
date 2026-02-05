@@ -6,7 +6,7 @@ import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.BecarioResponseIntegr
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Becario;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
-import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.BecarioRepository;
+import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.BecarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

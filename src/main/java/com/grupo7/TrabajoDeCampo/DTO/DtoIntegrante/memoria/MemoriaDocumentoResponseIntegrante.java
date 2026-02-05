@@ -1,6 +1,7 @@
-package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria;
+package com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.memoria;
 
-public class MemoriaDocumentoResponseAdministrador {
+public class MemoriaDocumentoResponseIntegrante {
+
 
     private Long oidDocumento;
     private String titulo;
@@ -9,7 +10,7 @@ public class MemoriaDocumentoResponseAdministrador {
     private Integer anio;
     private Boolean activo;
 
-    public MemoriaDocumentoResponseAdministrador(
+    public MemoriaDocumentoResponseIntegrante(
             Long oidDocumento,
             String titulo,
             String autores,
@@ -48,4 +49,7 @@ public class MemoriaDocumentoResponseAdministrador {
     public Boolean getActivo() {
         return activo;
     }
+
+
+
 }

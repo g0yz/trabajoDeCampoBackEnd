@@ -7,8 +7,6 @@ public class DocumentoResponseAdministrador {
     private String autores;
     private String editorial;
     private Integer anio;
-    private String nombreArchivo;
-    private String tipoArchivo;
     private Boolean activo;
 
     // info mínima del grupo
@@ -21,8 +19,6 @@ public class DocumentoResponseAdministrador {
             String autores,
             String editorial,
             Integer anio,
-            String nombreArchivo,
-            String tipoArchivo,
             Boolean activo,
             Long oidGrupo,
             String nombreGrupo) {
@@ -32,8 +28,6 @@ public class DocumentoResponseAdministrador {
         this.autores = autores;
         this.editorial = editorial;
         this.anio = anio;
-        this.nombreArchivo = nombreArchivo;
-        this.tipoArchivo = tipoArchivo;
         this.activo = true;
         this.oidGrupo = oidGrupo;
         this.nombreGrupo = nombreGrupo;
@@ -44,8 +38,6 @@ public class DocumentoResponseAdministrador {
     public String getAutores() { return autores; }
     public String getEditorial() { return editorial; }
     public Integer getAnio() { return anio; }
-    public String getNombreArchivo() { return nombreArchivo; }
-    public String getTipoArchivo() { return tipoArchivo; }
     public Boolean getActivo() { return activo; }
     public Long getOidGrupo() { return oidGrupo; }
     public String getNombreGrupo() { return nombreGrupo; }

@@ -1,10 +1,7 @@
 package com.grupo7.TrabajoDeCampo.controller;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.documento.DocumentoResponseAdministrador;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.equipo.EquipoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaDocumentoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaEquipoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaPersonaRequestAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.*;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaRequestAdministrador;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaResponseAdministrador;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.BecarioResponseAdministrador;
@@ -312,20 +309,23 @@ public class AdministradorController {
         return memoriaService.crearMemoria(oidGrupo, anio);
     }
 
+    //listar todas las memorias
+    @GetMapping("/memorias/listadoMemorias")
+    public List<MemoriaResponseAdministrador> listarTodasLasMemorias() {
+        return memoriaService.listarTodasLasMemorias();
+    }
+
     // listar memorias por grupo
-    @GetMapping("/memorias/listarMemorias/{oidGrupo}")
+    @GetMapping("/memorias/listarMemoriasDeGrupo/{oidGrupo}")
     public List<MemoriaResponseAdministrador> listarMemorias(@PathVariable Long oidGrupo) {
         return memoriaService.listarPorGrupo(oidGrupo);
     }
 
     // obtener una memoria por ID
     @GetMapping("/memorias/obtenerMemoria/{oidMemoria}")
-    public MemoriaResponseAdministrador obtenerMemoriaPorId(@PathVariable Long oidMemoria) {
-        return memoriaService.obtenerPorId(oidMemoria);
+    public MemoriaDetalleResponseAdministrador obtenerMemoriaPorId(@PathVariable Long oidMemoria) {
+        return memoriaService.obtenerMemoriaCompleta(oidMemoria);
     }
-
-
-
 
 
     // agregar equipo a una memoria
@@ -389,7 +389,7 @@ public class AdministradorController {
         return memoriaPersonaService.agregarPersona(
                 oidMemoria,
                 oidPersona,
-                request.getTipoPersonaMemoria(),
+                request.getTipoPersona(),
                 request.getHorasSemanales()
         );
     }

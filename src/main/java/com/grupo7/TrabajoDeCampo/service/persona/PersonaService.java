@@ -15,10 +15,10 @@ import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Personal;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
 
-import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.BecarioRepository;
-import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.IntegranteConsejoEducativoRepository;
-import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.InvestigadorRepository;
-import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.PersonalRepository;
+import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.BecarioRepository;
+import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.IntegranteConsejoEducativoRepository;
+import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.InvestigadorRepository;
+import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.PersonalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
