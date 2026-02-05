@@ -1,34 +1,47 @@
 package com.grupo7.TrabajoDeCampo.controller;
-import com.grupo7.TrabajoDeCampo.DTO.*;
-import com.grupo7.TrabajoDeCampo.DTO.Memoria.MemoriaDocumentoResponse;
-import com.grupo7.TrabajoDeCampo.DTO.Memoria.MemoriaEquipoResponse;
-import com.grupo7.TrabajoDeCampo.DTO.Memoria.MemoriaPersonaRequest;
-import com.grupo7.TrabajoDeCampo.DTO.MemoriaResponse;
-import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.BecarioResponse;
-import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.IntegranteConsejoEducativoResponse;
-import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.InvestigadorResponse;
-import com.grupo7.TrabajoDeCampo.DTO.tipoPersonaPackage.PersonalResponse;
-import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Becario;
-import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.IntegranteConsejoEducativo;
-import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Investigador;
-import com.grupo7.TrabajoDeCampo.model.tipoPersonaPackage.Personal;
-import com.grupo7.TrabajoDeCampo.service.*;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.documento.DocumentoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.equipo.EquipoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaDocumentoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaEquipoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaPersonaRequestAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaRequestAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.PersonaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.BecarioResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.IntegranteConsejoEducativoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.InvestigadorResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.PersonalResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.usuario.CrearUsuarioRequestAdministrador;
+import com.grupo7.TrabajoDeCampo.model.documento.Documento;
+import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
+import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
+import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
+import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
+import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaPersona;
+import com.grupo7.TrabajoDeCampo.model.persona.Persona;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Becario;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.IntegranteConsejoEducativo;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Investigador;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Personal;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
+import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
+import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
+import com.grupo7.TrabajoDeCampo.service.persona.PersonaService;
+import com.grupo7.TrabajoDeCampo.service.usuario.UsuarioService;
+import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaDocumentoService;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaEquipoService;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaPersonaService;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.BecarioService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.IntegranteConsejoEducativoService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.InvestigadorService;
-import com.grupo7.TrabajoDeCampo.service.tipoPersonaPackage.PersonalService;
+import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.BecarioService;
+import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.IntegranteConsejoEducativoService;
+import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService;
+import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import com.grupo7.TrabajoDeCampo.model.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -69,7 +82,7 @@ public class AdministradorController {
 
 
     @PostMapping("/usuarios/asociarUsuario")
-    public Usuario crearUsuario(@RequestBody CrearUsuarioRequest dto) {
+    public Usuario crearUsuario(@RequestBody CrearUsuarioRequestAdministrador dto) {
         return usuarioService.crearUsuarioParaPersona(dto);
     }
 
@@ -113,7 +126,7 @@ public class AdministradorController {
 
     //listar todos los documentos
     @GetMapping("/documentos/listarDocumentos")
-    public List<DocumentoResponse> listarDocumentos() {
+    public List<DocumentoResponseAdministrador> listarDocumentos() {
         return documentoService.listarDocumentos();
     }
 
@@ -145,7 +158,7 @@ public class AdministradorController {
 
     //listar todos los equipos
     @GetMapping("/equipos/listarEquipos")
-    public List<EquipoResponse> listarEquipos() {
+    public List<EquipoResponseAdministrador> listarEquipos() {
         return equipoService.listarEquipos();
     }
 
@@ -171,13 +184,13 @@ public class AdministradorController {
     //-----------------------------------PERSONAS-----------------------------------
     //crear una persona a grupo
     @PostMapping("/personas/agregarPersona/{oidGrupo}")
-    public Persona crearPersona(@RequestBody PersonaRequest persona, @PathVariable("oidGrupo") Long oidGrupo){
+    public Persona crearPersona(@RequestBody PersonaRequestAdministrador persona, @PathVariable("oidGrupo") Long oidGrupo){
         return personaService.crearPersona(persona, oidGrupo);
     }
 
     //listar todos los equipos
     @GetMapping("/personas/listarPersonas")
-    public List<PersonaResponse> listarPersonas() {
+    public List<PersonaResponseAdministrador> listarPersonas() {
         return personaService.listarPersonas();
     }
 
@@ -189,7 +202,7 @@ public class AdministradorController {
 
 
     //actualizar una persona
-    @PutMapping("/personas/actualizarPersona/{oidPersona}") public Persona actualizarPersona(@PathVariable("oidPersona") Long oidPersona, @RequestBody PersonaRequest personaDto) {
+    @PutMapping("/personas/actualizarPersona/{oidPersona}") public Persona actualizarPersona(@PathVariable("oidPersona") Long oidPersona, @RequestBody PersonaRequestAdministrador personaDto) {
         return personaService.actualizarPersona(personaDto, oidPersona); }
 
 
@@ -203,12 +216,12 @@ public class AdministradorController {
 
     //listar todas las becarios
     @GetMapping ("/personas/becarios/listarBecarios")
-    public List<BecarioResponse> listarBecarios(){ return becarioService.listarBecarios();}
+    public List<BecarioResponseAdministrador> listarBecarios(){ return becarioService.listarBecarios();}
 
 
     //obtener una becario en especifico por ID
     @GetMapping("/personas/becarios/obtenerBecario/{oidBecario}")
-    public ResponseEntity<BecarioResponse> obtenerBecarioPorId(
+    public ResponseEntity<BecarioResponseAdministrador> obtenerBecarioPorId(
             @PathVariable Long oidBecario) {
         return ResponseEntity.ok(
                 becarioService.obtenerBecarioPorId(oidBecario));
@@ -224,12 +237,12 @@ public class AdministradorController {
 
     //listar todas las investigadores
     @GetMapping ("/personas/investigadores/listarInvestigadores")
-    public List<InvestigadorResponse> listarInvestigadors(){ return investigadorService.listarInvestigadores();}
+    public List<InvestigadorResponseAdministrador> listarInvestigadors(){ return investigadorService.listarInvestigadores();}
 
 
     //obtener una investigador en especifico por ID
     @GetMapping("/personas/investigadores/obtenerInvestigador/{oidInvestigador}")
-    public ResponseEntity<InvestigadorResponse> obtenerInvestigadorPorId(
+    public ResponseEntity<InvestigadorResponseAdministrador> obtenerInvestigadorPorId(
             @PathVariable Long oidInvestigador) {
         return ResponseEntity.ok(investigadorService.obtenerInvestigadorPorId(oidInvestigador));
     }
@@ -244,13 +257,13 @@ public class AdministradorController {
 
     //listar todas las integranteConsejoEducativos
     @GetMapping("/personas/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
-    public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativo() {
+    public List<IntegranteConsejoEducativoResponseAdministrador> listarIntegrantesConsejoEducativo() {
         return integranteConsejoEducativoService.listarIntegrantesConsejoEducativo();
     }
 
     //obtener una integranteConsejoEducativo en especifico por ID
     @GetMapping("/personas/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
-    public ResponseEntity<IntegranteConsejoEducativoResponse> obtenerIntegranteConsejoEducativoPorId(
+    public ResponseEntity<IntegranteConsejoEducativoResponseAdministrador> obtenerIntegranteConsejoEducativoPorId(
             @PathVariable Long oidIntegranteConsejoEducativo) {
 
         return ResponseEntity.ok(
@@ -270,13 +283,13 @@ public class AdministradorController {
 
     //listar todas las personal
     @GetMapping("/personas/personal/listarPersonal")
-    public List<PersonalResponse> listarPersonal() {
+    public List<PersonalResponseAdministrador> listarPersonal() {
         return personalService.listarPersonal();
     }
 
 
     @GetMapping("/personas/personal/obtenerPersonal/{oidPersonal}")
-    public ResponseEntity<PersonalResponse> obtenerPersonalPorId(
+    public ResponseEntity<PersonalResponseAdministrador> obtenerPersonalPorId(
             @PathVariable Long oidPersonal) {
 
         return ResponseEntity.ok(
@@ -301,13 +314,13 @@ public class AdministradorController {
 
     // listar memorias por grupo
     @GetMapping("/memorias/listarMemorias/{oidGrupo}")
-    public List<MemoriaResponse> listarMemorias(@PathVariable Long oidGrupo) {
+    public List<MemoriaResponseAdministrador> listarMemorias(@PathVariable Long oidGrupo) {
         return memoriaService.listarPorGrupo(oidGrupo);
     }
 
     // obtener una memoria por ID
     @GetMapping("/memorias/obtenerMemoria/{oidMemoria}")
-    public MemoriaResponse obtenerMemoriaPorId(@PathVariable Long oidMemoria) {
+    public MemoriaResponseAdministrador obtenerMemoriaPorId(@PathVariable Long oidMemoria) {
         return memoriaService.obtenerPorId(oidMemoria);
     }
 
@@ -323,7 +336,7 @@ public class AdministradorController {
 
     // listar equipos de una memoria
     @GetMapping("/memorias/{oidMemoria}/equipos")
-    public List<MemoriaEquipoResponse> listarEquiposDeMemoria(
+    public List<MemoriaEquipoResponseAdministrador> listarEquiposDeMemoria(
             @PathVariable Long oidMemoria) {
 
         return memoriaEquipoService.listarPorMemoria(oidMemoria);
@@ -349,7 +362,7 @@ public class AdministradorController {
 
     //listar documentos de una memoria
     @GetMapping("/memorias/{oidMemoria}/documentos")
-    public List<MemoriaDocumentoResponse> listarDocumentosDeMemoria(
+    public List<MemoriaDocumentoResponseAdministrador> listarDocumentosDeMemoria(
             @PathVariable Long oidMemoria) {
 
         return memoriaDocumentoService.listarPorMemoria(oidMemoria);
@@ -371,7 +384,7 @@ public class AdministradorController {
     public MemoriaPersona agregarPersonaAMemoria(
             @PathVariable Long oidMemoria,
             @PathVariable Long oidPersona,
-            @RequestBody MemoriaPersonaRequest request) {
+            @RequestBody MemoriaPersonaRequestAdministrador request) {
 
         return memoriaPersonaService.agregarPersona(
                 oidMemoria,

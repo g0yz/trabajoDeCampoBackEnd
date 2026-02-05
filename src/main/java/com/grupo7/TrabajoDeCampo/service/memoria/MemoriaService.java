@@ -1,10 +1,10 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.DTO.MemoriaResponse;
-import com.grupo7.TrabajoDeCampo.model.Memoria;
-import com.grupo7.TrabajoDeCampo.model.Grupo;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
+import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaRepository;
-import com.grupo7.TrabajoDeCampo.repository.GrupoRepository;
+import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
 import org.springframework.stereotype.Service;
 
 
@@ -41,14 +41,14 @@ public class MemoriaService {
     }
 
 
-    public List<MemoriaResponse> listarPorGrupo(Long oidGrupo) {
+    public List<MemoriaResponseAdministrador> listarPorGrupo(Long oidGrupo) {
 
         Grupo grupo = grupoRepository.findById(oidGrupo)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
 
         return memoriaRepository.findByGrupo(grupo)
                 .stream()
-                .map(m -> new MemoriaResponse(
+                .map(m -> new MemoriaResponseAdministrador(
                         m.getOidMemoria(),
                         m.getAnio(),
                         m.getFechaCreacion().toInstant(),
@@ -59,12 +59,12 @@ public class MemoriaService {
     }
 
 
-    public MemoriaResponse obtenerPorId(Long oidMemoria) {
+    public MemoriaResponseAdministrador obtenerPorId(Long oidMemoria) {
 
         Memoria m = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
 
-        return new MemoriaResponse(
+        return new MemoriaResponseAdministrador(
                 m.getOidMemoria(),
                 m.getAnio(),
                 m.getFechaCreacion().toInstant(),

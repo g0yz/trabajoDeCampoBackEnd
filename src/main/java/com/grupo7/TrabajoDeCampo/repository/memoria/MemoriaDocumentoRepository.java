@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.repository.memoria;
 
-import com.grupo7.TrabajoDeCampo.model.Memoria;
-import com.grupo7.TrabajoDeCampo.model.MemoriaDocumento;
-import com.grupo7.TrabajoDeCampo.model.Documento;
+import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
+import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaDocumento;
+import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

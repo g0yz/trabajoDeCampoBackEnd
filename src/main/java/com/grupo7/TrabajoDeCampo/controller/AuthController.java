@@ -1,17 +1,16 @@
 package com.grupo7.TrabajoDeCampo.controller;
-import com.grupo7.TrabajoDeCampo.DTO.UsuarioRegisterRequest;
-import com.grupo7.TrabajoDeCampo.DTO.UsuarioLoginRequest;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAuth.UsuarioRegisterRequest;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAuth.UsuarioLoginRequest;
 import com.grupo7.TrabajoDeCampo.handler.JwtService;
 import com.grupo7.TrabajoDeCampo.handler.Role;
-import com.grupo7.TrabajoDeCampo.model.Usuario;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import com.grupo7.TrabajoDeCampo.repository.UsuarioRepository;
+import com.grupo7.TrabajoDeCampo.repository.usuario.UsuarioRepository;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")

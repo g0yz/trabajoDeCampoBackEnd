@@ -1,10 +1,10 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.DTO.Memoria.MemoriaDocumentoResponse;
-import com.grupo7.TrabajoDeCampo.model.Documento;
-import com.grupo7.TrabajoDeCampo.model.Memoria;
-import com.grupo7.TrabajoDeCampo.model.MemoriaDocumento;
-import com.grupo7.TrabajoDeCampo.repository.DocumentoRepository;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaDocumentoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.model.documento.Documento;
+import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
+import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaDocumento;
+import com.grupo7.TrabajoDeCampo.repository.documento.DocumentoRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaDocumentoRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaRepository;
 import org.springframework.stereotype.Service;
@@ -46,14 +46,14 @@ public class MemoriaDocumentoService {
     }
 
     // listar documentos de una memoria
-    public List<MemoriaDocumentoResponse> listarPorMemoria(Long oidMemoria) {
+    public List<MemoriaDocumentoResponseAdministrador> listarPorMemoria(Long oidMemoria) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
 
         return memoriaDocumentoRepository.findByMemoria(memoria)
                 .stream()
-                .map(md -> new MemoriaDocumentoResponse(
+                .map(md -> new MemoriaDocumentoResponseAdministrador(
                         md.getDocumento().getOidDocumento(),
                         md.getDocumento().getTitulo(),
                         md.getDocumento().getAutores(),

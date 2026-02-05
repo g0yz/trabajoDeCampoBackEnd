@@ -1,7 +1,10 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.model.*;
-import com.grupo7.TrabajoDeCampo.repository.PersonaRepository;
+import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
+import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaPersona;
+import com.grupo7.TrabajoDeCampo.model.memoria.TipoPersonaMemoria;
+import com.grupo7.TrabajoDeCampo.model.persona.Persona;
+import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaPersonaRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaRepository;
 import org.springframework.stereotype.Service;

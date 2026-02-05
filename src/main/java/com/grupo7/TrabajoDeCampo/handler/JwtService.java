@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.handler;
 
-import com.grupo7.TrabajoDeCampo.model.Usuario;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;

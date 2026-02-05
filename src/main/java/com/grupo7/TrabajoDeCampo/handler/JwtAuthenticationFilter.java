@@ -1,7 +1,7 @@
 package com.grupo7.TrabajoDeCampo.handler;
 
-import com.grupo7.TrabajoDeCampo.model.Usuario;
-import com.grupo7.TrabajoDeCampo.repository.UsuarioRepository;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
+import com.grupo7.TrabajoDeCampo.repository.usuario.UsuarioRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

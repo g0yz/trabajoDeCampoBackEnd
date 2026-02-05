@@ -1,10 +1,10 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.DTO.Memoria.MemoriaEquipoResponse;
-import com.grupo7.TrabajoDeCampo.model.Equipo;
-import com.grupo7.TrabajoDeCampo.model.Memoria;
-import com.grupo7.TrabajoDeCampo.model.MemoriaEquipo;
-import com.grupo7.TrabajoDeCampo.repository.EquipoRepository;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaEquipoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
+import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
+import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
+import com.grupo7.TrabajoDeCampo.repository.equipo.EquipoRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaEquipoRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaRepository;
 import org.springframework.stereotype.Service;
@@ -46,14 +46,14 @@ public class MemoriaEquipoService {
     }
 
 
-    public List<MemoriaEquipoResponse> listarPorMemoria(Long oidMemoria) {
+    public List<MemoriaEquipoResponseAdministrador> listarPorMemoria(Long oidMemoria) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
 
         return memoriaEquipoRepository.findByMemoria(memoria)
                 .stream()
-                .map(me -> new MemoriaEquipoResponse(
+                .map(me -> new MemoriaEquipoResponseAdministrador(
                         me.getEquipo().getOidEquipo(),
                         me.getEquipo().getDenominacion(),
                         me.getEquipo().getFechaIncorporacion(),

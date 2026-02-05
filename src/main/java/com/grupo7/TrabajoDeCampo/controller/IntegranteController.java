@@ -1,21 +1,20 @@
 package com.grupo7.TrabajoDeCampo.controller;
 
 
-import com.grupo7.TrabajoDeCampo.DTO.DocumentoResponse;
-import com.grupo7.TrabajoDeCampo.DTO.DocumentoResponseGrupo;
-import com.grupo7.TrabajoDeCampo.DTO.GrupoResponse;
-import com.grupo7.TrabajoDeCampo.DTO.PersonaRequest;
-import com.grupo7.TrabajoDeCampo.model.*;
-import com.grupo7.TrabajoDeCampo.service.DocumentoService;
-import com.grupo7.TrabajoDeCampo.service.GrupoService;
-import com.grupo7.TrabajoDeCampo.service.PersonaService;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.documento.DocumentoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.equipo.EquipoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.grupo.GrupoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
+import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
+import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
+import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
+import com.grupo7.TrabajoDeCampo.service.persona.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -32,11 +31,14 @@ public class IntegranteController {
     @Autowired
     private DocumentoService documentoService;
 
+    @Autowired
+    private EquipoService equipoService;
+
 
     //-----------------------------------GRUPOS-----------------------------------
     //visualizar grupo del integrante
     @GetMapping("/grupo/ver")
-    public GrupoResponse verGrupo(Authentication auth) { Usuario usuario = (Usuario) auth.getPrincipal();
+    public GrupoResponseAdministrador verGrupo(Authentication auth) { Usuario usuario = (Usuario) auth.getPrincipal();
         return grupoService.obtenerGrupoDelUsuario(usuario);
     }
 
@@ -45,7 +47,7 @@ public class IntegranteController {
     //-----------------------------------DOCUMENTOS-----------------------------------
     //listar todos los documentos del grupo
     @GetMapping ("/documentos/listarDocumentos")
-    public List<DocumentoResponseGrupo> listarDocumentosDelGrupo(Authentication auth) {
+    public List<DocumentoResponseIntegrante> listarDocumentos(Authentication auth) {
 
         Usuario usuario = (Usuario) auth.getPrincipal();
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
@@ -56,7 +58,7 @@ public class IntegranteController {
 
     //obtener un documento en especifico del grupo
     @GetMapping("/documentos/visualizarDocumento/{oidDocumento}")
-    public DocumentoResponseGrupo obtenerDocumento(@PathVariable Long oidDocumento,Authentication auth) {
+    public DocumentoResponseIntegrante obtenerDocumento(@PathVariable Long oidDocumento, Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         return documentoService.obtenerDocumentoDelGrupo(oidDocumento, usuario);
     }
@@ -64,10 +66,20 @@ public class IntegranteController {
     //-----------------------------------EQUIPOS-----------------------------------
 
     //listar todos los equipos del grupo
-    //@GetMapping ("/equipos/listarEquipos")
+    @GetMapping("/equipos/listarEquipo")
+    public List<EquipoResponseIntegrante> listarEquipos(Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return equipoService.listarEquiposDelGrupoIntegrante(oidGrupo);
+    }
 
     //obtener un equipo en especifico del grupo
-    //@GetMapping("/equipos/obtenerEquipo/{oidEquipo}")
+    @GetMapping("/equipos/obtenerEquipo/{oidEquipo}")
+    public EquipoResponseIntegrante obtenerEquipo( @PathVariable Long oidEquipo,Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return equipoService.obtenerEquipoDelGrupoIntegrante(oidEquipo, oidGrupo);
+    }
 
 
     //-----------------------------------PERSONAS-----------------------------------
