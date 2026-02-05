@@ -1,4 +1,4 @@
-package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona;
+package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona;
 
 public class PersonaResponseAdministrador {
 

@@ -2,7 +2,7 @@ package com.grupo7.TrabajoDeCampo.service.persona;
 
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaRequestAdministrador;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.PersonaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaResponseAdministrador;
 
 
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;

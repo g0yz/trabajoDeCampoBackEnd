@@ -1,4 +1,4 @@
-package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage;
+package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona;
 
 
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.TipoBecario;

@@ -115,7 +115,7 @@ public class DocumentoService {
 
     public List<DocumentoResponseIntegrante> listarDocumentosPorGrupo(Long oidGrupo) {
 
-        return documentoRepository.findByGrupoOidGrupo(oidGrupo)
+        return documentoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
                 .stream()
                 .map(doc -> new DocumentoResponseIntegrante(
                         doc.getOidDocumento(),
@@ -143,7 +143,7 @@ public class DocumentoService {
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
         Documento doc = documentoRepository
-                .findByOidDocumentoAndGrupoOidGrupo(oidDocumento, oidGrupo)
+                .findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(oidDocumento, oidGrupo)
                 .orElseThrow(() ->
                         new RuntimeException("Documento no encontrado o no pertenece a su grupo")
                 );

@@ -4,12 +4,17 @@ package com.grupo7.TrabajoDeCampo.controller;
 import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.documento.DocumentoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.equipo.EquipoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.grupo.GrupoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.BecarioResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.InvestigadorResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
 import com.grupo7.TrabajoDeCampo.service.persona.PersonaService;
+import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.BecarioService;
+import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +38,12 @@ public class IntegranteController {
 
     @Autowired
     private EquipoService equipoService;
+
+    @Autowired
+    private BecarioService becarioService;
+
+    @Autowired
+    private InvestigadorService investigadorService;
 
 
     //-----------------------------------GRUPOS-----------------------------------
@@ -81,37 +92,39 @@ public class IntegranteController {
         return equipoService.obtenerEquipoDelGrupoIntegrante(oidEquipo, oidGrupo);
     }
 
-
-    //-----------------------------------PERSONAS-----------------------------------
-
-
-    //listar todas las personas del grupo
-    //@GetMapping ("/personas/listarPersonas")
-
-    //obtener una persona en especifico del grupo
-    //@GetMapping("/personas/obtenerPersona/{oidPersona}")
-
-
-
     //-----------------------------------BECARIOS-----------------------------------
 
     //listar todas las becarios del grupo
-    //@GetMapping ("/personas/becarios/listarBecarios")
+    @GetMapping ("/personas/becarios/listarBecarios")
+    public ResponseEntity<List<BecarioResponseIntegrante>> listarBecarios( @PathVariable Long oidGrupo) {
+        return ResponseEntity.ok(
+                becarioService.listarBecariosDelGrupo(oidGrupo)
+        );
+    }
 
 
     //obtener una becario en especifico del grupo
-    //@GetMapping("/personas/becarios/obtenerBecario/{oidBecario}")
-
+    @GetMapping("/personas/becarios/obtenerBecario/{oidBecario}")
+    public BecarioResponseIntegrante obtenerBecario( @PathVariable Long oidBecario, Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return becarioService.obtenerBecarioDelGrupo(oidGrupo, oidBecario);
+    }
 
 
     //-----------------------------------INVESTIGADORES-----------------------------------
 
     //listar todos las investigadores del grupo
-    //@GetMapping ("/personas/investigadores/listarInvestigadores")
-
+    @GetMapping ("/personas/investigadores/listarInvestigadores")
+    public List<InvestigadorResponseIntegrante> listarInvestigadores(@PathVariable Long oidGrupo) {
+        return investigadorService.listarInvestigadoresDelGrupo(oidGrupo);
+    }
 
     //obtener una investigador en especifico del grupo
-    //@GetMapping("/personas/investigadores/obtenerInvestigador/{oidInvestigador}")
+    @GetMapping("/personas/investigadores/obtenerInvestigador/{oidInvestigador}")
+    public InvestigadorResponseIntegrante obtenerInvestigadorDelGrupo(@PathVariable Long oidGrupo,@PathVariable Long oidInvestigador) {
+        return investigadorService.obtenerInvestigadorDelGrupo(oidGrupo, oidInvestigador);
+    }
 
 
     //-----------------------------------INTEGRANTES CONSEJO EDUCATIVO-----------------------------------

@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.IntegranteConsejoEducativoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.IntegranteConsejoEducativoResponseAdministrador;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersonaPackage.IntegranteConsejoEducativoRepository;

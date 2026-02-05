@@ -1,6 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.InvestigadorResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.InvestigadorResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.InvestigadorResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Investigador;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
@@ -108,6 +109,50 @@ public class InvestigadorService {
 
 
     public void eliminarInvestigador(Long oid){ investigadorRepository.deleteById(oid);}
+
+
+    public List<InvestigadorResponseIntegrante> listarInvestigadoresDelGrupo(Long oidGrupo) {
+
+        return investigadorRepository
+                .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
+                .stream()
+                .map(i -> new InvestigadorResponseIntegrante(
+                        i.getOidInvestigador(),
+                        i.getCategoriaUTN(),
+                        i.getProgramaDeIncentivos(),
+                        i.getDedicacion(),
+                        i.getGradoAcademico(),
+                        i.getActivo(),
+                        i.getPersona().getNombre(),
+                        i.getPersona().getApellido(),
+                        i.getPersona().getHorasSemanales()
+                ))
+                .toList();
+    }
+
+    public InvestigadorResponseIntegrante obtenerInvestigadorDelGrupo(
+            Long oidGrupo,
+            Long oidInvestigador) {
+
+        Investigador investigador = investigadorRepository
+                .findByOidInvestigadorAndPersonaGrupoOidGrupoAndPersonaActivoTrue(
+                        oidInvestigador, oidGrupo
+                )
+                .orElseThrow(() -> new RuntimeException("Investigador no encontrado"));
+
+        return new InvestigadorResponseIntegrante(
+                investigador.getOidInvestigador(),
+                investigador.getCategoriaUTN(),
+                investigador.getProgramaDeIncentivos(),
+                investigador.getDedicacion(),
+                investigador.getGradoAcademico(),
+                investigador.getActivo(),
+                investigador.getPersona().getNombre(),
+                investigador.getPersona().getApellido(),
+                investigador.getPersona().getHorasSemanales()
+        );
+    }
+
 
 
 

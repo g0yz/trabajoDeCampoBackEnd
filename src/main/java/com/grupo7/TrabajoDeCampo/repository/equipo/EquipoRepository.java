@@ -9,10 +9,18 @@ import java.util.Optional;
 public interface EquipoRepository extends JpaRepository <Equipo, Long> {
 
 
-
         List<Equipo> findByGrupoOidGrupo(Long oidGrupo);
 
         Optional<Equipo> findByOidEquipoAndGrupoOidGrupo(Long oidEquipo, Long oidGrupo);
+
+        // listar equipos activos del grupo
+        List<Equipo> findByGrupoOidGrupoAndActivoTrue(Long oidGrupo);
+
+        // obtener equipo específico, del grupo y activo
+        Optional<Equipo> findByOidEquipoAndGrupoOidGrupoAndActivoTrue(
+                Long oidEquipo,
+                Long oidGrupo
+        );
 
 
 }

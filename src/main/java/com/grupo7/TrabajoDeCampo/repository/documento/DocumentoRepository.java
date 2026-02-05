@@ -12,4 +12,16 @@ public interface DocumentoRepository extends JpaRepository <Documento,Long>{
     List<Documento> findByGrupoOidGrupo(Long oidGrupo);
 
     Optional<Documento> findByOidDocumentoAndGrupoOidGrupo(Long oidDocumento, Long oidGrupo);
+
+    // listar documentos activos del grupo
+    List<Documento> findByGrupoOidGrupoAndActivoTrue(Long oidGrupo);
+
+    // obtener un documento específico, del grupo y activo
+    Optional<Documento> findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(
+            Long oidDocumento,
+            Long oidGrupo
+    );
+
+
+
 }

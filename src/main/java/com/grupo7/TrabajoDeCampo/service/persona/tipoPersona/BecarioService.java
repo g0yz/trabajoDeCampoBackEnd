@@ -1,7 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.BecarioResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.BecarioResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.BecarioResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Becario;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
@@ -58,6 +59,7 @@ public class BecarioService {
 
 
 
+    //falta modificar becario crear
     public Becario crearBecario (Becario datosBecario, Long oid) {
 
         Persona persona = personaRepository.findById(oid)
@@ -71,6 +73,8 @@ public class BecarioService {
 
         return becarioRepository.save(becario);
     }
+
+    //falta modificar becario crear
 
     public Becario actualizarBecario ( Long oid,Becario becarioActualizado){
         Becario becario = becarioRepository.findById(oid).orElseThrow(() -> new RuntimeException("Becario no encontrada con oid: " + oid));
@@ -86,6 +90,53 @@ public class BecarioService {
     }
 
     public void eliminarBecario (Long oid){ becarioRepository.deleteById(oid);}
+
+
+    public List<BecarioResponseIntegrante> listarBecariosDelGrupo(Long oidGrupo) {
+
+        return becarioRepository
+                .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
+                .stream()
+                .map(b -> new BecarioResponseIntegrante(
+                        b.getOidBecario(),
+                        b.getTipoBecario(),
+                        b.getFuenteFinanciamiento(),
+                        b.getPersona().getActivo(),
+                        b.getPersona().getNombre(),
+                        b.getPersona().getApellido(),
+                        b.getPersona().getHorasSemanales()
+                ))
+                .toList();
+    }
+
+
+
+    public BecarioResponseIntegrante obtenerBecarioDelGrupo(
+            Long oidGrupo,
+            Long oidBecario
+    ) {
+        Becario b = becarioRepository
+                .findByOidBecarioAndPersonaGrupoOidGrupoAndPersonaActivoTrue(
+                        oidBecario,
+                        oidGrupo
+                )
+                .orElseThrow(() ->
+                        new RuntimeException("Becario no encontrado en el grupo")
+                );
+
+        return new BecarioResponseIntegrante(
+                b.getOidBecario(),
+                b.getTipoBecario(),
+                b.getFuenteFinanciamiento(),
+                b.getPersona().getActivo(),
+                b.getPersona().getNombre(),
+                b.getPersona().getApellido(),
+                b.getPersona().getHorasSemanales()
+        );
+    }
+
+
+
 
 
 }

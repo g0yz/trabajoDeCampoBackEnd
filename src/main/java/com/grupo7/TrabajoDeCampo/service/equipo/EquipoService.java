@@ -87,7 +87,7 @@ public class EquipoService {
 
     public List<EquipoResponseIntegrante> listarEquiposDelGrupoIntegrante(Long oidGrupo) {
 
-        return equipoRepository.findByGrupoOidGrupo(oidGrupo)
+        return equipoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
                 .stream()
                 .map(eq -> new EquipoResponseIntegrante(
                         eq.getOidEquipo(),
@@ -106,7 +106,7 @@ public class EquipoService {
     ) {
 
         Equipo equipo = equipoRepository
-                .findByOidEquipoAndGrupoOidGrupo(oidEquipo, oidGrupo)
+                .findByOidEquipoAndGrupoOidGrupoAndActivoTrue(oidEquipo, oidGrupo)
                 .orElseThrow(() ->
                         new RuntimeException("Equipo no encontrado o no pertenece al grupo")
                 );

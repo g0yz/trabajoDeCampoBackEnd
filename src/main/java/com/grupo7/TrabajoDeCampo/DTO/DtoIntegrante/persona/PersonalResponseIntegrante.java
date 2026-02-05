@@ -1,8 +1,9 @@
-package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage;
+package com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona;
 
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.TipoPersonal;
 
-public class PersonalResponseAdministrador {
+public class PersonalResponseIntegrante {
+
 
     private Long oidPersonal;
     private TipoPersonal tipoPersonal;
@@ -12,10 +13,8 @@ public class PersonalResponseAdministrador {
     private String apellido;
     private Integer horasSemanales;
 
-    private Long oidGrupo;
-    private String nombreGrupo;
 
-    public PersonalResponseAdministrador(
+    public PersonalResponseIntegrante(
             Long oidPersonal,
             TipoPersonal tipoPersonal,
             Boolean activo,
@@ -31,8 +30,6 @@ public class PersonalResponseAdministrador {
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
-        this.oidGrupo = oidGrupo;
-        this.nombreGrupo = nombreGrupo;
     }
 
     public Long getOidPersonal() { return oidPersonal; }
@@ -41,6 +38,5 @@ public class PersonalResponseAdministrador {
     public String getNombre() { return nombre; }
     public String getApellido() { return apellido; }
     public Integer getHorasSemanales() { return horasSemanales; }
-    public Long getOidGrupo() { return oidGrupo; }
-    public String getNombreGrupo() { return nombreGrupo; }
+
 }

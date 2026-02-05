@@ -27,9 +27,6 @@ public class PersonaRequestAdministrador {
     // CONSEJO EDUCATVO
     private String Cargo;
 
-
-
-
     private Long oidGrupo;
 
     public PersonaRequestAdministrador(String nombre, String apellido, Integer horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal , String cargo) {

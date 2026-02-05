@@ -1,6 +1,7 @@
-package com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage;
+package com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona;
 
-public class InvestigadorResponseAdministrador {
+public class InvestigadorResponseIntegrante {
+
 
     private Long oidInvestigador;
     private String categoriaUTN;
@@ -14,11 +15,8 @@ public class InvestigadorResponseAdministrador {
     private String apellido;
     private Integer horasSemanales;
 
-    // Grupo
-    private Long oidGrupo;
-    private String nombreGrupo;
 
-    public InvestigadorResponseAdministrador(
+    public InvestigadorResponseIntegrante(
             Long oidInvestigador,
             String categoriaUTN,
             String programaDeIncentivos,
@@ -27,9 +25,7 @@ public class InvestigadorResponseAdministrador {
             Boolean activo,
             String nombre,
             String apellido,
-            Integer horasSemanales,
-            Long oidGrupo,
-            String nombreGrupo
+            Integer horasSemanales
     ) {
         this.oidInvestigador = oidInvestigador;
         this.categoriaUTN = categoriaUTN;
@@ -40,8 +36,6 @@ public class InvestigadorResponseAdministrador {
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
-        this.oidGrupo = oidGrupo;
-        this.nombreGrupo = nombreGrupo;
     }
 
     public Long getOidInvestigador() {
@@ -80,11 +74,6 @@ public class InvestigadorResponseAdministrador {
         return horasSemanales;
     }
 
-    public Long getOidGrupo() {
-        return oidGrupo;
-    }
-
-    public String getNombreGrupo() {
-        return nombreGrupo;
-    }
 }
+
+

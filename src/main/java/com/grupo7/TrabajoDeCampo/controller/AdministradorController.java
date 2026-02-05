@@ -6,11 +6,11 @@ import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaEquipoRespo
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaPersonaRequestAdministrador;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaResponseAdministrador;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaRequestAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.PersonaResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.BecarioResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.IntegranteConsejoEducativoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.InvestigadorResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersonaPackage.PersonalResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.BecarioResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.IntegranteConsejoEducativoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.InvestigadorResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.PersonalResponseAdministrador;
 import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.usuario.CrearUsuarioRequestAdministrador;
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
