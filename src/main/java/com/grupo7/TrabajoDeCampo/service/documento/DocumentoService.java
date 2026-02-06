@@ -1,23 +1,17 @@
 package com.grupo7.TrabajoDeCampo.service.documento;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.documento.DocumentoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.documento.DocumentoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.documento.DocumentoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.documento.DocumentoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.documento.DocumentoRepository;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
-import org.springframework.http.ContentDisposition;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Base64;
 
 @Service
 public class DocumentoService {
@@ -31,7 +25,9 @@ public class DocumentoService {
         this.grupoRepository = grupoRepository;
     }
 
-    public List<DocumentoResponseAdministrador> listarDocumentos() {
+    //ADMINISTRADOR
+
+    public List<DocumentoResponseAdministrador> listarDocumentosAdmin() {
 
         return documentoRepository.findAll()
                 .stream()
@@ -48,18 +44,18 @@ public class DocumentoService {
                 .toList();
     }
 
-    public Optional<Documento> obtenerDocumentoPorId(Long oid){
+    public Optional<Documento> obtenerDocumentoPorIdAdmin(Long oid){
         return documentoRepository.findById(oid);
     }
 
-    public Documento crearDocumento(Documento documento, Long oid){
+    public Documento crearDocumentoAdmin(Documento documento, Long oid){
         Grupo grupo = grupoRepository.findById(oid)
         .orElseThrow(() -> new RuntimeException("Grupo no encontrado con oid: " + oid));
         documento.setGrupo(grupo);
         return documentoRepository.save(documento);
     }
 
-    public Documento actualizarDocumento(Long oid, Documento documentoActualizado){
+    public Documento actualizarDocumentoAdmin(Long oid, Documento documentoActualizado){
         Documento documento = documentoRepository.findById(oid)
                 .orElseThrow(() -> new RuntimeException("Documento No encontrado con oid: " + oid));
         if (documentoActualizado.getTitulo() != null){
@@ -80,14 +76,14 @@ public class DocumentoService {
         return documentoRepository.save(documento);
     }
 
-    public void eliminarDocumento(Long oid){
+    public void eliminarDocumentoAdmin(Long oid){
         documentoRepository.deleteById(oid);
     }
 
 
+    //INTEGRANTE
 
-
-    public List<DocumentoResponseIntegrante> listarDocumentosPorGrupo(Long oidGrupo) {
+    public List<DocumentoResponseIntegrante> listarDocumentosDelGrupoIntegrante(Long oidGrupo) {
 
         return documentoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
                 .stream()
@@ -103,7 +99,7 @@ public class DocumentoService {
     }
 
 
-    public DocumentoResponseIntegrante obtenerDocumentoDelGrupo(
+    public DocumentoResponseIntegrante obtenerDocumentoDelGrupoIntegrante(
             Long oidDocumento,
             Usuario usuario
     ) {
@@ -129,6 +125,14 @@ public class DocumentoService {
                 doc.getActivo()
         );
     }
+
+
+    //DIRECTOR
+
+
+
+
+
 
 
 

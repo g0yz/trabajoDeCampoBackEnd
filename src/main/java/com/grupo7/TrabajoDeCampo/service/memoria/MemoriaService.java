@@ -1,13 +1,11 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.*;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.memoria.*;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.memoria.*;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.memoria.*;
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
-import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaDocumento;
-import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaDocumentoRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.MemoriaEquipoRepository;
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
-
-import static com.grupo7.TrabajoDeCampo.model.persona.TipoPersona.*;
 
 @Service
 public class MemoriaService {
@@ -40,6 +36,8 @@ public class MemoriaService {
 
     }
 
+
+    //ADMINISTRADOR
 
     private MemoriaPersonaResponseAdministrador mapPersonaAdmin(
             Persona p, Grupo grupo) {
@@ -118,6 +116,7 @@ public class MemoriaService {
 
 
 
+    //INTEGRANTE
 
 
     private MemoriaPersonaResponseIntegrante mapPersonaIntegrante(Persona p) {
@@ -188,11 +187,7 @@ public class MemoriaService {
 
 
 
-
-
-
-
-    public Memoria crearMemoria(Long oidGrupo, Integer anio) {
+    public Memoria crearMemoriaAdmin(Long oidGrupo, Integer anio) {
         Grupo grupo = grupoRepository.findById(oidGrupo)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
 
@@ -210,7 +205,7 @@ public class MemoriaService {
         return memoriaRepository.save(memoria);
     }
 
-    public List<MemoriaResponseAdministrador> listarTodasLasMemorias() {
+    public List<MemoriaResponseAdministrador> listarTodasLasMemoriasAdmin() {
 
         return memoriaRepository.findAll()
                 .stream()
@@ -225,7 +220,7 @@ public class MemoriaService {
     }
 
 
-    public List<MemoriaResponseAdministrador> listarPorGrupo(Long oidGrupo) {
+    public List<MemoriaResponseAdministrador> listarMemoriasPorGrupoAdmin(Long oidGrupo) {
 
         Grupo grupo = grupoRepository.findById(oidGrupo)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
@@ -243,7 +238,7 @@ public class MemoriaService {
     }
 
 
-    public MemoriaDetalleResponseAdministrador obtenerMemoriaCompleta(Long oidMemoria) {
+    public MemoriaDetalleResponseAdministrador obtenerMemoriaCompletaAdmin(Long oidMemoria) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -301,7 +296,7 @@ public class MemoriaService {
     ;
 
 
-    public List<MemoriaResponseIntegrante> listarMemoriasDelGrupo(Long oidGrupo) {
+    public List<MemoriaResponseIntegrante> listarMemoriasDelGrupoIntegrante(Long oidGrupo) {
 
         return memoriaRepository
                 .findByGrupoOidGrupo(oidGrupo)
@@ -366,11 +361,6 @@ public class MemoriaService {
                 equipos,
                 personas
         );
-
-
-
-
-
 
 
     }

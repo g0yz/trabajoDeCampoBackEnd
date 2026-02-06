@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaEquipoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.memoria.MemoriaEquipoResponseAdministrador;
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
@@ -27,8 +27,9 @@ public class MemoriaEquipoService {
         this.equipoRepository = equipoRepository;
     }
 
+    //ADMINISRADOR
     // agregar equipo a memoria
-    public MemoriaEquipo agregarEquipo(Long oidMemoria, Long oidEquipo) {
+    public MemoriaEquipo agregarEquipoAMemoriaAdmin(Long oidMemoria, Long oidEquipo) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -46,7 +47,7 @@ public class MemoriaEquipoService {
     }
 
 
-    public List<MemoriaEquipoResponseAdministrador> listarPorMemoria(Long oidMemoria) {
+    public List<MemoriaEquipoResponseAdministrador> listarEquipoPorMemoriaAdmin(Long oidMemoria) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -64,11 +65,8 @@ public class MemoriaEquipoService {
                 .toList();
     }
 
-
-
-
     // quitar equipo de una memoria
-    public void quitarEquipo(Long oidMemoria, Long oidEquipo) {
+    public void quitarEquipoAMemoriaAdmin(Long oidMemoria, Long oidEquipo) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -83,4 +81,8 @@ public class MemoriaEquipoService {
 
         memoriaEquipoRepository.delete(memoriaEquipo);
     }
+
+    //DIRECTOR
+
+
 }

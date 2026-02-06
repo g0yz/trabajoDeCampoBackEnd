@@ -27,8 +27,11 @@ public class MemoriaPersonaService {
         this.personaRepository = personaRepository;
     }
 
+
+
+    //ADMINISTRADOR
     // agregar persona a memoria
-    public MemoriaPersona agregarPersona(
+    public MemoriaPersona agregarPersonaAMemoriaAdmin(
             Long oidMemoria,
             Long oidPersona,
             TipoPersona tipoPersona,
@@ -56,7 +59,7 @@ public class MemoriaPersonaService {
     }
 
     // listar personas de una memoria
-    public List<MemoriaPersona> listarPorMemoria(Long oidMemoria) {
+    public List<MemoriaPersona> listarPersonaPorMemoriaAdmin(Long oidMemoria) {
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
 
@@ -65,7 +68,7 @@ public class MemoriaPersonaService {
 
 
     // quitar persona de una memoria
-    public void quitarPersona(Long oidMemoria, Long oidPersona) {
+    public void quitarPersonaAMemoriaAdmin(Long oidMemoria, Long oidPersona) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -80,4 +83,9 @@ public class MemoriaPersonaService {
 
         memoriaPersonaRepository.delete(mp);
     }
+
+
+    //VICEDIRECTOR
+
+
 }

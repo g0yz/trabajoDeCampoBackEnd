@@ -1,9 +1,9 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.PersonalResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.PersonalResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.tipoPersona.PersonalResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.PersonalResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Personal;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Personal;
 import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.PersonalRepository;
 import org.springframework.stereotype.Service;
 

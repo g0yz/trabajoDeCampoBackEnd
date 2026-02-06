@@ -2,7 +2,7 @@ package com.grupo7.TrabajoDeCampo.model.persona;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.*;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.*;
 import jakarta.persistence.*;
 
 @Entity

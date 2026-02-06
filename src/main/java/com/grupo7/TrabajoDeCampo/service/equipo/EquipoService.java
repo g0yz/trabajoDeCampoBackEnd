@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.equipo;
 
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.equipo.EquipoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.equipo.EquipoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.equipo.EquipoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.equipo.EquipoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.repository.equipo.EquipoRepository;
@@ -23,7 +23,10 @@ public class EquipoService {
         this.grupoRepository = grupoRepository;
     }
 
-    public List<EquipoResponseAdministrador> listarEquipos() {
+
+    //ADMINISTRADOR
+
+    public List<EquipoResponseAdministrador> listarEquiposAdmin() {
 
         return equipoRepository.findAll()
                 .stream()
@@ -40,21 +43,19 @@ public class EquipoService {
                 .toList();
     }
 
-    //MODIFICAR CON EQUIPORESPONSEADMINISTRADOR
-    public Optional<Equipo> obtenerEquipoPorId(Long oid){
+    public Optional<Equipo> obtenerEquipoPorIdAdmin(Long oid){
         return equipoRepository.findById(oid);
     }
 
     //MODIFICAR CON EQUIPOR ESPONSE ADMINISTRADOR
-    public Equipo crearEquipo(Equipo equipo, Long oid){
+    public Equipo crearEquipoAdmin(Equipo equipo, Long oid){
         Grupo grupo = grupoRepository.findById(oid)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado con oid: " + oid));
         equipo.setGrupo(grupo);
         return equipoRepository.save(equipo);
     }
 
-    //MODIFICAR CON EQUIPORESPONSEADMINISTRADOR
-    public Equipo actualizarEquipo(Long oid, Equipo equipoActualizado){
+    public Equipo actualizarEquipoAdmin(Long oid, Equipo equipoActualizado){
         Equipo equipo = equipoRepository.findById(oid)
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado con oid: " + oid));
 
@@ -80,10 +81,12 @@ public class EquipoService {
         return equipoRepository.save(equipo);
     }
 
-    public void eliminarEquipo(Long oid){
+    public void eliminarEquipoAdmin(Long oid){
         equipoRepository.deleteById(oid);
     }
 
+
+    //INTEGRANTE
 
     public List<EquipoResponseIntegrante> listarEquiposDelGrupoIntegrante(Long oidGrupo) {
 
@@ -120,6 +123,8 @@ public class EquipoService {
                 equipo.getActivo()
         );
     }
+
+    //DIRECTOR
 
 
 

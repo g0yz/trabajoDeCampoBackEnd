@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.tipoPersona.InvestigadorResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.InvestigadorResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Investigador;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.tipoPersona.InvestigadorResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.InvestigadorResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Investigador;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
 import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.InvestigadorRepository;

@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.memoria.MemoriaDocumentoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.memoria.MemoriaDocumentoResponseAdministrador;
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaDocumento;
@@ -27,8 +27,10 @@ public class MemoriaDocumentoService {
         this.documentoRepository = documentoRepository;
     }
 
+
+    //ADMINISTRADOR
     // agregar documento a memoria
-    public MemoriaDocumento agregarDocumento(Long oidMemoria, Long oidDocumento) {
+    public MemoriaDocumento agregarDocumentoMemoriaAdmin(Long oidMemoria, Long oidDocumento) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -46,7 +48,7 @@ public class MemoriaDocumentoService {
     }
 
     // listar documentos de una memoria
-    public List<MemoriaDocumentoResponseAdministrador> listarPorMemoria(Long oidMemoria) {
+    public List<MemoriaDocumentoResponseAdministrador> listarDocumentosPorMemoriaAdmin(Long oidMemoria) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -64,10 +66,8 @@ public class MemoriaDocumentoService {
                 .toList();
     }
 
-
-
     // quitar documento de una memoria
-    public void quitarDocumento(Long oidMemoria, Long oidDocumento) {
+    public void quitarDocumentoMemoriaAdmin(Long oidMemoria, Long oidDocumento) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -82,4 +82,9 @@ public class MemoriaDocumentoService {
 
         memoriaDocumentoRepository.delete(md);
     }
+
+
+
+
+
 }

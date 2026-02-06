@@ -1,27 +1,25 @@
 package com.grupo7.TrabajoDeCampo.controller;
 
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.documento.DocumentoResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.equipo.EquipoResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.grupo.GrupoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.memoria.MemoriaDetalleResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.memoria.MemoriaResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.BecarioResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.IntegranteConsejoEducativoResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.InvestigadorResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.DTO.DtoIntegrante.persona.PersonalResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.documento.DocumentoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.equipo.EquipoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.grupo.GrupoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.memoria.MemoriaDetalleResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.memoria.MemoriaResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.BecarioResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.IntegranteConsejoEducativoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.InvestigadorResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.PersonalResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
 import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaService;
-import com.grupo7.TrabajoDeCampo.service.persona.PersonaService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.BecarioService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.IntegranteConsejoEducativoService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -60,11 +58,11 @@ public class IntegranteController {
     private MemoriaService memoriaService;
 
 
-    //-----------------------------------GRUPOS-----------------------------------
+    //-----------------------------------GRUPO-----------------------------------
     //visualizar grupo del integrante
     @GetMapping("/grupo/ver")
-    public GrupoResponseAdministrador verGrupo(Authentication auth) { Usuario usuario = (Usuario) auth.getPrincipal();
-        return grupoService.obtenerGrupoDelUsuario(usuario);
+    public GrupoResponseIntegrante verGrupo(Authentication auth) { Usuario usuario = (Usuario) auth.getPrincipal();
+        return grupoService.obtenerGrupoDelIntegrante(usuario);
     }
 
     //-----------------------------------DOCUMENTOS-----------------------------------
@@ -75,14 +73,14 @@ public class IntegranteController {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
-        return documentoService.listarDocumentosPorGrupo(oidGrupo);
+        return documentoService.listarDocumentosDelGrupoIntegrante(oidGrupo);
     }
 
     //obtener un documento en especifico del grupo
     @GetMapping("/documentos/visualizarDocumento/{oidDocumento}")
     public DocumentoResponseIntegrante obtenerDocumento(@PathVariable Long oidDocumento, Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
-        return documentoService.obtenerDocumentoDelGrupo(oidDocumento, usuario);
+        return documentoService.obtenerDocumentoDelGrupoIntegrante(oidDocumento, usuario);
     }
 
     //-----------------------------------EQUIPOS-----------------------------------
@@ -190,7 +188,7 @@ public class IntegranteController {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
-        return memoriaService.listarMemoriasDelGrupo(oidGrupo);
+        return memoriaService.listarMemoriasDelGrupoIntegrante(oidGrupo);
     }
 
     //obtener una memoria en especifico

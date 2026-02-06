@@ -1,6 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.grupo;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.grupo.GrupoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoDirector.grupo.GrupoRequestDirector;
+import com.grupo7.TrabajoDeCampo.dto.dtoDirector.grupo.GrupoResponseDirector;
+import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.grupo.GrupoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
@@ -18,19 +20,23 @@ public class GrupoService {
         this.grupoRepository = grupoRepository;
     }
 
-    public List<Grupo> listarGrupos() {
+
+
+    //ADMINISTRADOR
+
+    public List<Grupo> listarGruposAdmin() {
         return grupoRepository.findAll();
     }
 
-    public Optional<Grupo> obtenerGrupoPorId(Long id) {
+    public Optional<Grupo> obtenerGrupoPorIdAdmin(Long id) {
         return grupoRepository.findById(id);
     }
 
-    public Grupo crearGrupo(Grupo grupo) {
+    public Grupo crearGrupoAdmin(Grupo grupo) {
         return grupoRepository.save(grupo);
     }
 
-    public Grupo actualizarGrupo(Long id, Grupo grupoActualizado) {
+    public Grupo actualizarGrupoAdmin(Long id, Grupo grupoActualizado) {
         return grupoRepository.findById(id)
                 .map(grupo -> {
                     if (grupoActualizado.getFacultadRegional() != null)
@@ -50,12 +56,16 @@ public class GrupoService {
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado con id: " + id));
     }
 
-    public void eliminarGrupo(Long id) {
+    public void eliminarGrupoAdmin(Long id) {
         grupoRepository.deleteById(id);
     }
 
 
-    public GrupoResponseAdministrador obtenerGrupoDelUsuario(Usuario usuario) {
+
+    //INTEGRANTE
+
+
+    public GrupoResponseIntegrante obtenerGrupoDelIntegrante(Usuario usuario) {
 
         if (usuario.getPersona() == null) {
             throw new RuntimeException("El usuario no tiene persona asociada");
@@ -67,8 +77,52 @@ public class GrupoService {
 
         Grupo grupo = usuario.getPersona().getGrupo();
 
-        return new GrupoResponseAdministrador(grupo);
+        return new GrupoResponseIntegrante(grupo);
     }
+
+
+    //DIRECTOR
+
+    public Grupo obtenerGrupoDelDirector(Usuario usuario) {
+
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("La persona no pertenece a ningún grupo");
+        }
+
+        return usuario.getPersona().getGrupo();
+    }
+
+
+    public GrupoResponseDirector editarGrupoDirector(
+            Usuario usuario,
+            GrupoRequestDirector request
+    ) {
+        Grupo grupo = obtenerGrupoDelDirector(usuario);
+
+        grupo.setFacultadRegional(request.getFacultadRegional());
+        grupo.setNombreGrupo(request.getNombreGrupo());
+        grupo.setSigla(request.getSigla());
+        grupo.setEmail(request.getEmail());
+        grupo.setOrganigrama(request.getOrganigrama());
+        grupo.setObjetivoYDesarollo(request.getObjetivoYDesarollo());
+
+        grupoRepository.save(grupo);
+
+        return new GrupoResponseDirector(grupo);
+    }
+
+
+    public Grupo obtenerGrupoDelViceDirector(Usuario usuario) {
+
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("La persona no pertenece a ningún grupo");
+        }
+
+        return usuario.getPersona().getGrupo();
+    }
+
+
+
 
 
 

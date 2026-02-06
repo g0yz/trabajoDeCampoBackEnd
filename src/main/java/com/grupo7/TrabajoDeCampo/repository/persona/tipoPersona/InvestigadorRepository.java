@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Investigador;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Investigador;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 

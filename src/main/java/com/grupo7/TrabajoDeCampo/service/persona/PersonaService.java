@@ -1,17 +1,17 @@
 package com.grupo7.TrabajoDeCampo.service.persona;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaRequestAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.persona.PersonaRequestAdministrador;
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.persona.PersonaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.persona.PersonaResponseAdministrador;
 
 
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.model.persona.TipoPersona;
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Becario;
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.IntegranteConsejoEducativo;
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Investigador;
-import com.grupo7.TrabajoDeCampo.model.persona.tipoPersonaPackage.Personal;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Becario;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.IntegranteConsejoEducativo;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Investigador;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Personal;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
 

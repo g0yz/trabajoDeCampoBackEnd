@@ -1,7 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.usuario;
 
 
-import com.grupo7.TrabajoDeCampo.DTO.DtoAdministrador.usuario.CrearUsuarioRequestAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.usuario.CrearUsuarioRequestAdministrador;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;

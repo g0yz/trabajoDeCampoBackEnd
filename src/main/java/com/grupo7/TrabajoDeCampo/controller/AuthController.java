@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.controller;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAuth.UsuarioRegisterRequest;
-import com.grupo7.TrabajoDeCampo.DTO.DtoAuth.UsuarioLoginRequest;
+import com.grupo7.TrabajoDeCampo.dto.dtoAuth.UsuarioRegisterRequest;
+import com.grupo7.TrabajoDeCampo.dto.dtoAuth.UsuarioLoginRequest;
 import com.grupo7.TrabajoDeCampo.handler.JwtService;
 import com.grupo7.TrabajoDeCampo.handler.Role;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
