@@ -11,6 +11,8 @@ import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.IntegranteConsejoEduc
 import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.InvestigadorResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.PersonalResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
+import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExportIntegrante;
+
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
@@ -20,6 +22,9 @@ import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.IntegranteConsejoEd
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +61,9 @@ public class IntegranteController {
 
     @Autowired
     private MemoriaService memoriaService;
+
+    @Autowired
+    private MemoriaExcelExportIntegrante memoriaExcelExportIntegrante;
 
 
     //-----------------------------------GRUPO-----------------------------------
@@ -197,6 +205,36 @@ public class IntegranteController {
             return memoriaService.obtenerMemoriaIntegrante(oidMemoria);
         }
 
+
+    //exportar memoria en excel
+    //GetMapping("/memorias/{oidMemoria}/exportar/excel")
+    @GetMapping("/memorias/{oidMemoria}/export/excel")
+    public ResponseEntity<byte[]> exportarMemoriaExcel(
+            @PathVariable Long oidMemoria,
+            Authentication auth) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        var memoria = memoriaService.obtenerMemoriaIntegrante(oidMemoria);
+        var grupo = grupoService.obtenerGrupoDelIntegrante(usuario);
+
+        byte[] excel = memoriaExcelExportIntegrante.exportarMemoriaCompleta(
+                grupo,
+                memoria.getPersonas(),
+                memoria.getDocumentos(),
+                memoria.getEquipos()
+        );
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=memoria_" + oidMemoria + ".xlsx")
+                .contentType(
+                        MediaType.parseMediaType(
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        )
+                )
+                .body(excel);
+    }
 
 }
 
