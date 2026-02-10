@@ -2,9 +2,12 @@ package com.grupo7.TrabajoDeCampo.service.equipo;
 
 
 import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.equipo.EquipoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoDirector.equipo.EquipoRequestDirector;
+import com.grupo7.TrabajoDeCampo.dto.dtoDirector.equipo.EquipoResponseDirector;
 import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.equipo.EquipoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.equipo.EquipoRepository;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
 import org.springframework.stereotype.Service;
@@ -126,7 +129,81 @@ public class EquipoService {
 
     //DIRECTOR
 
+    public List<EquipoResponseDirector> listarEquiposDirector(Usuario usuario) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return equipoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
+                .stream()
+                .map(e -> new EquipoResponseDirector(
+                        e.getOidEquipo(), e.getDenominacion(), e.getFechaIncorporacion(),
+                        e.getMontoInvertido(), e.getDescripcion(), e.getActivo()
+                ))
+                .toList();
+    }
 
+    public EquipoResponseDirector obtenerEquipoDirector(Long oidEquipo, Usuario usuario) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        Equipo e = equipoRepository.findByOidEquipoAndGrupoOidGrupoAndActivoTrue(oidEquipo, oidGrupo)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado en el grupo del director"));
+        return new EquipoResponseDirector(
+                e.getOidEquipo(), e.getDenominacion(), e.getFechaIncorporacion(),
+                e.getMontoInvertido(), e.getDescripcion(), e.getActivo()
+        );
+    }
 
+    public EquipoResponseDirector agregarEquipoDirector(Usuario usuario, EquipoRequestDirector request) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Grupo grupo = usuario.getPersona().getGrupo();
+        Equipo equipo = new Equipo();
+        equipo.setDenominacion(request.getDenominacion());
+        equipo.setFechaIncorporacion(request.getFechaIncorporacion());
+        equipo.setMontoInvertido(request.getMontoInvertido());
+        equipo.setDescripcion(request.getDescripcion());
+        equipo.setActivo(true);
+        equipo.setGrupo(grupo);
+        equipo = equipoRepository.save(equipo);
+        return new EquipoResponseDirector(
+                equipo.getOidEquipo(), equipo.getDenominacion(), equipo.getFechaIncorporacion(),
+                equipo.getMontoInvertido(), equipo.getDescripcion(), equipo.getActivo()
+        );
+    }
+
+    public EquipoResponseDirector editarEquipoDirector(Usuario usuario, Long oidEquipo, EquipoRequestDirector request) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        Equipo equipo = equipoRepository.findByOidEquipoAndGrupoOidGrupoAndActivoTrue(oidEquipo, oidGrupo)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado en el grupo del director"));
+
+        if (request.getDenominacion() != null) equipo.setDenominacion(request.getDenominacion());
+        if (request.getFechaIncorporacion() != null) equipo.setFechaIncorporacion(request.getFechaIncorporacion());
+        if (request.getMontoInvertido() != null) equipo.setMontoInvertido(request.getMontoInvertido());
+        if (request.getDescripcion() != null) equipo.setDescripcion(request.getDescripcion());
+
+        equipo = equipoRepository.save(equipo);
+        return new EquipoResponseDirector(
+                equipo.getOidEquipo(), equipo.getDenominacion(), equipo.getFechaIncorporacion(),
+                equipo.getMontoInvertido(), equipo.getDescripcion(), equipo.getActivo()
+        );
+    }
+
+    public void eliminarEquipoDirector(Usuario usuario, Long oidEquipo) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        Equipo equipo = equipoRepository.findByOidEquipoAndGrupoOidGrupoAndActivoTrue(oidEquipo, oidGrupo)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado en el grupo del director"));
+        equipo.setActivo(false);
+        equipoRepository.save(equipo);
+    }
 }
 

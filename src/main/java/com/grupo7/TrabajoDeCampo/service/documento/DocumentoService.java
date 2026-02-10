@@ -1,6 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.documento;
 
 import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.documento.DocumentoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.dtoDirector.documento.DocumentoRequestDirector;
+import com.grupo7.TrabajoDeCampo.dto.dtoDirector.documento.DocumentoResponseDirector;
 import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.documento.DocumentoResponseIntegrante;
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
@@ -129,13 +131,80 @@ public class DocumentoService {
 
     //DIRECTOR
 
+    public List<DocumentoResponseDirector> listarDocumentosDirector(Usuario usuario) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return documentoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
+                .stream()
+                .map(d -> new DocumentoResponseDirector(
+                        d.getOidDocumento(), d.getTitulo(), d.getAutores(), d.getEditorial(), d.getAnio(), d.getActivo()
+                ))
+                .toList();
+    }
 
+    public DocumentoResponseDirector obtenerDocumentoDirector(Long oidDocumento, Usuario usuario) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        Documento d = documentoRepository.findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(oidDocumento, oidGrupo)
+                .orElseThrow(() -> new RuntimeException("Documento no encontrado en el grupo del director"));
+        return new DocumentoResponseDirector(
+                d.getOidDocumento(), d.getTitulo(), d.getAutores(), d.getEditorial(), d.getAnio(), d.getActivo()
+        );
+    }
 
+    public DocumentoResponseDirector agregarDocumentoDirector(Usuario usuario, DocumentoRequestDirector request) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Grupo grupo = usuario.getPersona().getGrupo();
+        Documento documento = new Documento();
+        documento.setTitulo(request.getTitulo());
+        documento.setAutores(request.getAutores());
+        documento.setEditorial(request.getEditorial());
+        documento.setAnio(request.getAnio());
+        documento.setActivo(true);
+        documento.setGrupo(grupo);
+        documento = documentoRepository.save(documento);
+        return new DocumentoResponseDirector(
+                documento.getOidDocumento(), documento.getTitulo(), documento.getAutores(),
+                documento.getEditorial(), documento.getAnio(), documento.getActivo()
+        );
+    }
 
+    public DocumentoResponseDirector editarDocumentoDirector(Usuario usuario, Long oidDocumento, DocumentoRequestDirector request) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        Documento documento = documentoRepository.findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(oidDocumento, oidGrupo)
+                .orElseThrow(() -> new RuntimeException("Documento no encontrado en el grupo del director"));
 
+        if (request.getTitulo() != null) documento.setTitulo(request.getTitulo());
+        if (request.getAutores() != null) documento.setAutores(request.getAutores());
+        if (request.getEditorial() != null) documento.setEditorial(request.getEditorial());
+        if (request.getAnio() != null) documento.setAnio(request.getAnio());
 
+        documento = documentoRepository.save(documento);
+        return new DocumentoResponseDirector(
+                documento.getOidDocumento(), documento.getTitulo(), documento.getAutores(),
+                documento.getEditorial(), documento.getAnio(), documento.getActivo()
+        );
+    }
 
-
+    public void eliminarDocumentoDirector(Usuario usuario, Long oidDocumento) {
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        Documento documento = documentoRepository.findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(oidDocumento, oidGrupo)
+                .orElseThrow(() -> new RuntimeException("Documento no encontrado en el grupo del director"));
+        documento.setActivo(false);
+        documentoRepository.save(documento);
+    }
 }
 
 
