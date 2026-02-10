@@ -305,8 +305,14 @@ public class AdministradorController {
 
     // agregar equipo a una memoria
     @PostMapping("/memorias/{oidMemoria}/agregarEquipo/{oidEquipo}")
-    public MemoriaEquipo agregarEquipoAMemoria(@PathVariable Long oidMemoria, @PathVariable Long oidEquipo) {
-        return memoriaEquipoService.agregarEquipoAMemoriaAdmin(oidMemoria, oidEquipo);
+    public MemoriaEquipo agregarEquipoAMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidEquipo) {
+
+        return memoriaEquipoService.agregarEquipoAMemoriaAdmin(
+                oidMemoria,
+                oidEquipo
+        );
     }
 
     // listar equipos de una memoria
