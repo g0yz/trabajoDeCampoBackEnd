@@ -1,7 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.tipoPersona.PersonalResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.PersonalResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.PersonalResponse;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Personal;
 import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.PersonalRepository;
@@ -19,14 +18,14 @@ public class PersonalService {
 
     }
 
-    public List<PersonalResponseAdministrador> listarPersonal() {
+    public List<PersonalResponse> listarPersonal() {
         return personalRepository.findAll()
                 .stream()
                 .map(this::mapearAResponse)
                 .toList();
     }
 
-    public PersonalResponseAdministrador obtenerPersonalPorId(Long oidPersonal) {
+    public PersonalResponse obtenerPersonalPorId(Long oidPersonal) {
 
         Personal personal = personalRepository.findById(oidPersonal)
                 .orElseThrow(() -> new RuntimeException("Personal no encontrado"));
@@ -34,8 +33,8 @@ public class PersonalService {
         return mapearAResponse(personal);
     }
 
-    private PersonalResponseAdministrador mapearAResponse(Personal p) {
-        return new PersonalResponseAdministrador(
+    private PersonalResponse mapearAResponse(Personal p) {
+        return new PersonalResponse(
                 p.getOidPersonal(),
                 p.getTipoPersonal(),
                 p.getActivo(),
@@ -74,12 +73,12 @@ public class PersonalService {
 
 
 
-    public List<PersonalResponseIntegrante> listarPersonalDelGrupo(Long oidGrupo) {
+    public List<PersonalResponse> listarPersonalDelGrupo(Long oidGrupo) {
 
         return personalRepository
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
-                .map(p -> new PersonalResponseIntegrante(
+                .map(p -> new PersonalResponse(
                         p.getOidPersonal(),
                         p.getTipoPersonal(),
                         p.getActivo(),
@@ -92,7 +91,7 @@ public class PersonalService {
 
 
 
-    public PersonalResponseIntegrante obtenerPersonalDelGrupo(
+    public PersonalResponse obtenerPersonalDelGrupo(
             Long oidGrupo,
             Long oidPersonal) {
 
@@ -102,7 +101,7 @@ public class PersonalService {
                 )
                 .orElseThrow(() -> new RuntimeException("Personal no encontrado"));
 
-        return new PersonalResponseIntegrante(
+        return new PersonalResponse(
                 personal.getOidPersonal(),
                 personal.getTipoPersonal(),
                 personal.getActivo(),

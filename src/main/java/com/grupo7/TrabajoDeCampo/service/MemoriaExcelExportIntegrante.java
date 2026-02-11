@@ -1,9 +1,9 @@
 package com.grupo7.TrabajoDeCampo.service;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.grupo.GrupoResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.memoria.MemoriaDocumentoResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.memoria.MemoriaEquipoResponseIntegrante;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.memoria.MemoriaPersonaResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDocumentoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaEquipoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaPersonaResponse;
 import com.grupo7.TrabajoDeCampo.model.persona.TipoPersona;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,10 +21,10 @@ public class MemoriaExcelExportIntegrante {
     // MÉTODO PRINCIPAL
     // =====================================================
     public byte[] exportarMemoriaCompleta(
-            GrupoResponseIntegrante grupo,
-            List<MemoriaPersonaResponseIntegrante> personas,
-            List<MemoriaDocumentoResponseIntegrante> documentos,
-            List<MemoriaEquipoResponseIntegrante> equipos) {
+            GrupoResponse grupo,
+            List<MemoriaPersonaResponse> personas,
+            List<MemoriaDocumentoResponse> documentos,
+            List<MemoriaEquipoResponse> equipos) {
 
         try (Workbook workbook = new XSSFWorkbook();
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -33,10 +33,10 @@ public class MemoriaExcelExportIntegrante {
             crearHojaGrupo(workbook, grupo);
 
             // PERSONAS AGRUPADAS
-            Map<TipoPersona, List<MemoriaPersonaResponseIntegrante>> agrupadas =
+            Map<TipoPersona, List<MemoriaPersonaResponse>> agrupadas =
                     personas.stream()
                             .collect(Collectors.groupingBy(
-                                    MemoriaPersonaResponseIntegrante::getTipoPersona
+                                    MemoriaPersonaResponse::getTipoPersona
                             ));
 
             crearHojaInvestigadores(workbook, agrupadas.get(TipoPersona.Investigador));
@@ -59,7 +59,7 @@ public class MemoriaExcelExportIntegrante {
     // =====================================================
     // GRUPO
     // =====================================================
-    private void crearHojaGrupo(Workbook wb, GrupoResponseIntegrante grupo) {
+    private void crearHojaGrupo(Workbook wb, GrupoResponse grupo) {
         Sheet sheet = wb.createSheet("Grupo");
         int row = 0;
 
@@ -85,7 +85,7 @@ public class MemoriaExcelExportIntegrante {
     // INVESTIGADORES
     // =====================================================
     private void crearHojaInvestigadores(
-            Workbook wb, List<MemoriaPersonaResponseIntegrante> lista) {
+            Workbook wb, List<MemoriaPersonaResponse> lista) {
 
         if (lista == null || lista.isEmpty()) return;
 
@@ -117,7 +117,7 @@ public class MemoriaExcelExportIntegrante {
     // BECARIOS
     // =====================================================
     private void crearHojaBecarios(
-            Workbook wb, List<MemoriaPersonaResponseIntegrante> lista) {
+            Workbook wb, List<MemoriaPersonaResponse> lista) {
 
         if (lista == null || lista.isEmpty()) return;
 
@@ -137,7 +137,7 @@ public class MemoriaExcelExportIntegrante {
             r.createCell(2).setCellValue(nullSafe(p.getHorasSemanales()));
             r.createCell(3).setCellValue(nullSafe(p.getFuenteFinanciamiento()));
             r.createCell(4).setCellValue(
-                    p.getTipoBecario() != null ? p.getTipoBecario().name() : ""
+                    p.getTipoBecario() != null ? p.getTipoBecario(): ""
             );
         }
 
@@ -148,7 +148,7 @@ public class MemoriaExcelExportIntegrante {
     // PERSONAL
     // =====================================================
     private void crearHojaPersonal(
-            Workbook wb, List<MemoriaPersonaResponseIntegrante> lista) {
+            Workbook wb, List<MemoriaPersonaResponse> lista) {
 
         if (lista == null || lista.isEmpty()) return;
 
@@ -166,7 +166,7 @@ public class MemoriaExcelExportIntegrante {
             r.createCell(1).setCellValue(p.getApellido());
             r.createCell(2).setCellValue(nullSafe(p.getHorasSemanales()));
             r.createCell(3).setCellValue(
-                    p.getTipoPersonal() != null ? p.getTipoPersonal().name() : ""
+                    p.getTipoPersonal() != null ? p.getTipoPersonal() : ""
             );
         }
 
@@ -177,7 +177,7 @@ public class MemoriaExcelExportIntegrante {
     // CONSEJO EDUCATIVO
     // =====================================================
     private void crearHojaConsejo(
-            Workbook wb, List<MemoriaPersonaResponseIntegrante> lista) {
+            Workbook wb, List<MemoriaPersonaResponse> lista) {
 
         if (lista == null || lista.isEmpty()) return;
 
@@ -204,7 +204,7 @@ public class MemoriaExcelExportIntegrante {
     // DOCUMENTOS
     // =====================================================
     private void crearHojaDocumentos(
-            Workbook wb, List<MemoriaDocumentoResponseIntegrante> docs) {
+            Workbook wb, List<MemoriaDocumentoResponse> docs) {
 
         if (docs == null || docs.isEmpty()) return;
 
@@ -229,7 +229,7 @@ public class MemoriaExcelExportIntegrante {
     // EQUIPOS
     // =====================================================
     private void crearHojaEquipos(
-            Workbook wb, List<MemoriaEquipoResponseIntegrante> equipos) {
+            Workbook wb, List<MemoriaEquipoResponse> equipos) {
 
         if (equipos == null || equipos.isEmpty()) return;
 

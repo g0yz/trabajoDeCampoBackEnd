@@ -1,18 +1,16 @@
 package com.grupo7.TrabajoDeCampo.repository.memoria;
 
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaPersonaResponse;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaPersona;
-import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface MemoriaPersonaRepository extends JpaRepository<MemoriaPersona, Long> {
+public interface MemoriaPersonaRepository
+        extends JpaRepository<MemoriaPersona, Long> {
 
-    // listar personas de una memoria
+    boolean existsByMemoriaAndOidPersona(Memoria memoria, Long oidPersona);
+
     List<MemoriaPersona> findByMemoria(Memoria memoria);
-
-    // buscar persona en una memoria (para evitar duplicados)
-    Optional<MemoriaPersona> findByMemoriaAndPersona(Memoria memoria, Persona persona);
 }

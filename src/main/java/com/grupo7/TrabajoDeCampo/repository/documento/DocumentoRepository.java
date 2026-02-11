@@ -1,5 +1,6 @@
 package com.grupo7.TrabajoDeCampo.repository.documento;
 
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,10 +15,10 @@ public interface DocumentoRepository extends JpaRepository <Documento,Long>{
     Optional<Documento> findByOidDocumentoAndGrupoOidGrupo(Long oidDocumento, Long oidGrupo);
 
     // listar documentos activos del grupo
-    List<Documento> findByGrupoOidGrupoAndActivoTrue(Long oidGrupo);
+    List<DocumentoResponse> findByGrupoOidGrupoAndActivoTrue(Long oidGrupo);
 
     // obtener un documento específico, del grupo y activo
-    Optional<Documento> findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(
+    Optional<DocumentoResponse> findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(
             Long oidDocumento,
             Long oidGrupo
     );

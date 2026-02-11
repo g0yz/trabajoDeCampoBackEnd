@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.memoria.MemoriaEquipoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaEquipoResponse;
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
@@ -37,7 +37,7 @@ public class MemoriaEquipoService {
         Equipo equipo = equipoRepository.findById(oidEquipo)
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
-        memoriaEquipoRepository.findByMemoriaAndEquipo(memoria, equipo)
+        memoriaEquipoRepository.findByMemoriaAndOidEquipo(memoria, oidEquipo)
                 .ifPresent(me -> {
                     throw new RuntimeException("El equipo ya está asociado a la memoria");
                 });
@@ -47,20 +47,19 @@ public class MemoriaEquipoService {
     }
 
 
-    public List<MemoriaEquipoResponseAdministrador> listarEquipoPorMemoriaAdmin(Long oidMemoria) {
+    public List<MemoriaEquipoResponse> listarEquipoPorMemoriaAdmin(Long oidMemoria) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
 
         return memoriaEquipoRepository.findByMemoria(memoria)
                 .stream()
-                .map(me -> new MemoriaEquipoResponseAdministrador(
-                        me.getEquipo().getOidEquipo(),
-                        me.getEquipo().getDenominacion(),
-                        me.getEquipo().getFechaIncorporacion(),
-                        me.getEquipo().getMontoInvertido(),
-                        me.getEquipo().getDescripcion(),
-                        me.getEquipo().getActivo()
+                .map(me -> new MemoriaEquipoResponse(
+                        me.getOidEquipo(),
+                        me.getDenominacion(),
+                        me.getFechaIncorporacion(),
+                        me.getMontoInvertido(),
+                        me.getDescripcion()
                 ))
                 .toList();
     }
@@ -75,7 +74,7 @@ public class MemoriaEquipoService {
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
         MemoriaEquipo memoriaEquipo = memoriaEquipoRepository
-                .findByMemoriaAndEquipo(memoria, equipo)
+                .findByMemoriaAndOidEquipo(memoria, oidEquipo)
                 .orElseThrow(() -> new RuntimeException(
                         "El equipo no está asociado a la memoria"));
 

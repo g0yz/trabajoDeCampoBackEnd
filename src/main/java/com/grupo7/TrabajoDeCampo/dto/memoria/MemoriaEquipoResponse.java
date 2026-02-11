@@ -1,0 +1,54 @@
+package com.grupo7.TrabajoDeCampo.dto.memoria;
+
+import java.sql.Timestamp;
+
+public class MemoriaEquipoResponse {
+
+    private Long oidEquipo;
+    private String denominacion;
+    private Timestamp fechaIncorporacion;
+    private Double montoInvertido;
+    private String descripcion;
+    private Boolean activo;
+
+    public MemoriaEquipoResponse(
+            Long oidEquipo,
+            String denominacion,
+            Timestamp fechaIncorporacion,
+            Double montoInvertido,
+            String descripcion) {
+
+        this.oidEquipo = oidEquipo;
+        this.denominacion = denominacion;
+        this.fechaIncorporacion = fechaIncorporacion;
+        this.montoInvertido = montoInvertido;
+        this.descripcion = descripcion;
+        this.activo = activo;
+    }
+
+
+
+    public Long getOidEquipo() {
+        return oidEquipo;
+    }
+
+    public String getDenominacion() {
+        return denominacion;
+    }
+
+    public Timestamp getFechaIncorporacion() {
+        return fechaIncorporacion;
+    }
+
+    public Double getMontoInvertido() {
+        return montoInvertido;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+}

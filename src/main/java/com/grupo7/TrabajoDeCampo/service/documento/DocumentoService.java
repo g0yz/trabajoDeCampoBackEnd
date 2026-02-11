@@ -1,7 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.documento;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.documento.DocumentoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.documento.DocumentoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
+
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
@@ -27,11 +27,11 @@ public class DocumentoService {
 
     //ADMINISTRADOR
 
-    public List<DocumentoResponseAdministrador> listarDocumentosAdmin() {
+    public List<DocumentoResponse> listarDocumentosAdmin() {
 
         return documentoRepository.findAll()
                 .stream()
-                .map(d -> new DocumentoResponseAdministrador(
+                .map(d -> new DocumentoResponse(
                         d.getOidDocumento(),
                         d.getTitulo(),
                         d.getAutores(),
@@ -83,11 +83,11 @@ public class DocumentoService {
 
     //INTEGRANTE
 
-    public List<DocumentoResponseIntegrante> listarDocumentosDelGrupoIntegrante(Long oidGrupo) {
+    public List<DocumentoResponse> listarDocumentosDelGrupoIntegrante(Long oidGrupo) {
 
         return documentoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
                 .stream()
-                .map(doc -> new DocumentoResponseIntegrante(
+                .map(doc -> new DocumentoResponse(
                         doc.getOidDocumento(),
                         doc.getTitulo(),
                         doc.getAutores(),
@@ -99,7 +99,7 @@ public class DocumentoService {
     }
 
 
-    public DocumentoResponseIntegrante obtenerDocumentoDelGrupoIntegrante(
+    public DocumentoResponse obtenerDocumentoDelGrupoIntegrante(
             Long oidDocumento,
             Usuario usuario
     ) {
@@ -110,13 +110,13 @@ public class DocumentoService {
 
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
-        Documento doc = documentoRepository
+        DocumentoResponse doc = documentoRepository
                 .findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(oidDocumento, oidGrupo)
                 .orElseThrow(() ->
                         new RuntimeException("Documento no encontrado o no pertenece a su grupo")
                 );
 
-        return new DocumentoResponseIntegrante(
+        return new DocumentoResponse(
                 doc.getOidDocumento(),
                 doc.getTitulo(),
                 doc.getAutores(),
@@ -125,11 +125,6 @@ public class DocumentoService {
                 doc.getActivo()
         );
     }
-
-
-    //DIRECTOR
-
-
 
 
 

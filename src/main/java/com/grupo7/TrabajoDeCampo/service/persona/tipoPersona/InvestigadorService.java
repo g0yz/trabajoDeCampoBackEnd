@@ -1,7 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.tipoPersona.InvestigadorResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.InvestigadorResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.InvestigadorResponse;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Investigador;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
@@ -21,10 +20,10 @@ public class InvestigadorService {
     }
 
 
-    public List<InvestigadorResponseAdministrador> listarInvestigadores() {
+    public List<InvestigadorResponse> listarInvestigadores() {
         return investigadorRepository.findAll()
                 .stream()
-                .map(i -> new InvestigadorResponseAdministrador(
+                .map(i -> new InvestigadorResponse(
                         i.getOidInvestigador(),
                         i.getCategoriaUTN(),
                         i.getProgramaDeIncentivos(),
@@ -44,12 +43,12 @@ public class InvestigadorService {
                 .toList();
     }
 
-    public InvestigadorResponseAdministrador obtenerInvestigadorPorId(Long oidInvestigador) {
+    public InvestigadorResponse obtenerInvestigadorPorId(Long oidInvestigador) {
 
         Investigador i = investigadorRepository.findById(oidInvestigador)
                 .orElseThrow(() -> new RuntimeException("Investigador no encontrado"));
 
-        return new InvestigadorResponseAdministrador(
+        return new InvestigadorResponse(
                 i.getOidInvestigador(),
                 i.getCategoriaUTN(),
                 i.getProgramaDeIncentivos(),
@@ -111,12 +110,12 @@ public class InvestigadorService {
     public void eliminarInvestigador(Long oid){ investigadorRepository.deleteById(oid);}
 
 
-    public List<InvestigadorResponseIntegrante> listarInvestigadoresDelGrupo(Long oidGrupo) {
+    public List<InvestigadorResponse> listarInvestigadoresDelGrupo(Long oidGrupo) {
 
         return investigadorRepository
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
-                .map(i -> new InvestigadorResponseIntegrante(
+                .map(i -> new InvestigadorResponse(
                         i.getOidInvestigador(),
                         i.getCategoriaUTN(),
                         i.getProgramaDeIncentivos(),
@@ -130,7 +129,7 @@ public class InvestigadorService {
                 .toList();
     }
 
-    public InvestigadorResponseIntegrante obtenerInvestigadorDelGrupo(
+    public InvestigadorResponse obtenerInvestigadorDelGrupo(
             Long oidGrupo,
             Long oidInvestigador) {
 
@@ -140,7 +139,7 @@ public class InvestigadorService {
                 )
                 .orElseThrow(() -> new RuntimeException("Investigador no encontrado"));
 
-        return new InvestigadorResponseIntegrante(
+        return new InvestigadorResponse(
                 investigador.getOidInvestigador(),
                 investigador.getCategoriaUTN(),
                 investigador.getProgramaDeIncentivos(),

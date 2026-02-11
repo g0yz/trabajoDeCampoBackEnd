@@ -1,7 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.tipoPersona.IntegranteConsejoEducativoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.IntegranteConsejoEducativoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.IntegranteConsejoEducativoResponse;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona.IntegranteConsejoEducativoRepository;
@@ -19,14 +18,14 @@ public class IntegranteConsejoEducativoService {
     }
 
 
-    public List<IntegranteConsejoEducativoResponseAdministrador> listarIntegrantesConsejoEducativo() {
+    public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativo() {
         return integranteConsejoEducativoRepository.findAll()
                 .stream()
                 .map(this::mapearAResponse)
                 .toList();
     }
 
-    public IntegranteConsejoEducativoResponseAdministrador obtenerIntegranteConsejoEducativoPorId(
+    public IntegranteConsejoEducativoResponse obtenerIntegranteConsejoEducativoPorId(
             Long oidIntegranteConsejoEducativo) {
 
         IntegranteConsejoEducativo integrante =
@@ -37,10 +36,10 @@ public class IntegranteConsejoEducativoService {
         return mapearAResponse(integrante);
     }
 
-    private IntegranteConsejoEducativoResponseAdministrador mapearAResponse(
+    private IntegranteConsejoEducativoResponse mapearAResponse(
             IntegranteConsejoEducativo i) {
 
-        return new IntegranteConsejoEducativoResponseAdministrador(
+        return new IntegranteConsejoEducativoResponse(
                 i.getOidIntegranteConsejoEducativo(),
                 i.getCargo(),
                 i.getActivo(),
@@ -74,13 +73,13 @@ public class IntegranteConsejoEducativoService {
 
     public void eliminarIntegranteConsejoEducativo (Long oid){ integranteConsejoEducativoRepository.deleteById(oid);}
 
-    public List<IntegranteConsejoEducativoResponseIntegrante>
+    public List<IntegranteConsejoEducativoResponse>
     listarIntegrantesConsejoEducativoDelGrupo(Long oidGrupo) {
 
         return integranteConsejoEducativoRepository
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
-                .map(i -> new IntegranteConsejoEducativoResponseIntegrante(
+                .map(i -> new IntegranteConsejoEducativoResponse(
                         i.getOidIntegranteConsejoEducativo(),
                         i.getCargo(),
                         i.getActivo(),
@@ -92,7 +91,7 @@ public class IntegranteConsejoEducativoService {
     }
 
 
-    public IntegranteConsejoEducativoResponseIntegrante obtenerIntegranteConsejoEducativoDelGrupo(
+    public IntegranteConsejoEducativoResponse obtenerIntegranteConsejoEducativoDelGrupo(
             Long oidGrupo,
             Long oidIntegranteConsejoEducativo) {
 
@@ -103,7 +102,7 @@ public class IntegranteConsejoEducativoService {
                         )
                         .orElseThrow(() -> new RuntimeException("Integrante no encontrado"));
 
-        return new IntegranteConsejoEducativoResponseIntegrante(
+        return new IntegranteConsejoEducativoResponse(
                 integrante.getOidIntegranteConsejoEducativo(),
                 integrante.getCargo(),
                 integrante.getActivo(),

@@ -3,7 +3,6 @@ package com.grupo7.TrabajoDeCampo.model.memoria;
 
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "MemoriaDocumento")
 public class MemoriaDocumento {
@@ -16,16 +15,38 @@ public class MemoriaDocumento {
     @JoinColumn(name = "oidMemoria", nullable = false)
     private Memoria memoria;
 
-    @ManyToOne
-    @JoinColumn(name = "oidDocumento", nullable = false)
-    private Documento documento;
+    // ===== DATOS COPIADOS DEL DOCUMENTO =====
 
-    public MemoriaDocumento(){}
+    @Column(nullable = false)
+    private Long oidDocumento;
+
+    @Column(nullable = false)
+    private String titulo;
+
+    @Column
+    private String autores;
+
+    @Column
+    private String editorial;
+
+    @Column
+    private Integer anio;
+
+
+    // ===== CONSTRUCTORES =====
+
+    public MemoriaDocumento() {}
 
     public MemoriaDocumento(Memoria memoria, Documento documento) {
         this.memoria = memoria;
-        this.documento = documento;
+        this.oidDocumento = documento.getOidDocumento();
+        this.titulo = documento.getTitulo();
+        this.autores = documento.getAutores();
+        this.editorial = documento.getEditorial();
+        this.anio = documento.getAnio();
     }
+
+    // ===== GETTERS =====
 
     public Long getOidMemoriaDocumento() {
         return oidMemoriaDocumento;
@@ -35,15 +56,24 @@ public class MemoriaDocumento {
         return memoria;
     }
 
-    public void setMemoria(Memoria memoria) {
-        this.memoria = memoria;
+    public Long getOidDocumento() {
+        return oidDocumento;
     }
 
-    public Documento getDocumento() {
-        return documento;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setDocumento(Documento documento) {
-        this.documento = documento;
+    public String getAutores() {
+        return autores;
     }
+
+    public String getEditorial() {
+        return editorial;
+    }
+
+    public Integer getAnio() {
+        return anio;
+    }
+
 }

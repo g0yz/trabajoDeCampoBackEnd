@@ -1,7 +1,7 @@
 package com.grupo7.TrabajoDeCampo.service.usuario;
 
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.usuario.CrearUsuarioRequestAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.usuario.CrearUsuarioRequest;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
@@ -23,7 +23,7 @@ public class UsuarioService {
 
     }
 
-    public Usuario crearUsuarioParaPersona(CrearUsuarioRequestAdministrador dto) {
+    public Usuario crearUsuarioParaPersona(CrearUsuarioRequest dto) {
 
         Persona persona = personaRepository.findById(dto.getOidPersona())
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));

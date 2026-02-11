@@ -1,8 +1,9 @@
 package com.grupo7.TrabajoDeCampo.controller;
 
 
-import com.grupo7.TrabajoDeCampo.dto.dtoDirector.grupo.GrupoRequestDirector;
-import com.grupo7.TrabajoDeCampo.dto.dtoDirector.grupo.GrupoResponseDirector;
+
+import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoRequest;
+import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
@@ -59,6 +60,9 @@ public class DirectorController {
     private UsuarioService usuarioService;
 
 
+    
+
+
 
 
     //-----------------------------------GRUPO-----------------------------------
@@ -70,7 +74,7 @@ public class DirectorController {
 
     //editar informacion del grupo
     @PutMapping("/grupo/editar")
-    public GrupoResponseDirector editarGrupo(Authentication auth, @RequestBody GrupoRequestDirector request) {
+    public GrupoResponse editarGrupo(Authentication auth, @RequestBody GrupoRequest request) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         return grupoService.editarGrupoDirector(usuario, request);
     }

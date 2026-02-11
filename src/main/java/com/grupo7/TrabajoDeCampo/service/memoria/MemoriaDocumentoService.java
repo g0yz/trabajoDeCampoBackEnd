@@ -1,6 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.memoria;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.memoria.MemoriaDocumentoResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDocumentoResponse;
 import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaDocumento;
@@ -30,7 +30,7 @@ public class MemoriaDocumentoService {
 
     //ADMINISTRADOR
     // agregar documento a memoria
-    public MemoriaDocumento agregarDocumentoMemoriaAdmin(Long oidMemoria, Long oidDocumento) {
+    public void agregarDocumentoMemoriaAdmin(Long oidMemoria, Long oidDocumento) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
@@ -38,45 +38,43 @@ public class MemoriaDocumentoService {
         Documento documento = documentoRepository.findById(oidDocumento)
                 .orElseThrow(() -> new RuntimeException("Documento no encontrado"));
 
-        memoriaDocumentoRepository.findByMemoriaAndDocumento(memoria, documento)
-                .ifPresent(md -> {
-                    throw new RuntimeException("El documento ya está asociado a la memoria");
-                });
+        if (memoriaDocumentoRepository
+                .findByMemoriaAndOidDocumento(memoria, oidDocumento)
+                .isPresent()) {
+
+            throw new RuntimeException("El documento ya está en la memoria");
+        }
 
         MemoriaDocumento md = new MemoriaDocumento(memoria, documento);
-        return memoriaDocumentoRepository.save(md);
+        memoriaDocumentoRepository.save(md);
     }
 
+
     // listar documentos de una memoria
-    public List<MemoriaDocumentoResponseAdministrador> listarDocumentosPorMemoriaAdmin(Long oidMemoria) {
+    public List<MemoriaDocumentoResponse> listarDocumentosPorMemoriaAdmin(Long oidMemoria) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
 
         return memoriaDocumentoRepository.findByMemoria(memoria)
                 .stream()
-                .map(md -> new MemoriaDocumentoResponseAdministrador(
-                        md.getDocumento().getOidDocumento(),
-                        md.getDocumento().getTitulo(),
-                        md.getDocumento().getAutores(),
-                        md.getDocumento().getEditorial(),
-                        md.getDocumento().getAnio(),
-                        md.getDocumento().getActivo()
+                .map(md -> new MemoriaDocumentoResponse(
+                        md.getOidDocumento(),
+                        md.getTitulo(),
+                        md.getAutores(),
+                        md.getEditorial(),
+                        md.getAnio()
                 ))
                 .toList();
     }
 
-    // quitar documento de una memoria
     public void quitarDocumentoMemoriaAdmin(Long oidMemoria, Long oidDocumento) {
 
         Memoria memoria = memoriaRepository.findById(oidMemoria)
                 .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
 
-        Documento documento = documentoRepository.findById(oidDocumento)
-                .orElseThrow(() -> new RuntimeException("Documento no encontrado"));
-
         MemoriaDocumento md = memoriaDocumentoRepository
-                .findByMemoriaAndDocumento(memoria, documento)
+                .findByMemoriaAndOidDocumento(memoria, oidDocumento)
                 .orElseThrow(() ->
                         new RuntimeException("El documento no está asociado a la memoria"));
 

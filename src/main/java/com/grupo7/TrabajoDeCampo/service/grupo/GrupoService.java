@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.grupo;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoDirector.grupo.GrupoRequestDirector;
-import com.grupo7.TrabajoDeCampo.dto.dtoDirector.grupo.GrupoResponseDirector;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.grupo.GrupoResponseIntegrante;
+
+import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoRequest;
+import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
@@ -65,7 +65,7 @@ public class GrupoService {
     //INTEGRANTE
 
 
-    public GrupoResponseIntegrante obtenerGrupoDelIntegrante(Usuario usuario) {
+    public GrupoResponse obtenerGrupoDelIntegrante(Usuario usuario) {
 
         if (usuario.getPersona() == null) {
             throw new RuntimeException("El usuario no tiene persona asociada");
@@ -77,7 +77,7 @@ public class GrupoService {
 
         Grupo grupo = usuario.getPersona().getGrupo();
 
-        return new GrupoResponseIntegrante(grupo);
+        return new GrupoResponse(grupo);
     }
 
 
@@ -93,9 +93,9 @@ public class GrupoService {
     }
 
 
-    public GrupoResponseDirector editarGrupoDirector(
+    public GrupoResponse editarGrupoDirector(
             Usuario usuario,
-            GrupoRequestDirector request
+            GrupoRequest request
     ) {
         Grupo grupo = obtenerGrupoDelDirector(usuario);
 
@@ -108,7 +108,7 @@ public class GrupoService {
 
         grupoRepository.save(grupo);
 
-        return new GrupoResponseDirector(grupo);
+        return new GrupoResponse(grupo);
     }
 
 

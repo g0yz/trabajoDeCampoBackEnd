@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.persona;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.persona.PersonaRequestAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.persona.PersonaRequest;
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.persona.PersonaResponseAdministrador;
+import com.grupo7.TrabajoDeCampo.dto.persona.PersonaResponse;
 
 
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
@@ -46,11 +46,11 @@ public class PersonaService {
     }
 
 
-    public List<PersonaResponseAdministrador> listarPersonas() {
+    public List<PersonaResponse> listarPersonas() {
 
         return personaRepository.findAll()
                 .stream()
-                .map(p -> new PersonaResponseAdministrador(
+                .map(p -> new PersonaResponse(
                         p.getOidPersona(),
                         p.getNombre(),
                         p.getApellido(),
@@ -77,7 +77,7 @@ public class PersonaService {
                 .orElse(null);
     }
 
-    public Persona crearPersona(PersonaRequestAdministrador personaDto, Long oidGrupo) {
+    public Persona crearPersona(PersonaRequest personaDto, Long oidGrupo) {
 
         Grupo grupo = grupoRepository.findById(oidGrupo)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
@@ -150,7 +150,7 @@ public class PersonaService {
     }
 
 
-    public Persona actualizarPersona(PersonaRequestAdministrador personaDto, Long oid) {
+    public Persona actualizarPersona(PersonaRequest personaDto, Long oid) {
 
         Persona persona = personaRepository.findById(oid) .orElseThrow(() -> new RuntimeException("Persona no encontrada con oid: " + oid));
 

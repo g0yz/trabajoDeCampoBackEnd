@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.persona.tipoPersona;
 
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.tipoPersona.BecarioResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.persona.BecarioResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.BecarioResponse;
+
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Becario;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
@@ -24,22 +24,22 @@ public class BecarioService {
     }
 
 
-    public List<BecarioResponseAdministrador> listarBecarios() {
+    public List<BecarioResponse> listarBecarios() {
         return becarioRepository.findAll()
                 .stream()
                 .map(this::mapearAResponse)
                 .toList();
     }
 
-    public BecarioResponseAdministrador obtenerBecarioPorId(Long oidBecario) {
+    public BecarioResponse obtenerBecarioPorId(Long oidBecario) {
         Becario becario = becarioRepository.findById(oidBecario)
                 .orElseThrow(() -> new RuntimeException("Becario no encontrado"));
 
         return mapearAResponse(becario);
     }
 
-    private BecarioResponseAdministrador mapearAResponse(Becario b) {
-        return new BecarioResponseAdministrador(
+    private BecarioResponse mapearAResponse(Becario b) {
+        return new BecarioResponse(
                 b.getOidBecario(),
                 b.getTipoBecario(),
                 b.getFuenteFinanciamiento(),
@@ -92,12 +92,12 @@ public class BecarioService {
     public void eliminarBecario (Long oid){ becarioRepository.deleteById(oid);}
 
 
-    public List<BecarioResponseIntegrante> listarBecariosDelGrupo(Long oidGrupo) {
+    public List<BecarioResponse> listarBecariosDelGrupo(Long oidGrupo) {
 
         return becarioRepository
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
-                .map(b -> new BecarioResponseIntegrante(
+                .map(b -> new BecarioResponse(
                         b.getOidBecario(),
                         b.getTipoBecario(),
                         b.getFuenteFinanciamiento(),
@@ -111,7 +111,7 @@ public class BecarioService {
 
 
 
-    public BecarioResponseIntegrante obtenerBecarioDelGrupo(
+    public BecarioResponse obtenerBecarioDelGrupo(
             Long oidGrupo,
             Long oidBecario
     ) {
@@ -124,7 +124,7 @@ public class BecarioService {
                         new RuntimeException("Becario no encontrado en el grupo")
                 );
 
-        return new BecarioResponseIntegrante(
+        return new BecarioResponse(
                 b.getOidBecario(),
                 b.getTipoBecario(),
                 b.getFuenteFinanciamiento(),

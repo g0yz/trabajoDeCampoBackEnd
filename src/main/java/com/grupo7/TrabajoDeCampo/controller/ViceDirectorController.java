@@ -1,10 +1,17 @@
 package com.grupo7.TrabajoDeCampo.controller;
 
 
+import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
+import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExportIntegrante;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
+import com.grupo7.TrabajoDeCampo.service.memoria.MemoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +22,13 @@ public class ViceDirectorController {
 
     @Autowired
     GrupoService grupoService;
+
+
+    @Autowired
+    private MemoriaService memoriaService;
+
+    @Autowired
+    private MemoriaExcelExportIntegrante memoriaExcelExportIntegrante;
 
 
 
@@ -129,6 +143,32 @@ public class ViceDirectorController {
 
     //obtener una memoria especifica del grupo
     //@GetMapping("/memorias/obtenerMemoria/{oidMemoria}")
+
+    //exportar memoria en excel
+    @GetMapping("/memorias/{oidMemoria}/exportarExcel")
+    public ResponseEntity<byte[]> exportarMemoriaExcel(
+            @PathVariable Long oidMemoria) {
+
+        MemoriaDetalleResponse memoria =
+                memoriaService.obtenerMemoriaEspecifica(oidMemoria);
+
+        byte[] archivo = memoriaExcelExportIntegrante.exportarMemoriaCompleta(
+                new GrupoResponse(memoria.getGrupo()),
+                memoria.getPersonas(),
+                memoria.getDocumentos(),
+                memoria.getEquipos()
+        );
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=memoria_" + oidMemoria + ".xlsx")
+                .contentType(
+                        MediaType.parseMediaType(
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        )
+                )
+                .body(archivo);
+    }
 
 
 

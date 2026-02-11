@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.service.equipo;
 
 
-import com.grupo7.TrabajoDeCampo.dto.dtoAdministrador.equipo.EquipoResponseAdministrador;
-import com.grupo7.TrabajoDeCampo.dto.dtoIntegrante.equipo.EquipoResponseIntegrante;
+import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
+
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.repository.equipo.EquipoRepository;
@@ -26,11 +26,11 @@ public class EquipoService {
 
     //ADMINISTRADOR
 
-    public List<EquipoResponseAdministrador> listarEquiposAdmin() {
+    public List<EquipoResponse> listarEquiposAdmin() {
 
         return equipoRepository.findAll()
                 .stream()
-                .map(e -> new EquipoResponseAdministrador(
+                .map(e -> new EquipoResponse(
                         e.getOidEquipo(),
                         e.getDenominacion(),
                         e.getFechaIncorporacion(),
@@ -88,11 +88,11 @@ public class EquipoService {
 
     //INTEGRANTE
 
-    public List<EquipoResponseIntegrante> listarEquiposDelGrupoIntegrante(Long oidGrupo) {
+    public List<EquipoResponse> listarEquiposDelGrupoIntegrante(Long oidGrupo) {
 
         return equipoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
                 .stream()
-                .map(eq -> new EquipoResponseIntegrante(
+                .map(eq -> new EquipoResponse(
                         eq.getOidEquipo(),
                         eq.getDenominacion(),
                         eq.getFechaIncorporacion(),
@@ -103,7 +103,7 @@ public class EquipoService {
                 .toList();
     }
 
-    public EquipoResponseIntegrante obtenerEquipoDelGrupoIntegrante(
+    public EquipoResponse obtenerEquipoDelGrupoIntegrante(
             Long oidEquipo,
             Long oidGrupo
     ) {
@@ -114,7 +114,7 @@ public class EquipoService {
                         new RuntimeException("Equipo no encontrado o no pertenece al grupo")
                 );
 
-        return new EquipoResponseIntegrante(
+        return new EquipoResponse(
                 equipo.getOidEquipo(),
                 equipo.getDenominacion(),
                 equipo.getFechaIncorporacion(),

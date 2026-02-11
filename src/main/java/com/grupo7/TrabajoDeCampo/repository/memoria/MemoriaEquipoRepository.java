@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemoriaEquipoRepository extends JpaRepository<MemoriaEquipo, Long> {
+    Optional<MemoriaEquipo> findByMemoriaAndOidEquipo(Memoria memoria, Long oidEquipo);
 
-    // listar equipos de una memoria
     List<MemoriaEquipo> findByMemoria(Memoria memoria);
-
-    // buscar relación memoria-equipo
-    Optional<MemoriaEquipo> findByMemoriaAndEquipo(Memoria memoria, Equipo equipo);
 }
