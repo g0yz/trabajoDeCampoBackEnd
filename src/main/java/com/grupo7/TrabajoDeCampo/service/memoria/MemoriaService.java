@@ -147,9 +147,7 @@ public class MemoriaService {
         );
     }
 
-
-    // ========================= INTEGRANTE =========================
-    public List<MemoriaResponse> listarMemoriasDelGrupoIntegrante(Long oidGrupo) {
+    public List<MemoriaResponse> listarMemoriasDelGrupo(Long oidGrupo) {
         return memoriaRepository.findByGrupoOidGrupo(oidGrupo)
                 .stream()
                 .map(m -> new MemoriaResponse(

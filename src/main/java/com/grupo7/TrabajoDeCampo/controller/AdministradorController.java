@@ -332,7 +332,7 @@ public class AdministradorController {
 //-----------------------------------MEMORIA DOCUMENTO-----------------------------------
 
     // agregar documento a memoria
-    @PostMapping("/memorias/{oidMemoria}/agregarDocumento/{oidDocumento}")
+    @PostMapping("/memorias/{oidMemoria}/agregarDocumentos/{oidDocumento}")
     public void agregarDocumentoAMemoria(
             @PathVariable Long oidMemoria,
             @PathVariable Long oidDocumento) {

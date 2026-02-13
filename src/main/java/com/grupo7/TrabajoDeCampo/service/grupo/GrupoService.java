@@ -112,19 +112,4 @@ public class GrupoService {
     }
 
 
-    public Grupo obtenerGrupoDelViceDirector(Usuario usuario) {
-
-        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
-            throw new RuntimeException("La persona no pertenece a ningún grupo");
-        }
-
-        return usuario.getPersona().getGrupo();
-    }
-
-
-
-
-
-
-
 }

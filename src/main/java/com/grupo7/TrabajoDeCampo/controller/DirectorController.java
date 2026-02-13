@@ -2,8 +2,13 @@ package com.grupo7.TrabajoDeCampo.controller;
 
 
 
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoRequest;
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
+import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoRequest;
+import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoRequest;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
@@ -20,9 +25,12 @@ import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 import com.grupo7.TrabajoDeCampo.service.usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @CrossOrigin(origins = "*")
@@ -60,10 +68,6 @@ public class DirectorController {
     private UsuarioService usuarioService;
 
 
-    
-
-
-
 
     //-----------------------------------GRUPO-----------------------------------
     //visualizar grupo
@@ -83,46 +87,157 @@ public class DirectorController {
     //-----------------------------------DOCUMENTOS-----------------------------------
 
     //agregar documento al grupo
-    //@PostMapping("/documentos/agregarDocumento")
+    @PostMapping("/documentos/agregarDocumento")
+    public ResponseEntity<DocumentoResponse> agregarDocumento(
+            Authentication auth,
+            @RequestBody DocumentoRequest request
+    ) {
 
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        DocumentoResponse response =
+                documentoService.agregarDocumento(usuario, request);
+
+        return ResponseEntity.ok(response);
+    }
 
     //listar documentos del grupo
-    //@GetMapping("/documentos/listarDocumentos")
+    @GetMapping("/documentos/listarDocumentos")
+    public ResponseEntity<List<DocumentoResponse>> listarDocumentos(
+            Authentication auth
+    ) {
 
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        List<DocumentoResponse> lista =
+                documentoService.listarDocumentos(usuario);
+
+        return ResponseEntity.ok(lista);
+    }
 
     //obtener documento especifico del grupo
-    //GetMapping("/documentos/obtenerDocumento/{oidDocumento}")
+    @GetMapping("/documentos/obtenerDocumento/{oidDocumento}")
+    public ResponseEntity<DocumentoResponse> obtenerDocumento(
+            Authentication auth,
+            @PathVariable Long oidDocumento
+    ) {
 
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        DocumentoResponse response =
+                documentoService.obtenerDocumento(oidDocumento, usuario);
+
+        return ResponseEntity.ok(response);
+    }
 
     //editar documento del grupo
-    //@PutMapping("/documentos/editarDocumento/{oidDocumento}")
+    @PutMapping("/documentos/editarDocumento/{oidDocumento}")
+    public ResponseEntity<DocumentoResponse> editarDocumento(
+            Authentication auth,
+            @PathVariable Long oidDocumento,
+            @RequestBody DocumentoRequest request
+    ) {
 
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        DocumentoResponse response =
+                documentoService.editarDocumento(usuario, oidDocumento, request);
+
+        return ResponseEntity.ok(response);
+    }
 
     //quitar documento del grupo SOFT
-    //
+    @DeleteMapping("/documentos/quitarDocumento/{oidDocumento}")
+    public ResponseEntity<String> quitarDocumento(
+            Authentication auth,
+            @PathVariable Long oidDocumento
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        documentoService.eliminarDocumento(usuario, oidDocumento);
+
+        return ResponseEntity.ok("Documento eliminado correctamente");
+    }
 
 
     //-----------------------------------EQUIPOS-----------------------------------
 
 
     //agregar equipo al grupo
-    //@PostMapping("/equipos/agregarEquipo")
 
+    @PostMapping("/equipos/agregarEquipo")
+    public ResponseEntity<EquipoResponse> agregarEquipo(
+            Authentication auth,
+            @RequestBody EquipoRequest request
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        EquipoResponse response =
+                equipoService.agregarEquipo(usuario, request);
+
+        return ResponseEntity.ok(response);
+    }
 
     //listar equipos del grupo
-    //@GetMapping("/equipos/listarEquipos")
+    @GetMapping("/equipos/listarEquipos")
+    public ResponseEntity<List<EquipoResponse>> listarEquipos(
+            Authentication auth
+    ) {
 
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        List<EquipoResponse> lista =
+                equipoService.listarEquipos(usuario);
+
+        return ResponseEntity.ok(lista);
+    }
 
     //obtener equipo especifico del grupo
-    //@GetMapping("/equipos/obtenerEquipo/{oidEquipo}")
+    @GetMapping("/equipos/obtenerEquipo/{oidEquipo}")
+    public ResponseEntity<EquipoResponse> obtenerEquipo(
+            Authentication auth,
+            @PathVariable Long oidEquipo
+    ) {
 
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        EquipoResponse response =
+                equipoService.obtenerEquipo(oidEquipo, usuario);
+
+        return ResponseEntity.ok(response);
+    }
 
     //editar equipo del grupo
-    //@PutMapping("/equipos")
+    @PutMapping("/equipos")
+    public ResponseEntity<EquipoResponse> editarEquipo(
+            Authentication auth,
+            @PathVariable Long oidEquipo,
+            @RequestBody EquipoRequest request
+    ) {
 
+        Usuario usuario = (Usuario) auth.getPrincipal();
 
-    //quitar documento del grupo SOFT
-    //
+        EquipoResponse response =
+                equipoService.editarEquipo(usuario, oidEquipo, request);
+
+        return ResponseEntity.ok(response);
+    }
+
+    // quitar equipo del grupo (SOFT DELETE)
+    @DeleteMapping("/equipos/quitarEquipo/{oidEquipo}")
+    public ResponseEntity<String> quitarEquipo(
+            Authentication auth,
+            @PathVariable Long oidEquipo
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        equipoService.eliminarEquipo(usuario, oidEquipo);
+
+        return ResponseEntity.ok("Equipo eliminado correctamente");
+    }
 
     //-----------------------------------PERSONAS-----------------------------------
 
@@ -181,9 +296,17 @@ public class DirectorController {
     //@PostMapping("/memorias/agregarMemoria")
 
 
-    //listar memorias del grupo
-    //@GetMapping("/memorias/listarMemorias")
 
+
+    //FALTA CORREGIR AUTHORIZACION METODO
+    //listar todas las memorias del grupo
+    @GetMapping("/memorias/listarMemorias")
+    public List <MemoriaResponse> listarMemoriasDelGrupo(Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+
+        return memoriaService.listarMemoriasDelGrupo(oidGrupo);
+    }
 
     //obtener una memoria especifica del grupo
     //@GetMapping("/memorias/obtenerMemoria/{oidMemoria}")

@@ -79,16 +79,15 @@ public class IntegranteController {
     public List<DocumentoResponse> listarDocumentos(Authentication auth) {
 
         Usuario usuario = (Usuario) auth.getPrincipal();
-        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
-        return documentoService.listarDocumentosDelGrupoIntegrante(oidGrupo);
+        return documentoService.listarDocumentos(usuario);
     }
 
     //obtener un documento en especifico del grupo
     @GetMapping("/documentos/visualizarDocumento/{oidDocumento}")
     public DocumentoResponse obtenerDocumento(@PathVariable Long oidDocumento, Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
-        return documentoService.obtenerDocumentoDelGrupoIntegrante(oidDocumento, usuario);
+        return documentoService.obtenerDocumento(oidDocumento, usuario);
     }
 
     //-----------------------------------EQUIPOS-----------------------------------
@@ -97,16 +96,14 @@ public class IntegranteController {
     @GetMapping("/equipos/listarEquipo")
     public List<EquipoResponse> listarEquipos(Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
-        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
-        return equipoService.listarEquiposDelGrupoIntegrante(oidGrupo);
+        return equipoService.listarEquipos(usuario);
     }
 
     //obtener un equipo en especifico del grupo
     @GetMapping("/equipos/obtenerEquipo/{oidEquipo}")
     public EquipoResponse obtenerEquipo( @PathVariable Long oidEquipo,Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
-        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
-        return equipoService.obtenerEquipoDelGrupoIntegrante(oidEquipo, oidGrupo);
+        return equipoService.obtenerEquipo(oidEquipo, usuario);
     }
 
     //-----------------------------------BECARIOS-----------------------------------
@@ -188,6 +185,8 @@ public class IntegranteController {
         );
     }
 
+
+
     //-----------------------------------MEMORIA-----------------------------------
 
     //listar todas las memorias del grupo
@@ -196,13 +195,15 @@ public class IntegranteController {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
-        return memoriaService.listarMemoriasDelGrupoIntegrante(oidGrupo);
+        return memoriaService.listarMemoriasDelGrupo(oidGrupo);
     }
 
     //obtener una memoria en especifico
    // @GetMapping("/memorias/{oidMemoria}")
 
 
+
+    //FALTA CORREGIR AUTHORIZACION METODO
 
     //exportar memoria en excel
     @GetMapping("/memorias/{oidMemoria}/exportarExcel")
