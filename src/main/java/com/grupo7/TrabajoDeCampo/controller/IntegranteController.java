@@ -199,19 +199,24 @@ public class IntegranteController {
     }
 
     //obtener una memoria en especifico
-   // @GetMapping("/memorias/{oidMemoria}")
+    @GetMapping("/memorias/obtenerMemoria/{oidMemoria}")
+    public MemoriaDetalleResponse verMemoria(
+            @PathVariable("oidMemoria") Long oidMemoria,
+            Authentication auth
+    ) {
+        return memoriaService.obtenerMemoriaEspecificaGrupo(auth, oidMemoria);
+    }
 
 
-
-    //FALTA CORREGIR AUTHORIZACION METODO
 
     //exportar memoria en excel
     @GetMapping("/memorias/{oidMemoria}/exportarExcel")
     public ResponseEntity<byte[]> exportarMemoriaExcel(
-            @PathVariable Long oidMemoria) {
+            @PathVariable Long oidMemoria,
+            Authentication auth) {
 
         MemoriaDetalleResponse memoria =
-                memoriaService.obtenerMemoriaEspecifica(oidMemoria);
+                memoriaService.obtenerMemoriaEspecificaGrupo(auth,oidMemoria);
 
         byte[] archivo = memoriaExcelExportIntegrante.exportarMemoriaCompleta(
                 new GrupoResponse(memoria.getGrupo()),

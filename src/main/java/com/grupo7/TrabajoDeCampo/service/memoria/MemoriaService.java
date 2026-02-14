@@ -7,8 +7,10 @@ import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaDetalle;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaPersona;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
 import com.grupo7.TrabajoDeCampo.repository.memoria.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -130,6 +132,116 @@ public class MemoriaService {
     }
 
 
+
+    public MemoriaDetalleResponse obtenerMemoriaEspecificaGrupo(
+            Authentication auth,
+            Long oidMemoria
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+
+        Long oidGrupoUsuario = usuario.getPersona().getGrupo().getOidGrupo();
+
+
+        Memoria memoria = memoriaRepository.findById(oidMemoria)
+                .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
+
+        if (memoria.getGrupo().getOidGrupo() != oidGrupoUsuario) {
+            throw new RuntimeException("No tenés permisos para ver esta memoria");
+        }
+
+        List<MemoriaPersonaResponse> personas =
+                memoriaPersonaRepository.findByMemoria(memoria)
+                        .stream()
+                        .map(mp -> new MemoriaPersonaResponse(
+                                mp.getNombre(),
+                                mp.getApellido(),
+                                mp.getHorasSemanales(),
+                                mp.getTipoPersona(),
+                                mp.getCategoriaUTN(),
+                                mp.getProgramaDeIncentivos(),
+                                mp.getDedicacion(),
+                                mp.getGradoAcademico(),
+                                mp.getFuenteDeFinanciamiento(),
+                                mp.getTipoBecario(),
+                                mp.getTipoPersonal(),
+                                mp.getCargo()
+                        ))
+                        .toList();
+
+        List<MemoriaDocumentoResponse> documentos =
+                memoriaDocumentoRepository.findByMemoria(memoria)
+                        .stream()
+                        .map(md -> new MemoriaDocumentoResponse(
+                                md.getOidDocumento(),
+                                md.getTitulo(),
+                                md.getAutores(),
+                                md.getEditorial(),
+                                md.getAnio()
+                        ))
+                        .toList();
+
+        List<MemoriaEquipoResponse> equipos =
+                memoriaEquipoRepository.findByMemoria(memoria)
+                        .stream()
+                        .map(me -> new MemoriaEquipoResponse(
+                                me.getOidEquipo(),
+                                me.getDenominacion(),
+                                me.getFechaIncorporacion(),
+                                me.getMontoInvertido(),
+                                me.getDescripcion()
+                        ))
+                        .toList();
+
+        return new MemoriaDetalleResponse(
+                memoria.getOidMemoria(),
+                memoria.getAnio(),
+                memoria.getFechaCreacion(),
+                memoria.getGrupo(),
+                documentos,
+                equipos,
+                personas
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private MemoriaPersonaResponse mapMemoriaPersona(MemoriaPersona mp) {
         return new MemoriaPersonaResponse(
                 mp.getNombre(),
@@ -146,6 +258,9 @@ public class MemoriaService {
                 mp.getCargo()
         );
     }
+
+
+
 
     public List<MemoriaResponse> listarMemoriasDelGrupo(Long oidGrupo) {
         return memoriaRepository.findByGrupoOidGrupo(oidGrupo)

@@ -359,7 +359,6 @@ public class AdministradorController {
 
     //-----------------------------------MEMORIA PERSONA-----------------------------------
 
-    //FALTA ARREGLAR
     // agregar persona a una memoria
     @PostMapping("/memorias/{oidMemoria}/agregarPersona/{oidPersona}")
     public MemoriaPersona agregarPersonaAMemoria(

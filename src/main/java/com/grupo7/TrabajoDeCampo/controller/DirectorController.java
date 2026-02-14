@@ -8,7 +8,12 @@ import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoRequest;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoRequest;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaResponse;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.BecarioResponse;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.IntegranteConsejoEducativoResponse;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.InvestigadorResponse;
+import com.grupo7.TrabajoDeCampo.dto.tipoPersona.PersonalResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
@@ -259,36 +264,85 @@ public class DirectorController {
 
     //-----------------------------------BECARIOS-----------------------------------
 
-    //listar becarios del grupo
-    //@GetMapping("/personas/becarios/listarPersonas")
+    //listar todas las becarios del grupo
+    @GetMapping ("/personas/becarios/listarBecarios")
+    public List<BecarioResponse> listarBecarios(Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
-    //obtener un becario en especifico del grupo
-    //@GetMapping("/personas/becarios/obtenerBecario/{oidBecario}")
+        return becarioService.listarBecariosDelGrupo(oidGrupo);
+    }
+
+    //obtener una becario en especifico del grupo
+    @GetMapping("/personas/becarios/obtenerBecario/{oidBecario}")
+    public BecarioResponse obtenerBecario(@PathVariable Long oidBecario, Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return becarioService.obtenerBecarioDelGrupo(oidGrupo, oidBecario);
+    }
 
     //-----------------------------------INVESTIGADOR-----------------------------------
 
-    //listar investigadores del grupo
-    //GetMapping("/personas/investigadores/listarInvestigadores")
+    //listar todos las investigadores del grupo
+    @GetMapping ("/personas/investigadores/listarInvestigadores")
+    public List<InvestigadorResponse> listarInvestigadoresDelGrupo(
+            Authentication auth) {
 
-    //obtener un investigador en especifico del grupo
-    //@GetMapping("/personas/investigadores/obtenerInvestigador/{oidInvestigador}")
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+
+        return investigadorService.listarInvestigadoresDelGrupo(oidGrupo);
+    }
+
+    //obtener una investigador en especifico del grupo
+    @GetMapping("/personas/investigadores/obtenerInvestigador/{oidInvestigador}")
+    public InvestigadorResponse obtenerInvestigadorDelGrupo(@PathVariable Long oidGrupo, @PathVariable Long oidInvestigador) {
+        return investigadorService.obtenerInvestigadorDelGrupo(oidGrupo, oidInvestigador);
+    }
 
     //-----------------------------------INTEGRANTECONSEJOEDUCATIVO-----------------------------------
 
-    //listar integrantes del consejo educativo del grupo
-    //@GetMapping("/personas/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
 
+    //listar todos las integrantes del Consejo Educativo del grupo
+    @GetMapping ("/personas/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
+    public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativoDelGrupo(Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return integranteConsejoEducativoService.listarIntegrantesConsejoEducativoDelGrupo(oidGrupo);
+    }
 
-    //obtener un integrante del consejo educativo en especifico del grupo
-    //@GetMappint("personas/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    //obtener una integranteConsejoEducativo en especifico del grupo
+    @GetMapping("/personas/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    public IntegranteConsejoEducativoResponse obtenerIntegranteConsejoEducativoDelGrupo(@PathVariable Long oidGrupo, @PathVariable Long oidIntegranteConsejoEducativo) {
+        return integranteConsejoEducativoService
+                .obtenerIntegranteConsejoEducativoDelGrupo(
+                        oidGrupo,
+                        oidIntegranteConsejoEducativo
+                );
+    }
+
 
     //-----------------------------------PERSONAL-----------------------------------
 
-    //listar personal del grupo
-    //@GetMapping("/personas/personal/listarPersonal")
+    //listar todo el personal del grupo
+    @GetMapping ("/personas/personal/listarPersonal")
+    public List<PersonalResponse> listarPersonalDelGrupo(Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return personalService.listarPersonalDelGrupo(oidGrupo);
+    }
 
     //obtener un personal en especifico del grupo
-    //@GetMapping("/personas/personal/obtenerPersonal/{oidPersonal}")
+    @GetMapping("/personas/personal/obtenerPersonal/{oidPersonal}")
+    public PersonalResponse obtenerPersonalDelGrupo(
+            @PathVariable Long oidGrupo,
+            @PathVariable Long oidPersonal) {
+        return personalService.obtenerPersonalDelGrupo(
+                oidGrupo,
+                oidPersonal
+        );
+    }
+
 
     //-----------------------------------MEMORIAS-----------------------------------
 
@@ -296,9 +350,6 @@ public class DirectorController {
     //@PostMapping("/memorias/agregarMemoria")
 
 
-
-
-    //FALTA CORREGIR AUTHORIZACION METODO
     //listar todas las memorias del grupo
     @GetMapping("/memorias/listarMemorias")
     public List <MemoriaResponse> listarMemoriasDelGrupo(Authentication auth) {
@@ -309,10 +360,13 @@ public class DirectorController {
     }
 
     //obtener una memoria especifica del grupo
-    //@GetMapping("/memorias/obtenerMemoria/{oidMemoria}")
-
-    //editar memoria
-    //@
+    @GetMapping("/memorias/obtenerMemoria/{oidMemoria}")
+    public MemoriaDetalleResponse verMemoria(
+            @PathVariable("oidMemoria") Long oidMemoria,
+            Authentication auth
+    ) {
+        return memoriaService.obtenerMemoriaEspecificaGrupo(auth, oidMemoria);
+    }
 
 
 

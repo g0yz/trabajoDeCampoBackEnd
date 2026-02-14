@@ -67,9 +67,7 @@ public class GrupoService {
 
     public GrupoResponse obtenerGrupoDelIntegrante(Usuario usuario) {
 
-        if (usuario.getPersona() == null) {
-            throw new RuntimeException("El usuario no tiene persona asociada");
-        }
+
 
         if (usuario.getPersona().getGrupo() == null) {
             throw new RuntimeException("La persona no pertenece a ningún grupo");
@@ -84,6 +82,16 @@ public class GrupoService {
     //DIRECTOR
 
     public Grupo obtenerGrupoDelDirector(Usuario usuario) {
+
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("La persona no pertenece a ningún grupo");
+        }
+
+        return usuario.getPersona().getGrupo();
+    }
+
+
+    public Grupo obtenerGrupoDelViceDirector(Usuario usuario) {
 
         if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
             throw new RuntimeException("La persona no pertenece a ningún grupo");
