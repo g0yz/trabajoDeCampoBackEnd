@@ -207,8 +207,6 @@ public class IntegranteController {
         return memoriaService.obtenerMemoriaEspecificaGrupo(auth, oidMemoria);
     }
 
-
-
     //exportar memoria en excel
     @GetMapping("/memorias/{oidMemoria}/exportarExcel")
     public ResponseEntity<byte[]> exportarMemoriaExcel(
@@ -235,6 +233,8 @@ public class IntegranteController {
                 )
                 .body(archivo);
     }
+
+
 
 
 }

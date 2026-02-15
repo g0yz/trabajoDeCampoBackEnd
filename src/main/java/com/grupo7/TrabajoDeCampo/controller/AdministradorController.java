@@ -299,7 +299,7 @@ public class AdministradorController {
         return memoriaService.obtenerMemoriaEspecifica(oidMemoria);
     }
 
-    //-----------------------------------EQUIPO-----------------------------------
+    //-----------------------------------MEMORIA EQUIPO-----------------------------------
 
 
     // agregar equipo a una memoria
@@ -332,7 +332,7 @@ public class AdministradorController {
 //-----------------------------------MEMORIA DOCUMENTO-----------------------------------
 
     // agregar documento a memoria
-    @PostMapping("/memorias/{oidMemoria}/agregarDocumentos/{oidDocumento}")
+    @PostMapping("/memorias/{oidMemoria}/agregarDocumento/{oidDocumento}")
     public void agregarDocumentoAMemoria(
             @PathVariable Long oidMemoria,
             @PathVariable Long oidDocumento) {
@@ -349,7 +349,7 @@ public class AdministradorController {
     }
 
     // quitar documento de una memoria
-    @DeleteMapping("/memorias/{oidMemoria}/quitarDocumentos/{oidDocumento}")
+    @DeleteMapping("/memorias/{oidMemoria}/quitarDocumento/{oidDocumento}")
     public void quitarDocumentoDeMemoria(
             @PathVariable Long oidMemoria,
             @PathVariable Long oidDocumento) {
@@ -372,11 +372,25 @@ public class AdministradorController {
     }
 
 
+    //listar personas de una memoria
+    @GetMapping("/memorias/{oidMemoria}/listadoPersonas")
+    public List<MemoriaPersona> listarPersonasDeMemoria(
+            @PathVariable Long oidMemoria) {
 
+        return memoriaPersonaService.listarPersonasPorMemoriaAdmin(oidMemoria);
+    }
 
+    // quitar persona de una memoria
+    @DeleteMapping("/memorias/{oidMemoria}/quitarPersona/{oidPersona}")
+    public void quitarPersonaDeMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidPersona) {
 
-
-
+        memoriaPersonaService.quitarPersonaAMemoriaAdmin(
+                oidMemoria,
+                oidPersona
+        );
+    }
 
 
 }

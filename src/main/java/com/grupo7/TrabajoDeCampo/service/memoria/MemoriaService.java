@@ -2,6 +2,7 @@ package com.grupo7.TrabajoDeCampo.service.memoria;
 
 import com.grupo7.TrabajoDeCampo.dto.memoria.*;
 
+import com.grupo7.TrabajoDeCampo.handler.Role;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
 
@@ -273,15 +274,57 @@ public class MemoriaService {
                 .toList();
     }
 
+    public MemoriaResponse crearMemoriaConPermiso(
+            Usuario usuario,
+            Integer anio
+    ) {
 
-    // ========================= INTEGRANTE =========================
-    // public MemoriaDetalle obtenerMemoriaIntegrante(Long oidMemoria) {
+        // Validar usuario con persona y grupo
+        if (usuario.getPersona() == null ||
+                usuario.getPersona().getGrupo() == null) {
 
-    //Memoria memoria = memoriaRepository.findById(oidMemoria)
-    //          .orElseThrow(() -> new RuntimeException("Memoria no encontrada"));
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+
+        // Validar rol
+        if (usuario.getRole() != Role.Director &&
+                usuario.getRole() != Role.ViceDirector) {
+
+            throw new RuntimeException("No tiene permisos para crear memorias");
+        }
+
+        Grupo grupo = usuario.getPersona().getGrupo();
+
+        // Validar que no exista memoria ese año
+        memoriaRepository
+                .findByGrupoAndAnio(grupo, anio)
+                .ifPresent(m -> {
+                    throw new RuntimeException(
+                            "Ya existe una memoria para ese año"
+                    );
+                });
+
+        // Crear memoria
+        Memoria memoria = new Memoria(
+                new Timestamp(System.currentTimeMillis()),
+                anio,
+                grupo
+        );
+
+        memoria = memoriaRepository.save(memoria);
+        
+        return new MemoriaResponse(
+                memoria.getOidMemoria(),
+                memoria.getAnio(),
+                memoria.getFechaCreacion(),
+                grupo.getOidGrupo(),
+                grupo.getNombreGrupo()
+        );
+    }
 
 
-    //}
+
+
 
 
 }

@@ -9,6 +9,8 @@ import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoRequest;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaResponse;
+import com.grupo7.TrabajoDeCampo.dto.persona.PersonaRequest;
+import com.grupo7.TrabajoDeCampo.dto.persona.PersonaResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.BecarioResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.IntegranteConsejoEducativoResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.InvestigadorResponse;
@@ -245,19 +247,51 @@ public class ViceDirectorController {
     //-----------------------------------PERSONAS-----------------------------------
 
     //agregar una Persona al grupo
-    //@PostMapping("/personas/agregarPersona")
+    @PostMapping("/personas/agregarPersona")
+    public ResponseEntity<PersonaResponse> agregarPersona(
+            @RequestBody PersonaRequest request,
+            Authentication auth
+    ) {
 
-    //listar personas del grupo
-    //@GetMapping("/personas/listarPersonas")
+        Usuario usuario = (Usuario) auth.getPrincipal();
 
-    //obtener una persona especifica del grupo
-    //@GetMapping("/personas/obtenerPersona/{oidPersona}")
+        PersonaResponse response =
+                personaService.agregarPersonaAGrupo(usuario, request);
+
+        return ResponseEntity.ok(response);
+    }
+
 
     //editar una persona del grupo
-    //@PutMapping("/personas/editarPersona/{oidPersona}")
+    @PutMapping("/personas/editarPersona/{oidPersona}")
+    public PersonaResponse editarPersona(
+            @PathVariable Long oidPersona,
+            @RequestBody PersonaRequest request,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return personaService.editarPersonaDelGrupo(
+                usuario,
+                oidPersona,
+                request
+        );
+    }
 
     //quitar una persona del grupo SOFT
-    //
+    @PutMapping("/personas/quitarPersona/{oidPersona}")
+    public ResponseEntity<Void> quitarPersona(
+            @PathVariable Long oidPersona,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        personaService.quitarPersonaDelGrupo(usuario, oidPersona);
+
+        return ResponseEntity.noContent().build(); // 204
+    }
 
     //-----------------------------------BECARIOS-----------------------------------
 
@@ -384,9 +418,6 @@ public class ViceDirectorController {
                 )
                 .body(archivo);
     }
-
-
-
 
 
 

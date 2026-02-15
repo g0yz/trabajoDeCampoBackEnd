@@ -8,13 +8,15 @@ import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoRequest;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoRequest;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
-import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
-import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.*;
+import com.grupo7.TrabajoDeCampo.dto.persona.PersonaRequest;
+import com.grupo7.TrabajoDeCampo.dto.persona.PersonaResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.BecarioResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.IntegranteConsejoEducativoResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.InvestigadorResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.PersonalResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
+import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
@@ -247,19 +249,51 @@ public class DirectorController {
     //-----------------------------------PERSONAS-----------------------------------
 
     //agregar una Persona al grupo
-    //@PostMapping("/personas/agregarPersona")
+    @PostMapping("/personas/agregarPersona")
+    public ResponseEntity<PersonaResponse> agregarPersona(
+            @RequestBody PersonaRequest request,
+            Authentication auth
+    ) {
 
-    //listar personas del grupo
-    //@GetMapping("/personas/listarPersonas")
+        Usuario usuario = (Usuario) auth.getPrincipal();
 
-    //obtener una persona especifica del grupo
-    //@GetMapping("/personas/obtenerPersona/{oidPersona}")
+        PersonaResponse response =
+                personaService.agregarPersonaAGrupo(usuario, request);
+
+        return ResponseEntity.ok(response);
+    }
+
 
     //editar una persona del grupo
-    //@PutMapping("/personas/editarPersona/{oidPersona}")
+    @PutMapping("/personas/editarPersona/{oidPersona}")
+    public PersonaResponse editarPersona(
+            @PathVariable Long oidPersona,
+            @RequestBody PersonaRequest request,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return personaService.editarPersonaDelGrupo(
+                usuario,
+                oidPersona,
+                request
+        );
+    }
 
     //quitar una persona del grupo SOFT
-    //
+    @PutMapping("/personas/quitarPersona/{oidPersona}")
+    public ResponseEntity<Void> quitarPersona(
+            @PathVariable Long oidPersona,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        personaService.quitarPersonaDelGrupo(usuario, oidPersona);
+
+        return ResponseEntity.noContent().build();
+    }
 
 
     //-----------------------------------BECARIOS-----------------------------------
@@ -347,7 +381,19 @@ public class DirectorController {
     //-----------------------------------MEMORIAS-----------------------------------
 
     //agregar Memoria al grupo
-    //@PostMapping("/memorias/agregarMemoria")
+    @PostMapping("/memorias/agregarMemoria/{anio}")
+    public MemoriaResponse agregarMemoria(
+            @PathVariable Integer anio,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return memoriaService.crearMemoriaConPermiso(
+                usuario,
+                anio
+        );
+    }
 
 
     //listar todas las memorias del grupo
@@ -369,6 +415,167 @@ public class DirectorController {
     }
 
 
+    //-----------------------------------MEMORIA EQUIPO-----------------------------------
+    // agregar equipo a una memoria
+    @PostMapping("/memorias/{oidMemoria}/agregarEquipo/{oidEquipo}")
+    public MemoriaEquipo agregarEquipoAMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidEquipo,
+            Authentication auth
+    ) {
+
+        // Usuario logueado
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return memoriaEquipoService.agregarEquipoAMemoriaDirector(
+                usuario,
+                oidMemoria,
+                oidEquipo
+        );
+    }
+
+
+
+    // listar equipos de una memoria
+    @GetMapping("/memorias/{oidMemoria}/listadoEquipos")
+    public List<MemoriaEquipoResponse> listarEquiposDeMemoria(
+            @PathVariable Long oidMemoria,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return memoriaEquipoService.listarEquipoPorMemoriaDirector(
+                usuario,
+                oidMemoria
+        );
+    }
+
+
+    // quitar equipo de una memoria
+    @DeleteMapping("/memorias/{oidMemoria}/quitarEquipo/{oidEquipo}")
+    public void quitarEquipoDeMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidEquipo,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        memoriaEquipoService.quitarEquipoAMemoriaDirector(
+                usuario,
+                oidMemoria,
+                oidEquipo
+        );
+    }
+
+    //-----------------------------------MEMORIA DOCUMENTO-----------------------------------
+
+    // agregar documento a memoria
+    @PostMapping("/memorias/{oidMemoria}/agregarDocumento/{oidDocumento}")
+    public void agregarDocumentoAMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidDocumento,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        memoriaDocumentoService.agregarDocumentoAMemoriaDirector(
+                usuario,
+                oidMemoria,
+                oidDocumento
+        );
+    }
+
+    //listar documentos de una memoria
+    @GetMapping("/memorias/{oidMemoria}/listadoDocumentos")
+    public List<MemoriaDocumentoResponse> listarDocumentosDeMemoria(
+            @PathVariable Long oidMemoria,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return memoriaDocumentoService.listarDocumentosDeMemoriaDirector(
+                usuario,
+                oidMemoria
+        );
+    }
+
+    // quitar documento de una memoria
+    @DeleteMapping("/memorias/{oidMemoria}/quitarDocumento/{oidDocumento}")
+    public void quitarDocumentoDeMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidDocumento,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        memoriaDocumentoService.quitarDocumentoDeMemoriaDirector(
+                usuario,
+                oidMemoria,
+                oidDocumento
+        );
+    }
+
+
+    //-----------------------------------MEMORIA PERSONA-----------------------------------
+
+    // agregar persona a una memoria
+    @PostMapping("/memorias/{oidMemoria}/agregarPersona/{oidPersona}")
+    public void agregarPersonaAMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidPersona,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        memoriaPersonaService.agregarPersonaAMemoriaDirector(
+                usuario,
+                oidMemoria,
+                oidPersona
+        );
+    }
+
+
+    //listar personas de una memoria
+    @GetMapping("/memorias/{oidMemoria}/listadoPersonas")
+    public List<MemoriaPersonaResponse> listarPersonasDeMemoria(
+            @PathVariable Long oidMemoria,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return memoriaPersonaService
+                .listarPersonasPorMemoriaDirector(
+                        usuario,
+                        oidMemoria
+                );
+    }
+
+    // quitar persona de una memoria
+    @DeleteMapping("/memorias/{oidMemoria}/quitarPersona/{oidPersona}")
+    public ResponseEntity<?> quitarPersonaDeMemoria(
+            @PathVariable Long oidMemoria,
+            @PathVariable Long oidPersona,
+            Authentication auth
+    ) {
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        memoriaPersonaService
+                .quitarPersonaDeMemoriaDirector(
+                        usuario,
+                        oidMemoria,
+                        oidPersona
+                );
+
+        return ResponseEntity.ok("Persona quitada de la memoria");
+    }
 
 
 

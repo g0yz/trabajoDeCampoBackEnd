@@ -5,6 +5,7 @@ import com.grupo7.TrabajoDeCampo.dto.persona.PersonaRequest;
 import com.grupo7.TrabajoDeCampo.dto.persona.PersonaResponse;
 
 
+import com.grupo7.TrabajoDeCampo.handler.Role;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.model.persona.TipoPersona;
@@ -12,6 +13,7 @@ import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Becario;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Investigador;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Personal;
+import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
 import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
 import com.grupo7.TrabajoDeCampo.repository.persona.PersonaRepository;
 
@@ -64,11 +66,9 @@ public class PersonaService {
     }
 
 
-
-
-
-    public Optional<Persona> obtenerPersonaPorId(Long oid){
-        return personaRepository.findById(oid); }
+    public Optional<Persona> obtenerPersonaPorId(Long oid) {
+        return personaRepository.findById(oid);
+    }
 
 
     public Grupo obtenerGrupoDePersona(Long oidPersona) {
@@ -92,7 +92,7 @@ public class PersonaService {
         persona.setGrupo(grupo);
         persona = personaRepository.save(persona);
 
-        if(personaDto.getTipoPersona() == TipoPersona.Becario){
+        if (personaDto.getTipoPersona() == TipoPersona.Becario) {
 
             //defini asi los constructores porque se ponen la gorra y no quieren iniciar con datos
 
@@ -106,7 +106,7 @@ public class PersonaService {
             persona.setBecario(becario);
             becarioRepository.save((becario));
 
-        }else if(personaDto.getTipoPersona() == TipoPersona.Investigador){
+        } else if (personaDto.getTipoPersona() == TipoPersona.Investigador) {
 
             //defini asi los constructores porque se ponen la gorra y no quieren iniciar con datos
             Investigador investigador = new Investigador();
@@ -124,7 +124,7 @@ public class PersonaService {
 
             investigadorRepository.save(investigador);
 
-        }else if (personaDto.getTipoPersona() == TipoPersona.Personal){
+        } else if (personaDto.getTipoPersona() == TipoPersona.Personal) {
 
             //defini asi los constructores porque se ponen la gorra y no quieren iniciar con datos
             Personal personal = new Personal();
@@ -136,7 +136,7 @@ public class PersonaService {
             persona.setPersonal(personal);
             personalRepository.save(personal);
 
-        }else if (personaDto.getTipoPersona() == TipoPersona.IntegranteConsejoEducativo) {
+        } else if (personaDto.getTipoPersona() == TipoPersona.IntegranteConsejoEducativo) {
 
             IntegranteConsejoEducativo integranteConsejoEducativo = new IntegranteConsejoEducativo();
 
@@ -146,13 +146,13 @@ public class PersonaService {
             integranteConsejoEducativoRepository.save(integranteConsejoEducativo);
 
         }
-            return personaRepository.save(persona);
+        return personaRepository.save(persona);
     }
 
 
     public Persona actualizarPersona(PersonaRequest personaDto, Long oid) {
 
-        Persona persona = personaRepository.findById(oid) .orElseThrow(() -> new RuntimeException("Persona no encontrada con oid: " + oid));
+        Persona persona = personaRepository.findById(oid).orElseThrow(() -> new RuntimeException("Persona no encontrada con oid: " + oid));
 
         if (personaDto.getNombre() != null)
             persona.setNombre(personaDto.getNombre());
@@ -161,7 +161,7 @@ public class PersonaService {
         if (personaDto.getHorasSemanales() != null)
             persona.setHorasSemanales(personaDto.getHorasSemanales());
 
-        if(persona.getBecario() != null){
+        if (persona.getBecario() != null) {
             if (personaDto.getTipoBecario() != null)
                 persona.getBecario().setTipoBecario(personaDto.getTipoBecario());
             if (personaDto.getFuenteFinanciamiento() != null)
@@ -169,7 +169,7 @@ public class PersonaService {
         }
 
 
-        if(persona.getInvestigador() != null){
+        if (persona.getInvestigador() != null) {
             if (personaDto.getGradoAcademico() != null)
                 persona.getInvestigador().setGradoAcademico(personaDto.getGradoAcademico());
             if (personaDto.getDedicacion() != null)
@@ -181,21 +181,20 @@ public class PersonaService {
         }
 
 
-        if(persona.getIntegranteConsejoEducativo() != null){
+        if (persona.getIntegranteConsejoEducativo() != null) {
             if (personaDto.getCargo() != null)
                 persona.getIntegranteConsejoEducativo().setCargo((personaDto.getCargo()));
         }
 
 
-        if(persona.getPersonal() != null){
+        if (persona.getPersonal() != null) {
             if (personaDto.getTipoPersonal() != null)
                 persona.getPersonal().setTipoPersonal(personaDto.getTipoPersonal());
         }
 
         return personaRepository.save(persona);
 
-        }
-
+    }
 
 
     public void eliminarPersona(Long oid) {
@@ -203,4 +202,298 @@ public class PersonaService {
     }
 
 
+
+
+
+    public PersonaResponse agregarPersonaAGrupo(
+            Usuario usuario,
+            PersonaRequest personaDto
+    ) {
+
+        // Validar grupo
+        if (usuario.getPersona() == null ||
+                usuario.getPersona().getGrupo() == null) {
+
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+
+        // Validar rol
+        if (usuario.getRole() != Role.Director &&
+                usuario.getRole() != Role.ViceDirector) {
+
+            throw new RuntimeException("No tiene permisos para agregar personas");
+        }
+
+        Grupo grupo = usuario.getPersona().getGrupo();
+
+        // Crear persona base
+        Persona persona = new Persona();
+
+        persona.setNombre(personaDto.getNombre());
+        persona.setApellido(personaDto.getApellido());
+        persona.setHorasSemanales(personaDto.getHorasSemanales());
+        persona.setTipoPersona(personaDto.getTipoPersona());
+        persona.setActivo(true);
+        persona.setGrupo(grupo);
+
+        persona = personaRepository.save(persona);
+
+
+        // ===============================
+        // BECARIO
+        // ===============================
+        if (personaDto.getTipoPersona() == TipoPersona.Becario) {
+
+            Becario becario = new Becario();
+
+            becario.setTipoBecario(personaDto.getTipoBecario());
+            becario.setFuenteFinanciamiento(personaDto.getFuenteFinanciamiento());
+
+            becario.setPersona(persona);
+            persona.setBecario(becario);
+
+            becarioRepository.save(becario);
+        }
+
+
+        // ===============================
+        // INVESTIGADOR
+        // ===============================
+        else if (personaDto.getTipoPersona() == TipoPersona.Investigador) {
+
+            Investigador investigador = new Investigador();
+
+            investigador.setCategoriaUTN(personaDto.getCategoriaUTN());
+            investigador.setProgramaDeIncentivos(personaDto.getProgramaDeIncentivos());
+            investigador.setDedicacion(personaDto.getDedicacion());
+            investigador.setGradoAcademico(personaDto.getGradoAcademico());
+
+            investigador.setPersona(persona);
+            persona.setInvestigador(investigador);
+
+            investigadorRepository.save(investigador);
+        }
+
+
+        // ===============================
+        // PERSONAL
+        // ===============================
+        else if (personaDto.getTipoPersona() == TipoPersona.Personal) {
+
+            Personal personal = new Personal();
+
+            personal.setTipoPersonal(personaDto.getTipoPersonal());
+
+            personal.setPersona(persona);
+            persona.setPersonal(personal);
+
+            personalRepository.save(personal);
+        }
+
+
+        // ===============================
+        // CONSEJO
+        // ===============================
+        else if (personaDto.getTipoPersona() == TipoPersona.IntegranteConsejoEducativo) {
+
+            IntegranteConsejoEducativo ice = new IntegranteConsejoEducativo();
+
+            ice.setCargo(personaDto.getCargo());
+
+            ice.setPersona(persona);
+            persona.setIntegranteConsejoEducativo(ice);
+
+            integranteConsejoEducativoRepository.save(ice);
+        }
+
+
+        Persona guardada = personaRepository.save(persona);
+
+
+        // ===============================
+        // RESPONSE
+        // ===============================
+        return new PersonaResponse(
+                guardada.getOidPersona(),
+                guardada.getNombre(),
+                guardada.getApellido(),
+                guardada.getHorasSemanales(),
+                guardada.getTipoPersona().name(),
+                guardada.getActivo(),
+                guardada.getGrupo().getOidGrupo(),
+                guardada.getGrupo().getNombreGrupo()
+        );
+    }
+
+
+    public PersonaResponse editarPersonaDelGrupo(
+            Usuario usuario,
+            Long oidPersona,
+            PersonaRequest personaDto
+    ) {
+
+        // Validar grupo
+        if (usuario.getPersona() == null ||
+                usuario.getPersona().getGrupo() == null) {
+
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+
+        // Validar rol
+        if (usuario.getRole() != Role.Director &&
+                usuario.getRole() != Role.ViceDirector) {
+
+            throw new RuntimeException("No tiene permisos para editar personas");
+        }
+
+        Long oidGrupoUsuario = usuario.getPersona().getGrupo().getOidGrupo();
+
+
+        // Buscar persona
+        Persona persona = personaRepository.findById(oidPersona)
+                .orElseThrow(() ->
+                        new RuntimeException("Persona no encontrada")
+                );
+
+
+        // Validar que pertenezca al grupo
+        if (persona.getGrupo().getOidGrupo() != oidGrupoUsuario) {
+            throw new RuntimeException("No puede editar personas de otro grupo");
+        }
+
+        if (personaDto.getNombre() != null)
+            persona.setNombre(personaDto.getNombre());
+
+        if (personaDto.getApellido() != null)
+            persona.setApellido(personaDto.getApellido());
+
+        if (personaDto.getHorasSemanales() != null)
+            persona.setHorasSemanales(personaDto.getHorasSemanales());
+
+        // DATOS SEGÚN TIPO
+
+        // Becario
+        if (persona.getBecario() != null) {
+
+            if (personaDto.getTipoBecario() != null)
+                persona.getBecario().setTipoBecario(personaDto.getTipoBecario());
+
+            if (personaDto.getFuenteFinanciamiento() != null)
+                persona.getBecario().setFuenteFinanciamiento(
+                        personaDto.getFuenteFinanciamiento()
+                );
+        }
+
+
+        // Investigador
+        if (persona.getInvestigador() != null) {
+
+            if (personaDto.getCategoriaUTN() != null)
+                persona.getInvestigador().setCategoriaUTN(
+                        personaDto.getCategoriaUTN()
+                );
+
+            if (personaDto.getProgramaDeIncentivos() != null)
+                persona.getInvestigador().setProgramaDeIncentivos(
+                        personaDto.getProgramaDeIncentivos()
+                );
+
+            if (personaDto.getDedicacion() != null)
+                persona.getInvestigador().setDedicacion(
+                        personaDto.getDedicacion()
+                );
+
+            if (personaDto.getGradoAcademico() != null)
+                persona.getInvestigador().setGradoAcademico(
+                        personaDto.getGradoAcademico()
+                );
+        }
+
+
+        // Personal
+        if (persona.getPersonal() != null) {
+
+            if (personaDto.getTipoPersonal() != null)
+                persona.getPersonal().setTipoPersonal(
+                        personaDto.getTipoPersonal()
+                );
+        }
+
+
+        // Consejo
+        if (persona.getIntegranteConsejoEducativo() != null) {
+
+            if (personaDto.getCargo() != null)
+                persona.getIntegranteConsejoEducativo().setCargo(
+                        personaDto.getCargo()
+                );
+        }
+
+
+        Persona actualizada = personaRepository.save(persona);
+
+
+        return new PersonaResponse(
+                actualizada.getOidPersona(),
+                actualizada.getNombre(),
+                actualizada.getApellido(),
+                actualizada.getHorasSemanales(),
+                actualizada.getTipoPersona().name(),
+                actualizada.getActivo(),
+                actualizada.getGrupo().getOidGrupo(),
+                actualizada.getGrupo().getNombreGrupo()
+        );
+    }
+
+
+
+    public void quitarPersonaDelGrupo(
+            Usuario usuario,
+            Long oidPersona
+    ) {
+
+        // Validar que el usuario tenga grupo
+        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
+            throw new RuntimeException("El usuario no pertenece a ningún grupo");
+        }
+
+        // Validar rol
+        if (usuario.getRole() != Role.Director &&
+                usuario.getRole() != Role.ViceDirector) {
+
+            throw new RuntimeException("No tiene permisos para quitar personas");
+        }
+
+        Long oidGrupoUsuario =
+                usuario.getPersona().getGrupo().getOidGrupo();
+
+        // Buscar persona del mismo grupo y activa
+        Persona persona = personaRepository
+                .findByOidPersonaAndGrupoOidGrupoAndActivoTrue(
+                        oidPersona,
+                        oidGrupoUsuario
+                )
+                .orElseThrow(() ->
+                        new RuntimeException("Persona no encontrada en su grupo")
+                );
+
+        // Soft delete
+        persona.setActivo(false);
+
+        personaRepository.save(persona);
+    }
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+

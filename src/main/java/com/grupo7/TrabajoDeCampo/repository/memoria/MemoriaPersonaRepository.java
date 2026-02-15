@@ -6,6 +6,7 @@ import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaPersona;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemoriaPersonaRepository
         extends JpaRepository<MemoriaPersona, Long> {
@@ -13,4 +14,10 @@ public interface MemoriaPersonaRepository
     boolean existsByMemoriaAndOidPersona(Memoria memoria, Long oidPersona);
 
     List<MemoriaPersona> findByMemoria(Memoria memoria);
+
+    Optional<MemoriaPersona> findByMemoriaAndOidPersona(
+            Memoria memoria,
+            Long oidPersona
+    );
+
 }

@@ -17,4 +17,10 @@ public interface MemoriaDocumentoRepository extends JpaRepository<MemoriaDocumen
     // buscar relación memoria-documento (para evitar duplicados / borrar)
     Optional<MemoriaDocumento> findByMemoriaAndOidDocumento(Memoria memoria, Long oidDocumento);
 
+    boolean existsByMemoriaAndOidDocumento(
+            Memoria memoria,
+            Long oidDocumento
+    );
+
+
 }
