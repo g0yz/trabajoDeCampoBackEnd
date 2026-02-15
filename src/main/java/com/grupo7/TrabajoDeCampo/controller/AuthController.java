@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired
@@ -48,11 +48,18 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UsuarioLoginRequest request) {
 
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail()).orElse(null);
+
+        if (usuario == null) {
+            return ResponseEntity
+                    .status(401)
+                    .body(Map.of("error", "Usuario no encontrado"));
+        }
 
         if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
-            throw new RuntimeException("Contraseña incorrecta");
+            return ResponseEntity
+                    .status(401)
+                    .body(Map.of("error", "Contraseña incorrecta"));
         }
 
         String token = jwtService.generarToken(usuario);
