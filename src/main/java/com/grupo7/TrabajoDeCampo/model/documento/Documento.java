@@ -3,6 +3,8 @@ package com.grupo7.TrabajoDeCampo.model.documento;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import jakarta.persistence.*;
 
+import java.sql.Blob;
+
 @Entity
 @Table(name = "Documento")
 public class Documento {
@@ -25,12 +27,15 @@ public class Documento {
     private Integer anio;
 
     @Lob
-    @Column(name = "archivo_base64", columnDefinition = "TEXT")
-    private String archivoBase64;
+    @Column(name = "archivoBase64")
+    private byte[] archivoBase64;
 
 
     @Column(name = "activo")
     private Boolean activo = true;
+
+    @Column(name = "nombre_archivo")
+    private String nombreArchivo;
 
     @ManyToOne
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
@@ -41,11 +46,12 @@ public class Documento {
     }
 
 
-    public Documento(String titulo, String autores, String editorial, Integer anio, String archivoBase64, Grupo grupo) {
+    public Documento(String titulo, String autores, String editorial, Integer anio, byte[] archivoBase64, Grupo grupo, String nombreArchivo) {
         this.titulo = titulo;
         this.autores = autores;
         this.editorial = editorial;
         this.anio = anio;
+        this.nombreArchivo = nombreArchivo;
         this.archivoBase64 = archivoBase64;
         this.activo = true;
         this.grupo = grupo;
@@ -77,14 +83,13 @@ public class Documento {
     }
 
 
-    public String getArchivoBase64() {
+    public byte[] getArchivoBase64() {
         return archivoBase64;
     }
 
-    public void setArchivoBase64(String archivoBase64) {
+    public void setArchivoBase64(byte[] archivoBase64) {
         this.archivoBase64 = archivoBase64;
     }
-
 
     public Boolean getActivo() {
         return activo;
@@ -116,6 +121,11 @@ public class Documento {
     }
 
 
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
 
-
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
+    }
 }

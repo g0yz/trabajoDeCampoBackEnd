@@ -147,7 +147,7 @@ import java.util.List;
             }
 
             // Validar rol (solo Director)
-            if (usuario.getRole() != Role.Director) {
+            if (usuario.getRole() != Role.DIRECTOR) {
                 throw new RuntimeException("Solo el Director puede agregar personas");
             }
 
@@ -241,7 +241,7 @@ import java.util.List;
         ) {
 
             // Validar rol
-            if (usuario.getRole() != Role.Director) {
+            if (usuario.getRole() != Role.DIRECTOR) {
                 throw new RuntimeException("No tiene permisos");
             }
 
@@ -289,7 +289,7 @@ import java.util.List;
         ) {
 
             // Validar rol
-            if (usuario.getRole() != Role.Director) {
+            if (usuario.getRole() != Role.DIRECTOR) {
                 throw new RuntimeException("No tiene permisos");
             }
 

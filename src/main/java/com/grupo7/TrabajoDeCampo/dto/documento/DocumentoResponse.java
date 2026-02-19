@@ -1,5 +1,7 @@
 package com.grupo7.TrabajoDeCampo.dto.documento;
 
+import java.sql.Blob;
+
 public class DocumentoResponse {
 
     private Long oidDocumento;
@@ -8,6 +10,7 @@ public class DocumentoResponse {
     private String editorial;
     private Integer anio;
     private Boolean activo;
+
 
     // info mínima del grupo
     private Long oidGrupo;
@@ -21,7 +24,9 @@ public class DocumentoResponse {
             Integer anio,
             Boolean activo,
             Long oidGrupo,
-            String nombreGrupo) {
+            String nombreGrupo
+
+            ) {
 
         this.oidDocumento = oidDocumento;
         this.titulo = titulo;
@@ -34,6 +39,13 @@ public class DocumentoResponse {
     }
 
     public DocumentoResponse(Long oidDocumento, String titulo, String autores, String editorial, Integer anio, Boolean activo) {
+        this.oidDocumento = oidDocumento;
+
+        this.titulo = titulo;
+        this.autores = autores;
+        this.editorial = editorial;
+        this.anio = anio;
+        this.activo = true;
     }
 
     public Long getOidDocumento() { return oidDocumento; }

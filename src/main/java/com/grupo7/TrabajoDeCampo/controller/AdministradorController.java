@@ -1,4 +1,5 @@
 package com.grupo7.TrabajoDeCampo.controller;
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoArchivoResponse;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
@@ -36,16 +37,19 @@ import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
 @RestController
-@PreAuthorize("hasRole('Administrador')")
+@PreAuthorize("hasRole('ADMINISTRADOR')")
 @RequestMapping("/administrador")
 public class AdministradorController {
 
@@ -141,9 +145,20 @@ public class AdministradorController {
     }
 
     //eliminar un Documento
-    @DeleteMapping("/documentos/eliminarDocumento/{oidDocumeto}")
-    public void eliminarDocumento(@PathVariable Long oidDocumento) {
+    @DeleteMapping("/documentos/eliminarDocumento/{oidDocumento}")
+    public void eliminarDocumento(@PathVariable("oidDocumento") Long oidDocumento) {
         documentoService.eliminarDocumentoAdmin(oidDocumento);
+    }
+
+    @GetMapping("/documentos/descargarDocumento/{oidDocumento}")
+    public ResponseEntity<InputStreamResource> descargarDocumento(@PathVariable Long oid) throws SQLException {
+
+        DocumentoArchivoResponse docResp = documentoService.descargarDocumento(oid);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + docResp.getNombreArchivo() + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(docResp.getInputStream()));
     }
 
     //-----------------------------------EQUIPOS-----------------------------------

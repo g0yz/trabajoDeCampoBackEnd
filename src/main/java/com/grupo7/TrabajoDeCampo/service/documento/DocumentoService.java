@@ -1,5 +1,6 @@
 package com.grupo7.TrabajoDeCampo.service.documento;
 
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoArchivoResponse;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoRequest;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 
@@ -11,6 +12,10 @@ import com.grupo7.TrabajoDeCampo.repository.grupo.GrupoRepository;
 import org.springframework.stereotype.Service;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +49,8 @@ public class DocumentoService {
                 ))
                 .toList();
     }
+
+
 
     public Optional<Documento> obtenerDocumentoPorIdAdmin(Long oid){
         return documentoRepository.findById(oid);
@@ -94,7 +101,9 @@ public class DocumentoService {
                         doc.getAutores(),
                         doc.getEditorial(),
                         doc.getAnio(),
-                        doc.getActivo()
+                        doc.getActivo(),
+                        doc.getGrupo().getOidGrupo(),
+                        doc.getGrupo().getNombreGrupo()
                 ))
                 .toList();
     }
@@ -102,10 +111,6 @@ public class DocumentoService {
 
 
     public DocumentoResponse agregarDocumento(Usuario usuario, DocumentoRequest request) {
-
-        if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
-            throw new RuntimeException("El usuario no pertenece a ningún grupo");
-        }
 
         Grupo grupo = usuario.getPersona().getGrupo();
 
@@ -119,7 +124,8 @@ public class DocumentoService {
         documento = documentoRepository.save(documento);
         return new DocumentoResponse(
                 documento.getOidDocumento(), documento.getTitulo(), documento.getAutores(),
-                documento.getEditorial(), documento.getAnio(), documento.getActivo()
+                documento.getEditorial(), documento.getAnio(), documento.getActivo(),
+                documento.getGrupo().getOidGrupo(), documento.getGrupo().getNombreGrupo()
         );
     }
 
@@ -132,7 +138,8 @@ public class DocumentoService {
         return documentoRepository.findByGrupoOidGrupoAndActivoTrue(oidGrupo)
                 .stream()
                 .map(d -> new DocumentoResponse(
-                        d.getOidDocumento(), d.getTitulo(), d.getAutores(), d.getEditorial(), d.getAnio(), d.getActivo()
+                        d.getOidDocumento(), d.getTitulo(), d.getAutores(), d.getEditorial(), d.getAnio(), d.getActivo(),d.getGrupo().getOidGrupo(),
+                        d.getGrupo().getNombreGrupo()
                 ))
                 .toList();
     }
@@ -142,14 +149,25 @@ public class DocumentoService {
         if (usuario.getPersona() == null || usuario.getPersona().getGrupo() == null) {
             throw new RuntimeException("El usuario no pertenece a ningún grupo");
         }
+
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
 
-        return documentoRepository
+        Documento documento = documentoRepository
                 .findByOidDocumentoAndGrupoOidGrupoAndActivoTrue(oidDocumento, oidGrupo)
                 .orElseThrow(() ->
                         new RuntimeException("Documento no encontrado en el grupo del director")
                 );
 
+        return new DocumentoResponse(
+                documento.getOidDocumento(),
+                documento.getTitulo(),
+                documento.getAutores(),
+                documento.getEditorial(),
+                documento.getAnio(),
+                documento.getActivo(),
+                documento.getGrupo().getOidGrupo(),
+                documento.getGrupo().getNombreGrupo()
+        );
     }
 
     public DocumentoResponse editarDocumento(Usuario usuario, Long oidDocumento, DocumentoRequest request) {
@@ -168,7 +186,8 @@ public class DocumentoService {
         documento = documentoRepository.save(documento);
         return new DocumentoResponse(
                 documento.getOidDocumento(), documento.getTitulo(), documento.getAutores(),
-                documento.getEditorial(), documento.getAnio(), documento.getActivo()
+                documento.getEditorial(), documento.getAnio(), documento.getActivo(),
+                documento.getGrupo().getOidGrupo(), documento.getGrupo().getNombreGrupo()
         );
     }
 
@@ -184,6 +203,24 @@ public class DocumentoService {
         documentoRepository.save(documento);
     }
 
+
+
+
+    public DocumentoArchivoResponse descargarDocumento(Long oidDocumento) {
+        Documento documento = documentoRepository.findById(oidDocumento)
+                .orElseThrow(() -> new RuntimeException(
+                        "Documento no encontrado con oid: " + oidDocumento
+                ));
+
+        byte[] archivoBytes = documento.getArchivoBase64();
+
+        InputStream archivoStream = new ByteArrayInputStream(archivoBytes);
+
+        return new DocumentoArchivoResponse(
+                archivoStream,
+                documento.getNombreArchivo()
+        );
+    }
 
 
 

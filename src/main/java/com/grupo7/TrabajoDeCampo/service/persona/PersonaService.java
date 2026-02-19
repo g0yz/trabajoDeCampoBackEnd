@@ -218,8 +218,8 @@ public class PersonaService {
         }
 
         // Validar rol
-        if (usuario.getRole() != Role.Director &&
-                usuario.getRole() != Role.ViceDirector) {
+        if (usuario.getRole() != Role.DIRECTOR &&
+                usuario.getRole() != Role.VICEDIRECTOR) {
 
             throw new RuntimeException("No tiene permisos para agregar personas");
         }
@@ -340,8 +340,8 @@ public class PersonaService {
         }
 
         // Validar rol
-        if (usuario.getRole() != Role.Director &&
-                usuario.getRole() != Role.ViceDirector) {
+        if (usuario.getRole() != Role.DIRECTOR &&
+                usuario.getRole() != Role.VICEDIRECTOR) {
 
             throw new RuntimeException("No tiene permisos para editar personas");
         }
@@ -458,8 +458,8 @@ public class PersonaService {
         }
 
         // Validar rol
-        if (usuario.getRole() != Role.Director &&
-                usuario.getRole() != Role.ViceDirector) {
+        if (usuario.getRole() != Role.DIRECTOR &&
+                usuario.getRole() != Role.VICEDIRECTOR) {
 
             throw new RuntimeException("No tiene permisos para quitar personas");
         }

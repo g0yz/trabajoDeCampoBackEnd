@@ -98,7 +98,7 @@ public class MemoriaDocumentoService {
         }
 
         // Validar rol
-        if (usuario.getRole() != Role.Director) {
+        if (usuario.getRole() != Role.DIRECTOR) {
             throw new RuntimeException("Solo el Director puede modificar memorias");
         }
 
@@ -150,7 +150,7 @@ public class MemoriaDocumentoService {
         }
 
         // Validar rol (solo Director)
-        if (usuario.getRole() != Role.Director) {
+        if (usuario.getRole() != Role.DIRECTOR) {
             throw new RuntimeException("Solo el Director puede acceder");
         }
 
@@ -194,7 +194,7 @@ public class MemoriaDocumentoService {
         }
 
         // Validar rol (solo Director)
-        if (usuario.getRole() != Role.Director) {
+        if (usuario.getRole() != Role.DIRECTOR) {
             throw new RuntimeException("Solo el Director puede quitar documentos");
         }
 

@@ -99,7 +99,7 @@ public class MemoriaEquipoService {
         }
 
         // SOLO DIRECTOR
-        if (usuario.getRole() != Role.Director) {
+        if (usuario.getRole() != Role.DIRECTOR) {
             throw new RuntimeException(
                     "Solo el Director puede modificar memorias");
         }
@@ -155,7 +155,7 @@ public class MemoriaEquipoService {
         }
 
         // Validar rol (solo Director)
-        if (usuario.getRole() != Role.Director) {
+        if (usuario.getRole() != Role.DIRECTOR) {
             throw new RuntimeException("Solo el director puede ver los equipos");
         }
 
@@ -197,7 +197,7 @@ public class MemoriaEquipoService {
         }
 
         // Validar rol
-        if (usuario.getRole() != Role.Director) {
+        if (usuario.getRole() != Role.DIRECTOR) {
             throw new RuntimeException("Solo el director puede quitar equipos");
         }
 

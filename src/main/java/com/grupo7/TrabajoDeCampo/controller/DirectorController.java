@@ -2,6 +2,7 @@ package com.grupo7.TrabajoDeCampo.controller;
 
 
 
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoArchivoResponse;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoRequest;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoRequest;
@@ -32,17 +33,20 @@ import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 import com.grupo7.TrabajoDeCampo.service.usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
-@CrossOrigin(origins = "*")
 @RestController
-@PreAuthorize("hasRole('Director')")
+@PreAuthorize("hasRole('DIRECTOR')")
 @RequestMapping("/director")
 public class DirectorController {
 
@@ -154,7 +158,7 @@ public class DirectorController {
     }
 
     //quitar documento del grupo SOFT
-    @DeleteMapping("/documentos/quitarDocumento/{oidDocumento}")
+    @PutMapping("/documentos/quitarDocumento/{oidDocumento}")
     public ResponseEntity<String> quitarDocumento(
             Authentication auth,
             @PathVariable Long oidDocumento
@@ -167,6 +171,17 @@ public class DirectorController {
         return ResponseEntity.ok("Documento eliminado correctamente");
     }
 
+
+    @GetMapping("/documentos/descargarDocumento/{oidDocumento}")
+    public ResponseEntity<InputStreamResource> descargarDocumento(@PathVariable Long oid) throws SQLException {
+
+        DocumentoArchivoResponse docResp = documentoService.descargarDocumento(oid);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + docResp.getNombreArchivo() + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(docResp.getInputStream()));
+    }
 
     //-----------------------------------EQUIPOS-----------------------------------
 
@@ -217,7 +232,7 @@ public class DirectorController {
     }
 
     //editar equipo del grupo
-    @PutMapping("/equipos")
+    @PutMapping("/equipos/actualizarEquipo/{oidEquipo}")
     public ResponseEntity<EquipoResponse> editarEquipo(
             Authentication auth,
             @PathVariable Long oidEquipo,
@@ -233,7 +248,7 @@ public class DirectorController {
     }
 
     // quitar equipo del grupo (SOFT DELETE)
-    @DeleteMapping("/equipos/quitarEquipo/{oidEquipo}")
+    @PutMapping("/equipos/quitarEquipo/{oidEquipo}")
     public ResponseEntity<String> quitarEquipo(
             Authentication auth,
             @PathVariable Long oidEquipo

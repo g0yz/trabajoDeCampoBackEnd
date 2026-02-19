@@ -36,6 +36,13 @@ public class EquipoResponse {
     }
 
     public EquipoResponse(Long oidEquipo, String denominacion, Timestamp fechaIncorporacion, Double montoInvertido, String descripcion, Boolean activo) {
+        this.oidEquipo = oidEquipo;
+        this.denominacion = denominacion;
+        this.fechaIncorporacion = fechaIncorporacion;
+        this.montoInvertido = montoInvertido;
+        this.descripcion = descripcion;
+        this.activo = activo;
+
     }
 
     public Long getOidEquipo() {

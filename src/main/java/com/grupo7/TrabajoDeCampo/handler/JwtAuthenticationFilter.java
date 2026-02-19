@@ -37,7 +37,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -53,19 +52,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        Role role;
+        try {
+            role = Role.valueOf(
+                    claims.get("role", String.class).toUpperCase()
+            );
+        } catch (IllegalArgumentException e) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String email = claims.getSubject();
-        String role = claims.get("role", String.class);
 
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElse(null);
+        Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
 
-        if (usuario != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (usuario != null &&
+                SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(
                             usuario,
                             null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                            List.of(new SimpleGrantedAuthority("ROLE_" + role.name()))
                     );
 
             authToken.setDetails(

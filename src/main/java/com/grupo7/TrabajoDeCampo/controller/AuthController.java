@@ -14,7 +14,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired
@@ -37,7 +36,7 @@ public class AuthController {
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
         usuario.setPassword(passwordEncoder.encode(request.getPassword()));
-        usuario.setRole(Role.Administrador); // IMPORTANTE este metodo crea un usuario sin persona y registra al usuario como admin
+        usuario.setRole(Role.ADMINISTRADOR); // IMPORTANTE este metodo crea un usuario sin persona y registra al usuario como admin
 
         usuarioRepository.save(usuario);
 
