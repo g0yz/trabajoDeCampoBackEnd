@@ -22,8 +22,11 @@ public class Usuario {
     private String password;
 
     @OneToOne
-    @JoinColumn(name="oidPersona",referencedColumnName = "oidPersona",nullable = true)
+    @JoinColumn(name="oidPersona",referencedColumnName = "oidPersona",nullable = true, unique = true)
     private Persona persona;
+
+    @Column(name = "activo")
+    private Boolean activo = true;
 
 
     //CONSTRUCTORES
@@ -33,6 +36,7 @@ public class Usuario {
     public Usuario(String email,String password,Role role ){
         this.email = email;
         this.role = role;
+        this.activo = true;
         setPassword(password);
     }
 
@@ -41,6 +45,7 @@ public class Usuario {
         this.email = email;
         this.role = role;
         this.persona = persona;
+        this.activo = true;
         setPassword(password);
     }
 
@@ -68,7 +73,13 @@ public class Usuario {
         return persona;
     }
 
+    public Boolean getActivo() {
+        return activo;
+    }
 
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
 
 
 //SETTERS

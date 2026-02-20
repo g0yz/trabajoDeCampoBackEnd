@@ -57,8 +57,20 @@ public class PersonaService {
                         p.getNombre(),
                         p.getApellido(),
                         p.getHorasSemanales(),
-                        p.getTipoPersona().name(),
-                        p.getActivo(),
+                        p.getTipoPersona(),
+                        // INVESTIGADOR
+                        p.getInvestigador() != null ? p.getInvestigador().getCategoriaUTN() : null,
+                        p.getInvestigador() != null ? p.getInvestigador().getProgramaDeIncentivos() : null,
+                        p.getInvestigador() != null ? p.getInvestigador().getDedicacion() : null,
+                        p.getInvestigador() != null ? p.getInvestigador().getGradoAcademico() : null,
+                        // BECARIO
+                        p.getBecario() != null ? p.getBecario().getFuenteFinanciamiento() : null,
+                        p.getBecario() != null ? p.getBecario().getTipoBecario() : null,
+                        // PERSONAL
+                        p.getPersonal() != null ? p.getPersonal().getTipoPersonal() : null,
+                        // CONSEJO EDUCATIVO
+                        p.getIntegranteConsejoEducativo() != null ? p.getIntegranteConsejoEducativo().getCargo() : null,
+                        // GRUPO
                         p.getGrupo().getOidGrupo(),
                         p.getGrupo().getNombreGrupo()
                 ))
@@ -197,10 +209,34 @@ public class PersonaService {
     }
 
 
-    public void eliminarPersona(Long oid) {
-        personaRepository.deleteById(oid);
-    }
+    public void desactivarPersona(Long oidPersona) {
 
+        Persona persona = personaRepository.findById(oidPersona)
+                .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+
+
+        // Desactivar tipo si existe
+        if (persona.getInvestigador() != null) {
+            persona.getInvestigador().setActivo(false);
+        }
+
+        if (persona.getBecario() != null) {
+            persona.getBecario().setActivo(false);
+        }
+
+        if (persona.getIntegranteConsejoEducativo() != null) {
+            persona.getIntegranteConsejoEducativo().setActivo(false);
+        }
+
+        if (persona.getPersonal() != null) {
+            persona.getPersonal().setActivo(false);
+        }
+
+        // Desactivar persona
+        persona.setActivo(false);
+
+        personaRepository.save(persona);
+    }
 
 
 
@@ -318,8 +354,20 @@ public class PersonaService {
                 guardada.getNombre(),
                 guardada.getApellido(),
                 guardada.getHorasSemanales(),
-                guardada.getTipoPersona().name(),
-                guardada.getActivo(),
+                guardada.getTipoPersona(),
+                // INVESTIGADOR
+                guardada.getInvestigador() != null ? guardada.getInvestigador().getCategoriaUTN() : null,
+                guardada.getInvestigador() != null ? guardada.getInvestigador().getProgramaDeIncentivos() : null,
+                guardada.getInvestigador() != null ? guardada.getInvestigador().getDedicacion() : null,
+                guardada.getInvestigador() != null ? guardada.getInvestigador().getGradoAcademico() : null,
+                // BECARIO
+                guardada.getBecario() != null ? guardada.getBecario().getFuenteFinanciamiento() : null,
+                guardada.getBecario() != null ? guardada.getBecario().getTipoBecario() : null,
+                // PERSONAL
+                guardada.getPersonal() != null ? guardada.getPersonal().getTipoPersonal() : null,
+                // CONSEJO EDUCATIVO
+                guardada.getIntegranteConsejoEducativo() != null ? guardada.getIntegranteConsejoEducativo().getCargo() : null,
+                // GRUPO
                 guardada.getGrupo().getOidGrupo(),
                 guardada.getGrupo().getNombreGrupo()
         );
@@ -438,8 +486,20 @@ public class PersonaService {
                 actualizada.getNombre(),
                 actualizada.getApellido(),
                 actualizada.getHorasSemanales(),
-                actualizada.getTipoPersona().name(),
-                actualizada.getActivo(),
+                actualizada.getTipoPersona(),
+                // INVESTIGADOR
+                actualizada.getInvestigador() != null ? actualizada.getInvestigador().getCategoriaUTN() : null,
+                actualizada.getInvestigador() != null ? actualizada.getInvestigador().getProgramaDeIncentivos() : null,
+                actualizada.getInvestigador() != null ? actualizada.getInvestigador().getDedicacion() : null,
+                actualizada.getInvestigador() != null ? actualizada.getInvestigador().getGradoAcademico() : null,
+                // BECARIO
+                actualizada.getBecario() != null ? actualizada.getBecario().getFuenteFinanciamiento() : null,
+                actualizada.getBecario() != null ? actualizada.getBecario().getTipoBecario() : null,
+                // PERSONAL
+                actualizada.getPersonal() != null ? actualizada.getPersonal().getTipoPersonal() : null,
+                // CONSEJO EDUCATIVO
+                actualizada.getIntegranteConsejoEducativo() != null ? actualizada.getIntegranteConsejoEducativo().getCargo() : null,
+                // GRUPO
                 actualizada.getGrupo().getOidGrupo(),
                 actualizada.getGrupo().getNombreGrupo()
         );

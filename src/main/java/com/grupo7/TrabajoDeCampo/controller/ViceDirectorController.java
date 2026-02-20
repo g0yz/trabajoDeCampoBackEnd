@@ -40,6 +40,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -96,16 +97,19 @@ public class ViceDirectorController {
     //-----------------------------------DOCUMENTOS-----------------------------------
 
     //agregar documento al grupo
-    @PostMapping("/documentos/agregarDocumento")
+    @PostMapping(
+            value = "/documentos/agregarDocumento",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<DocumentoResponse> agregarDocumento(
             Authentication auth,
-            @RequestBody DocumentoRequest request
+            @RequestPart("documento") DocumentoRequest request,
+            @RequestPart(value = "archivo", required = false) MultipartFile archivo
     ) {
-
         Usuario usuario = (Usuario) auth.getPrincipal();
 
         DocumentoResponse response =
-                documentoService.agregarDocumento(usuario, request);
+                documentoService.agregarDocumento(usuario, request, archivo);
 
         return ResponseEntity.ok(response);
     }
@@ -140,17 +144,26 @@ public class ViceDirectorController {
     }
 
     //editar documento del grupo
-    @PutMapping("/documentos/editarDocumento/{oidDocumento}")
+    @PutMapping(
+            value = "/documentos/actualizarDocumento/{oidDocumento}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<DocumentoResponse> editarDocumento(
             Authentication auth,
             @PathVariable Long oidDocumento,
-            @RequestBody DocumentoRequest request
+            @RequestPart("documento") DocumentoRequest request,
+            @RequestPart(value = "archivo", required = false) MultipartFile archivo
     ) {
 
         Usuario usuario = (Usuario) auth.getPrincipal();
 
         DocumentoResponse response =
-                documentoService.editarDocumento(usuario, oidDocumento, request);
+                documentoService.actualizarDocumento(
+                        usuario,
+                        oidDocumento,
+                        request,
+                        archivo
+                );
 
         return ResponseEntity.ok(response);
     }
@@ -171,14 +184,10 @@ public class ViceDirectorController {
 
 
     @GetMapping("/documentos/descargarDocumento/{oidDocumento}")
-    public ResponseEntity<InputStreamResource> descargarDocumento(@PathVariable Long oid) throws SQLException {
+    public ResponseEntity<byte[]> descargarDocumento(
+            @PathVariable("oidDocumento") Long oidDocumento) {
 
-        DocumentoArchivoResponse docResp = documentoService.descargarDocumento(oid);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + docResp.getNombreArchivo() + "\"")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(new InputStreamResource(docResp.getInputStream()));
+        return documentoService.descargarDocumento(oidDocumento);
     }
 
     //-----------------------------------EQUIPOS-----------------------------------
@@ -278,7 +287,7 @@ public class ViceDirectorController {
 
 
     //editar una persona del grupo
-    @PutMapping("/personas/editarPersona/{oidPersona}")
+    @PutMapping("/personas/actualizarPersona/{oidPersona}")
     public PersonaResponse editarPersona(
             @PathVariable Long oidPersona,
             @RequestBody PersonaRequest request,
@@ -349,7 +358,7 @@ public class ViceDirectorController {
     //-----------------------------------INTEGRANTES CONSEJO EDUCATIVO-----------------------------------
 
     //listar todos las integrantes del Consejo Educativo del grupo
-    @GetMapping ("/personas/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
+    @GetMapping ("/personas/integrantesConsejoEducativo/listarIntegrantesConsejoEducativo")
     public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativoDelGrupo(Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
@@ -357,7 +366,7 @@ public class ViceDirectorController {
     }
 
     //obtener una integranteConsejoEducativo en especifico del grupo
-    @GetMapping("/personas/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    @GetMapping("/personas/integrantesConsejoEducativo/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
     public IntegranteConsejoEducativoResponse obtenerIntegranteConsejoEducativoDelGrupo(@PathVariable Long oidGrupo, @PathVariable Long oidIntegranteConsejoEducativo) {
         return integranteConsejoEducativoService
                 .obtenerIntegranteConsejoEducativoDelGrupo(

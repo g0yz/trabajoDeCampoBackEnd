@@ -26,8 +26,7 @@ public class Documento {
     @Column(name = "anio")
     private Integer anio;
 
-    @Lob
-    @Column(name = "archivoBase64")
+    @Column(name = "archivo_base64", columnDefinition = "bytea")
     private byte[] archivoBase64;
 
 

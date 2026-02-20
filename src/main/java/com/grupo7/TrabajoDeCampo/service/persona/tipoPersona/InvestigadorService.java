@@ -21,27 +21,40 @@ public class InvestigadorService {
 
 
     public List<InvestigadorResponse> listarInvestigadores() {
-        return investigadorRepository.findAll()
+        return investigadorRepository.findByActivoTrue()
                 .stream()
-                .map(i -> new InvestigadorResponse(
-                        i.getOidInvestigador(),
-                        i.getCategoriaUTN(),
-                        i.getProgramaDeIncentivos(),
-                        i.getDedicacion(),
-                        i.getGradoAcademico(),
-                        i.getActivo(),
-
-                        // Persona
-                        i.getPersona().getNombre(),
-                        i.getPersona().getApellido(),
-                        i.getPersona().getHorasSemanales(),
-
-                        // Grupo
-                        i.getPersona().getGrupo().getOidGrupo(),
-                        i.getPersona().getGrupo().getNombreGrupo()
-                ))
+                .map(this::mapearAResponse)
                 .toList();
     }
+
+
+    private InvestigadorResponse mapearAResponse(Investigador i) {
+
+        return new InvestigadorResponse(
+                i.getPersona().getOidPersona(),
+                i.getOidInvestigador(),
+                i.getCategoriaUTN(),
+                i.getProgramaDeIncentivos(),
+                i.getDedicacion(),
+                i.getGradoAcademico(),
+                i.getActivo(),
+
+                // Persona
+                i.getPersona().getNombre(),
+                i.getPersona().getApellido(),
+                i.getPersona().getHorasSemanales(),
+
+                // Grupo
+                i.getPersona().getGrupo().getOidGrupo(),
+                i.getPersona().getGrupo().getNombreGrupo()
+        );
+    }
+
+
+
+
+
+
 
     public InvestigadorResponse obtenerInvestigadorPorId(Long oidInvestigador) {
 
@@ -49,6 +62,7 @@ public class InvestigadorService {
                 .orElseThrow(() -> new RuntimeException("Investigador no encontrado"));
 
         return new InvestigadorResponse(
+                i.getPersona().getOidPersona(),
                 i.getOidInvestigador(),
                 i.getCategoriaUTN(),
                 i.getProgramaDeIncentivos(),
@@ -116,6 +130,7 @@ public class InvestigadorService {
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
                 .map(i -> new InvestigadorResponse(
+                        i.getPersona().getOidPersona(),
                         i.getOidInvestigador(),
                         i.getCategoriaUTN(),
                         i.getProgramaDeIncentivos(),
@@ -124,7 +139,9 @@ public class InvestigadorService {
                         i.getActivo(),
                         i.getPersona().getNombre(),
                         i.getPersona().getApellido(),
-                        i.getPersona().getHorasSemanales()
+                        i.getPersona().getHorasSemanales(),
+                        i.getPersona().getGrupo().getOidGrupo(),
+                        i.getPersona().getGrupo().getNombreGrupo()
                 ))
                 .toList();
     }
@@ -140,6 +157,7 @@ public class InvestigadorService {
                 .orElseThrow(() -> new RuntimeException("Investigador no encontrado"));
 
         return new InvestigadorResponse(
+                investigador.getPersona().getOidPersona(),
                 investigador.getOidInvestigador(),
                 investigador.getCategoriaUTN(),
                 investigador.getProgramaDeIncentivos(),
@@ -148,7 +166,9 @@ public class InvestigadorService {
                 investigador.getActivo(),
                 investigador.getPersona().getNombre(),
                 investigador.getPersona().getApellido(),
-                investigador.getPersona().getHorasSemanales()
+                investigador.getPersona().getHorasSemanales(),
+                investigador.getPersona().getGrupo().getOidGrupo(),
+                investigador.getPersona().getGrupo().getNombreGrupo()
         );
     }
 

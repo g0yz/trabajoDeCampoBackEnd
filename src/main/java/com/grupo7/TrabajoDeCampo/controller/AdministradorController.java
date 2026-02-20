@@ -1,5 +1,6 @@
 package com.grupo7.TrabajoDeCampo.controller;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoArchivoResponse;
+import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoRequest;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
@@ -43,7 +44,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -120,9 +123,21 @@ public class AdministradorController {
     //-----------------------------------DOCUMENTOS-----------------------------------
 
     //crear nuevo Documento
-    @PostMapping("/documentos/agregarDocumento/{oidGrupo}")
-    public Documento crearDocumento(@RequestBody Documento documento, @PathVariable("oidGrupo") Long oidGrupo){
-        return documentoService.crearDocumentoAdmin(documento, oidGrupo);
+    @PostMapping(
+            value = "/documentos/agregarDocumento/{oidGrupo}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public DocumentoResponse crearDocumento(
+            @PathVariable Long oidGrupo,
+            @RequestPart("documento") DocumentoRequest request,
+            @RequestPart(value = "archivo", required = false) MultipartFile archivo
+    ) throws IOException {
+
+        return documentoService.crearDocumentoAdmin(
+                request,
+                oidGrupo,
+                archivo
+        );
     }
 
     //listar todos los documentos
@@ -139,9 +154,21 @@ public class AdministradorController {
     }
 
     //actualizar un Documento
-    @PutMapping("/documentos/actualizarDocumento/{oidDocumento}")
-    public Documento actualizarDocumento(@PathVariable("oidDocumento") Long oidDocumento, @RequestBody Documento docuemntoActualizado){
-        return documentoService.actualizarDocumentoAdmin(oidDocumento, docuemntoActualizado);
+    @PutMapping(
+            value = "/documentos/actualizarDocumento/{oidDocumento}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public DocumentoResponse actualizarDocumento(
+            @PathVariable Long oidDocumento,
+            @RequestPart("documento") DocumentoRequest request,
+            @RequestPart(value = "archivo", required = false) MultipartFile archivo
+    ) throws IOException {
+
+        return documentoService.actualizarDocumentoAdmin(
+                oidDocumento,
+                request,
+                archivo
+        );
     }
 
     //eliminar un Documento
@@ -151,15 +178,16 @@ public class AdministradorController {
     }
 
     @GetMapping("/documentos/descargarDocumento/{oidDocumento}")
-    public ResponseEntity<InputStreamResource> descargarDocumento(@PathVariable Long oid) throws SQLException {
+    public ResponseEntity<byte[]> descargarDocumento(
+            @PathVariable("oidDocumento") Long oidDocumento) {
 
-        DocumentoArchivoResponse docResp = documentoService.descargarDocumento(oid);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + docResp.getNombreArchivo() + "\"")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(new InputStreamResource(docResp.getInputStream()));
+        return documentoService.descargarDocumento(oidDocumento);
     }
+
+
+
+
+
 
     //-----------------------------------EQUIPOS-----------------------------------
     //crear nuevo equipo
@@ -219,9 +247,9 @@ public class AdministradorController {
 
 
 
-    //eliminar una persona
-    @DeleteMapping("/personas/eliminarPersona/{oidPersona}") public void eliminarPersona (@PathVariable Long oidPersona) {
-        personaService.eliminarPersona(oidPersona); }
+    //quitar una persona
+    @PutMapping("/personas/quitarPersona/{oidPersona}") public void eliminarPersona (@PathVariable Long oidPersona) {
+        personaService.desactivarPersona(oidPersona); }
 
 
     //-----------------------------------BECARIOS-----------------------------------
@@ -257,13 +285,13 @@ public class AdministradorController {
     //-----------------------------------INTEGRANTES CONSEJO EDUCATIVO-----------------------------------
 
     //listar todas las integranteConsejoEducativos
-    @GetMapping("/personas/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
+    @GetMapping("/personas/integrantesConsejoEducativo/listarIntegrantesConsejoEducativo")
     public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativo() {
         return integranteConsejoEducativoService.listarIntegrantesConsejoEducativo();
     }
 
     //obtener una integranteConsejoEducativo en especifico por ID
-    @GetMapping("/personas/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    @GetMapping("/personas/integrantesConsejoEducativo/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
     public ResponseEntity<IntegranteConsejoEducativoResponse> obtenerIntegranteConsejoEducativoPorId(
             @PathVariable Long oidIntegranteConsejoEducativo) {
 

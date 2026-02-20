@@ -38,6 +38,13 @@ public class UsuarioService {
         usuario.setRole(dto.getRole());
         usuario.setPersona(persona);
 
+        persona.setUsuario(usuario);
+
+
         return usuarioRepository.save(usuario);
     }
+
+
+
+
 }

@@ -74,4 +74,5 @@ public class Becario {
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
+
 }

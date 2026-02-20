@@ -31,12 +31,14 @@ public class Persona {
     private Boolean activo = true;
 
     @OneToOne
-    @JoinColumn(name="oidUsuario",referencedColumnName = "oidUsuario",nullable = true)
+    @JoinColumn(name = "oid_usuario", nullable = true)
+    @JsonIgnore
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name="oidGrupo", referencedColumnName = "oidGrupo", nullable = false)
     private Grupo grupo;
+
 
 
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
@@ -165,5 +167,6 @@ public class Persona {
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
     }
+
 
 }

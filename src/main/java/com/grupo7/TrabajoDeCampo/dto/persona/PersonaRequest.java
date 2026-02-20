@@ -6,10 +6,12 @@ import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.TipoPersonal;
 
 public class PersonaRequest {
 
+    private Long oidPersona;
     private String nombre;
     private String apellido;
     private Integer horasSemanales;
     private TipoPersona tipoPersona;
+
 
     // INVESTIGADOR
     private String categoriaUTN;
@@ -25,9 +27,14 @@ public class PersonaRequest {
     private TipoPersonal tipoPersonal;
 
     // CONSEJO EDUCATVO
-    private String Cargo;
+    private String cargo;
 
+    //GRUPO
     private Long oidGrupo;
+    private String nombreGrupo;
+
+    public PersonaRequest() {
+    }
 
     public PersonaRequest(String nombre, String apellido, Integer horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, TipoBecario tipoBecario, TipoPersonal tipoPersonal , String cargo) {
         this.nombre = nombre;
@@ -41,7 +48,7 @@ public class PersonaRequest {
         this.fuenteFinanciamiento = fuenteFinanciamiento;
         this.tipoBecario = tipoBecario;
         this.tipoPersonal = tipoPersonal;
-        this.Cargo = cargo;
+        this.cargo = cargo;
     }
 
 
@@ -94,11 +101,11 @@ public class PersonaRequest {
     }
 
     public String getCargo() {
-        return Cargo;
+        return cargo;
     }
 
     public void setCargo(String cargo) {
-        Cargo = cargo;
+        this.cargo = cargo;
     }
 
     public String getDedicacion() {

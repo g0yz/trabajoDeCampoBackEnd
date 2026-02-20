@@ -1,6 +1,7 @@
 package com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona;
 
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Personal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,6 +10,9 @@ import java.util.Optional;
 
 public interface PersonalRepository extends JpaRepository <Personal, Long> {
      Optional<Personal> findByPersona(Persona persona);
+
+
+     List<Personal> findByActivoTrue();
 
      List<Personal> findByPersonaGrupoOidGrupoAndPersonaActivoTrue(Long oidGrupo);
 

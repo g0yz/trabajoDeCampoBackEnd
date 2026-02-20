@@ -19,7 +19,7 @@ public class IntegranteConsejoEducativoService {
 
 
     public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativo() {
-        return integranteConsejoEducativoRepository.findAll()
+        return integranteConsejoEducativoRepository.findByActivoTrue()
                 .stream()
                 .map(this::mapearAResponse)
                 .toList();
@@ -40,6 +40,7 @@ public class IntegranteConsejoEducativoService {
             IntegranteConsejoEducativo i) {
 
         return new IntegranteConsejoEducativoResponse(
+                i.getPersona().getOidPersona(),
                 i.getOidIntegranteConsejoEducativo(),
                 i.getCargo(),
                 i.getActivo(),
@@ -80,12 +81,15 @@ public class IntegranteConsejoEducativoService {
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
                 .map(i -> new IntegranteConsejoEducativoResponse(
+                        i.getPersona().getOidPersona(),
                         i.getOidIntegranteConsejoEducativo(),
                         i.getCargo(),
                         i.getActivo(),
                         i.getPersona().getNombre(),
                         i.getPersona().getApellido(),
-                        i.getPersona().getHorasSemanales()
+                        i.getPersona().getHorasSemanales(),
+                        i.getPersona().getGrupo().getOidGrupo(),
+                        i.getPersona().getGrupo().getNombreGrupo()
                 ))
                 .toList();
     }
@@ -103,12 +107,15 @@ public class IntegranteConsejoEducativoService {
                         .orElseThrow(() -> new RuntimeException("Integrante no encontrado"));
 
         return new IntegranteConsejoEducativoResponse(
+                integrante.getPersona().getOidPersona(),
                 integrante.getOidIntegranteConsejoEducativo(),
                 integrante.getCargo(),
                 integrante.getActivo(),
                 integrante.getPersona().getNombre(),
                 integrante.getPersona().getApellido(),
-                integrante.getPersona().getHorasSemanales()
+                integrante.getPersona().getHorasSemanales(),
+                integrante.getPersona().getGrupo().getOidGrupo(),
+                integrante.getPersona().getGrupo().getNombreGrupo()
         );
     }
 

@@ -1,6 +1,5 @@
 package com.grupo7.TrabajoDeCampo.dto.documento;
 
-import java.sql.Blob;
 
 public class DocumentoResponse {
 
@@ -16,6 +15,9 @@ public class DocumentoResponse {
     private Long oidGrupo;
     private String nombreGrupo;
 
+    private String archivoBase64;
+    private String nombreArchivo;
+
     public DocumentoResponse(
             Long oidDocumento,
             String titulo,
@@ -24,28 +26,20 @@ public class DocumentoResponse {
             Integer anio,
             Boolean activo,
             Long oidGrupo,
-            String nombreGrupo
-
-            ) {
-
+            String nombreGrupo,
+            String archivoBase64,
+            String nombreArchivo
+    ) {
         this.oidDocumento = oidDocumento;
         this.titulo = titulo;
         this.autores = autores;
         this.editorial = editorial;
         this.anio = anio;
-        this.activo = true;
+        this.activo = activo;
         this.oidGrupo = oidGrupo;
         this.nombreGrupo = nombreGrupo;
-    }
-
-    public DocumentoResponse(Long oidDocumento, String titulo, String autores, String editorial, Integer anio, Boolean activo) {
-        this.oidDocumento = oidDocumento;
-
-        this.titulo = titulo;
-        this.autores = autores;
-        this.editorial = editorial;
-        this.anio = anio;
-        this.activo = true;
+        this.archivoBase64 = archivoBase64;
+        this.nombreArchivo = nombreArchivo;
     }
 
     public Long getOidDocumento() { return oidDocumento; }
@@ -56,4 +50,11 @@ public class DocumentoResponse {
     public Boolean getActivo() { return activo; }
     public Long getOidGrupo() { return oidGrupo; }
     public String getNombreGrupo() { return nombreGrupo; }
+    public String getArchivoBase64() {
+        return archivoBase64;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
 }

@@ -19,7 +19,7 @@ public class PersonalService {
     }
 
     public List<PersonalResponse> listarPersonal() {
-        return personalRepository.findAll()
+        return personalRepository.findByActivoTrue()
                 .stream()
                 .map(this::mapearAResponse)
                 .toList();
@@ -35,6 +35,7 @@ public class PersonalService {
 
     private PersonalResponse mapearAResponse(Personal p) {
         return new PersonalResponse(
+                p.getPersona().getOidPersona(),
                 p.getOidPersonal(),
                 p.getTipoPersonal(),
                 p.getActivo(),
@@ -79,12 +80,19 @@ public class PersonalService {
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
                 .map(p -> new PersonalResponse(
+                        p.getPersona().getOidPersona(),
                         p.getOidPersonal(),
                         p.getTipoPersonal(),
                         p.getActivo(),
+
+                        // Persona
                         p.getPersona().getNombre(),
                         p.getPersona().getApellido(),
-                        p.getPersona().getHorasSemanales()
+                        p.getPersona().getHorasSemanales(),
+
+                        // Grupo
+                        p.getPersona().getGrupo().getOidGrupo(),
+                        p.getPersona().getGrupo().getNombreGrupo()
                 ))
                 .toList();
     }
@@ -102,12 +110,19 @@ public class PersonalService {
                 .orElseThrow(() -> new RuntimeException("Personal no encontrado"));
 
         return new PersonalResponse(
+                personal.getPersona().getOidPersona(),
                 personal.getOidPersonal(),
                 personal.getTipoPersonal(),
                 personal.getActivo(),
+
+                // Persona
                 personal.getPersona().getNombre(),
                 personal.getPersona().getApellido(),
-                personal.getPersona().getHorasSemanales()
+                personal.getPersona().getHorasSemanales(),
+
+                // Grupo
+                personal.getPersona().getGrupo().getOidGrupo(),
+                personal.getPersona().getGrupo().getNombreGrupo()
         );
     }
 

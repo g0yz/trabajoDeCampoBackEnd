@@ -5,6 +5,7 @@ import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.TipoBecario;
 
 public class BecarioResponse {
 
+    private Long oidPersona;
     private Long oidBecario;
     private TipoBecario tipoBecario;
     private String fuenteFinanciamiento;
@@ -19,7 +20,9 @@ public class BecarioResponse {
     private Long oidGrupo;
     private String nombreGrupo;
 
+
     public BecarioResponse(
+            Long oidPersona,
             Long oidBecario,
             TipoBecario tipoBecario,
             String fuenteFinanciamiento,
@@ -30,6 +33,7 @@ public class BecarioResponse {
             Long oidGrupo,
             String nombreGrupo
     ) {
+        this.oidPersona = oidPersona;
         this.oidBecario = oidBecario;
         this.tipoBecario = tipoBecario;
         this.fuenteFinanciamiento = fuenteFinanciamiento;
@@ -41,11 +45,14 @@ public class BecarioResponse {
         this.nombreGrupo = nombreGrupo;
     }
 
-    public BecarioResponse(Long oidBecario, TipoBecario tipoBecario, String fuenteFinanciamiento, Boolean activo, String nombre, String apellido, Integer horasSemanales) {
-    }
+
 
     // getters
 
+
+    public Long getOidPersona() {
+        return oidPersona;
+    }
 
     public Long getOidBecario() {
         return oidBecario;

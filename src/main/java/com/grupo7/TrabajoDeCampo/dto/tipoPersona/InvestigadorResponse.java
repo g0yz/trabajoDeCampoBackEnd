@@ -2,6 +2,7 @@ package com.grupo7.TrabajoDeCampo.dto.tipoPersona;
 
 public class InvestigadorResponse {
 
+    private Long oidPersona;
     private Long oidInvestigador;
     private String categoriaUTN;
     private String programaDeIncentivos;
@@ -19,6 +20,7 @@ public class InvestigadorResponse {
     private String nombreGrupo;
 
     public InvestigadorResponse(
+            Long oidPersona,
             Long oidInvestigador,
             String categoriaUTN,
             String programaDeIncentivos,
@@ -31,6 +33,7 @@ public class InvestigadorResponse {
             Long oidGrupo,
             String nombreGrupo
     ) {
+        this.oidPersona = oidPersona;
         this.oidInvestigador = oidInvestigador;
         this.categoriaUTN = categoriaUTN;
         this.programaDeIncentivos = programaDeIncentivos;
@@ -44,8 +47,8 @@ public class InvestigadorResponse {
         this.nombreGrupo = nombreGrupo;
     }
 
-    public InvestigadorResponse(Long oidInvestigador, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, Boolean activo, String nombre, String apellido, Integer horasSemanales) {
-    }
+
+    public Long getOidPersona() {return oidPersona;}
 
     public Long getOidInvestigador() {
         return oidInvestigador;

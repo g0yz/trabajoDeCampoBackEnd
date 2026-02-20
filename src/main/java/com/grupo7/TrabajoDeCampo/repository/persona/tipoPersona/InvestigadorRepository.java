@@ -1,5 +1,6 @@
 package com.grupo7.TrabajoDeCampo.repository.persona.tipoPersona;
 
+import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.IntegranteConsejoEducativo;
 import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.Investigador;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,8 @@ import java.util.Optional;
 
 public interface InvestigadorRepository extends JpaRepository <Investigador, Long> {
     Optional<Investigador> findByPersona(Persona persona);
+
+    List<Investigador> findByActivoTrue();
 
     // listar investigadores activos del grupo
     List<Investigador> findByPersonaGrupoOidGrupoAndPersonaActivoTrue(Long oidGrupo);

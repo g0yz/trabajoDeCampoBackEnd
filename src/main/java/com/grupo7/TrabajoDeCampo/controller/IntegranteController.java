@@ -93,14 +93,10 @@ public class IntegranteController {
     }
 
     @GetMapping("/documentos/descargarDocumento/{oidDocumento}")
-    public ResponseEntity<InputStreamResource> descargarDocumento(@PathVariable Long oid) throws SQLException {
+    public ResponseEntity<byte[]> descargarDocumento(
+            @PathVariable("oidDocumento") Long oidDocumento) {
 
-        DocumentoArchivoResponse docResp = documentoService.descargarDocumento(oid);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + docResp.getNombreArchivo() + "\"")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(new InputStreamResource(docResp.getInputStream()));
+        return documentoService.descargarDocumento(oidDocumento);
     }
 
     //-----------------------------------EQUIPOS-----------------------------------
@@ -160,7 +156,7 @@ public class IntegranteController {
     //-----------------------------------INTEGRANTES CONSEJO EDUCATIVO-----------------------------------
 
     //listar todos las integrantes del Consejo Educativo del grupo
-    @GetMapping ("/personas/integranteConsejoEducativos/listarIntegrantesConsejoEducativo")
+    @GetMapping ("/personas/integrantesConsejoEducativo/listarIntegrantesConsejoEducativo")
     public List<IntegranteConsejoEducativoResponse> listarIntegrantesConsejoEducativoDelGrupo(Authentication auth) {
         Usuario usuario = (Usuario) auth.getPrincipal();
         Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
@@ -168,7 +164,7 @@ public class IntegranteController {
     }
 
     //obtener una integranteConsejoEducativo en especifico del grupo
-    @GetMapping("/personas/integranteConsejoEducativos/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
+    @GetMapping("/personas/integrantesConsejoEducativo/obtenerIntegranteConsejoEducativo/{oidIntegranteConsejoEducativo}")
     public IntegranteConsejoEducativoResponse obtenerIntegranteConsejoEducativoDelGrupo(@PathVariable Long oidGrupo, @PathVariable Long oidIntegranteConsejoEducativo) {
         return integranteConsejoEducativoService
                 .obtenerIntegranteConsejoEducativoDelGrupo(

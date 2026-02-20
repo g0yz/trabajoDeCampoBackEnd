@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface IntegranteConsejoEducativoRepository extends JpaRepository <IntegranteConsejoEducativo, Long> {
     Optional<IntegranteConsejoEducativo> findByPersona(Persona persona);
 
+    List<IntegranteConsejoEducativo> findByActivoTrue();
 
     List<IntegranteConsejoEducativo>
     findByPersonaGrupoOidGrupoAndPersonaActivoTrue(Long oidGrupo);

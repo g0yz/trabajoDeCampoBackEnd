@@ -4,6 +4,7 @@ import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.TipoPersonal;
 
 public class PersonalResponse {
 
+    private Long oidPersona;
     private Long oidPersonal;
     private TipoPersonal tipoPersonal;
     private Boolean activo;
@@ -16,6 +17,7 @@ public class PersonalResponse {
     private String nombreGrupo;
 
     public PersonalResponse(
+            Long oidPersona,
             Long oidPersonal,
             TipoPersonal tipoPersonal,
             Boolean activo,
@@ -25,6 +27,7 @@ public class PersonalResponse {
             Long oidGrupo,
             String nombreGrupo) {
 
+        this.oidPersona = oidPersona;
         this.oidPersonal = oidPersonal;
         this.tipoPersonal = tipoPersonal;
         this.activo = activo;
@@ -35,9 +38,8 @@ public class PersonalResponse {
         this.nombreGrupo = nombreGrupo;
     }
 
-    public PersonalResponse(Long oidPersonal, TipoPersonal tipoPersonal, Boolean activo, String nombre, String apellido, Integer horasSemanales) {
-    }
 
+    public Long getOidPersona() {return oidPersona;}
     public Long getOidPersonal() { return oidPersonal; }
     public TipoPersonal getTipoPersonal() { return tipoPersonal; }
     public Boolean getActivo() { return activo; }

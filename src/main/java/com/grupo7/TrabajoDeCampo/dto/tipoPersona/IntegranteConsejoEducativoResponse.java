@@ -2,6 +2,7 @@ package com.grupo7.TrabajoDeCampo.dto.tipoPersona;
 
 public class IntegranteConsejoEducativoResponse {
 
+    private Long oidPersona;
     private Long oidIntegranteConsejoEducativo;
     private String cargo;
     private Boolean activo;
@@ -14,6 +15,7 @@ public class IntegranteConsejoEducativoResponse {
     private String nombreGrupo;
 
     public IntegranteConsejoEducativoResponse(
+            Long oidPersona,
             Long oidIntegranteConsejoEducativo,
             String cargo,
             Boolean activo,
@@ -23,6 +25,7 @@ public class IntegranteConsejoEducativoResponse {
             Long oidGrupo,
             String nombreGrupo) {
 
+        this.oidPersona = oidPersona;
         this.oidIntegranteConsejoEducativo = oidIntegranteConsejoEducativo;
         this.cargo = cargo;
         this.activo = activo;
@@ -33,9 +36,7 @@ public class IntegranteConsejoEducativoResponse {
         this.nombreGrupo = nombreGrupo;
     }
 
-    public IntegranteConsejoEducativoResponse(Long oidIntegranteConsejoEducativo, String cargo, Boolean activo, String nombre, String apellido, Integer horasSemanales) {
-    }
-
+    public Long getOidPersona() {return oidPersona;}
     public Long getOidIntegranteConsejoEducativo() { return oidIntegranteConsejoEducativo; }
     public String getCargo() { return cargo; }
     public Boolean getActivo() { return activo; }

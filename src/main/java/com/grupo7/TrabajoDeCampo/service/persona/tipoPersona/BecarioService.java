@@ -25,7 +25,7 @@ public class BecarioService {
 
 
     public List<BecarioResponse> listarBecarios() {
-        return becarioRepository.findAll()
+        return becarioRepository.findByActivoTrue()
                 .stream()
                 .map(this::mapearAResponse)
                 .toList();
@@ -40,6 +40,7 @@ public class BecarioService {
 
     private BecarioResponse mapearAResponse(Becario b) {
         return new BecarioResponse(
+                b.getPersona().getOidPersona(),
                 b.getOidBecario(),
                 b.getTipoBecario(),
                 b.getFuenteFinanciamiento(),
@@ -98,13 +99,16 @@ public class BecarioService {
                 .findByPersonaGrupoOidGrupoAndPersonaActivoTrue(oidGrupo)
                 .stream()
                 .map(b -> new BecarioResponse(
+                        b.getPersona().getOidPersona(),
                         b.getOidBecario(),
                         b.getTipoBecario(),
                         b.getFuenteFinanciamiento(),
                         b.getPersona().getActivo(),
                         b.getPersona().getNombre(),
                         b.getPersona().getApellido(),
-                        b.getPersona().getHorasSemanales()
+                        b.getPersona().getHorasSemanales(),
+                        b.getPersona().getGrupo().getOidGrupo(),
+                        b.getPersona().getGrupo().getNombreGrupo()
                 ))
                 .toList();
     }
@@ -125,13 +129,16 @@ public class BecarioService {
                 );
 
         return new BecarioResponse(
+                b.getPersona().getOidPersona(),
                 b.getOidBecario(),
                 b.getTipoBecario(),
                 b.getFuenteFinanciamiento(),
                 b.getPersona().getActivo(),
                 b.getPersona().getNombre(),
                 b.getPersona().getApellido(),
-                b.getPersona().getHorasSemanales()
+                b.getPersona().getHorasSemanales(),
+                b.getPersona().getGrupo().getOidGrupo(),
+                b.getPersona().getGrupo().getNombreGrupo()
         );
     }
 
