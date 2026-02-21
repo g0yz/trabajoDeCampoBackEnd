@@ -17,8 +17,6 @@ public class Memoria {
     @Column (name = "anio" , nullable = false)
     private Integer anio;
 
-    @Column( name = "fechaCreacion", nullable = false)
-    private Timestamp fechaCreacion;
 
     @ManyToOne
     @JoinColumn (name = "oidGrupo", nullable = false)
@@ -26,8 +24,7 @@ public class Memoria {
 
     public Memoria(){}
 
-    public Memoria(Timestamp fechaCreacion, Integer anio, Grupo grupo) {
-        this.fechaCreacion = fechaCreacion;
+    public Memoria(Integer anio, Grupo grupo) {
         this.anio = anio;
         this.grupo = grupo;
     }
@@ -43,13 +40,6 @@ public class Memoria {
         this.anio = anio;
     }
 
-    public Timestamp getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(Timestamp fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
 
     public Grupo getGrupo() {
         return grupo;

@@ -6,6 +6,7 @@ import com.grupo7.TrabajoDeCampo.model.persona.tipoPersona.TipoPersonal;
 
 public class MemoriaPersonaResponse {
 
+    private Long oidPersona;
     private String nombre;
     private String apellido;
     private Integer horasSemanales;
@@ -28,7 +29,8 @@ public class MemoriaPersonaResponse {
     private String cargo;
 
 
-    public MemoriaPersonaResponse(String nombre, String apellido, Integer horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, String tipoBecario, String tipoPersonal , String cargo) {
+    public MemoriaPersonaResponse(Long oidPersona,String nombre, String apellido, Integer horasSemanales, TipoPersona tipoPersona, String categoriaUTN, String programaDeIncentivos, String dedicacion, String gradoAcademico, String fuenteFinanciamiento, String tipoBecario, String tipoPersonal , String cargo) {
+        this.oidPersona = oidPersona;
         this.nombre = nombre;
         this.apellido = apellido;
         this.horasSemanales = horasSemanales;
@@ -43,7 +45,7 @@ public class MemoriaPersonaResponse {
         this.cargo = cargo;
     }
 
-
+    public Long getOidPersona() { return oidPersona;}
 
     public String getNombre() {
         return nombre;

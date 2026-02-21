@@ -19,6 +19,7 @@ import com.grupo7.TrabajoDeCampo.dto.tipoPersona.PersonalResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
+import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExport;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
@@ -78,6 +79,8 @@ public class DirectorController {
     private MemoriaEquipoService memoriaEquipoService;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private MemoriaExcelExport memoriaExcelExport;
 
 
 
@@ -321,6 +324,14 @@ public class DirectorController {
         personaService.quitarPersonaDelGrupo(usuario, oidPersona);
 
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/grupos/personas/listarPersonas")
+    public List<PersonaResponse> listarPersonasDelGrupo(Authentication auth) {
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        Long oidGrupo = usuario.getPersona().getGrupo().getOidGrupo();
+        return personaService.listarPersonasPorGrupo(oidGrupo);
     }
 
 
@@ -604,6 +615,37 @@ public class DirectorController {
 
         return ResponseEntity.ok("Persona quitada de la memoria");
     }
+
+
+
+
+    //exportar memoria en excel
+    @GetMapping("/memorias/{oidMemoria}/exportarExcel")
+    public ResponseEntity<byte[]> exportarMemoriaExcel(
+            @PathVariable Long oidMemoria,
+            Authentication auth) {
+
+        MemoriaDetalleResponse memoria =
+                memoriaService.obtenerMemoriaEspecificaGrupo(auth,oidMemoria);
+
+        byte[] archivo = memoriaExcelExport.exportarMemoriaCompleta(
+                new GrupoResponse(memoria.getGrupo()),
+                memoria.getPersonas(),
+                memoria.getDocumentos(),
+                memoria.getEquipos()
+        );
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=memoria_" + oidMemoria + ".xlsx")
+                .contentType(
+                        MediaType.parseMediaType(
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        )
+                )
+                .body(archivo);
+    }
+
 
 
 

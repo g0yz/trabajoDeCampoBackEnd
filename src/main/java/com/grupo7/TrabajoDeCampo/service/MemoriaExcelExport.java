@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class MemoriaExcelExportIntegrante {
+public class MemoriaExcelExport {
 
     // =====================================================
     // MÉTODO PRINCIPAL

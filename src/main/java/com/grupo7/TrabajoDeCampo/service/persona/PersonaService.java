@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -544,8 +545,28 @@ public class PersonaService {
     }
 
 
-
-
+    public List<PersonaResponse> listarPersonasPorGrupo(Long oidGrupo) {
+        return personaRepository.findByGrupo_OidGrupoAndActivoTrue(oidGrupo)
+                .stream()
+                .map(p -> new PersonaResponse(
+                        p.getOidPersona(),
+                        p.getNombre(),
+                        p.getApellido(),
+                        p.getHorasSemanales(),
+                        p.getTipoPersona(),
+                        p.getInvestigador() != null ? p.getInvestigador().getCategoriaUTN() : null,
+                        p.getInvestigador() != null ? p.getInvestigador().getProgramaDeIncentivos() : null,
+                        p.getInvestigador() != null ? p.getInvestigador().getDedicacion() : null,
+                        p.getInvestigador() != null ? p.getInvestigador().getGradoAcademico() : null,
+                        p.getBecario() != null ? p.getBecario().getFuenteFinanciamiento() : null,
+                        p.getBecario() != null ? p.getBecario().getTipoBecario() : null,
+                        p.getPersonal() != null ? p.getPersonal().getTipoPersonal() : null,
+                        p.getIntegranteConsejoEducativo() != null ? p.getIntegranteConsejoEducativo().getCargo() : null,
+                        p.getGrupo().getOidGrupo(),
+                        p.getGrupo().getNombreGrupo()
+                ))
+                .toList();
+    }
 
 
 }

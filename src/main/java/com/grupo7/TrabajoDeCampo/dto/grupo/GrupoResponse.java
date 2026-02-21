@@ -1,6 +1,11 @@
 package com.grupo7.TrabajoDeCampo.dto.grupo;
 
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDocumentoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaEquipoResponse;
+import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaPersonaResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
+
+import java.util.List;
 
 public class GrupoResponse {
 
@@ -21,6 +26,7 @@ public class GrupoResponse {
         this.organigrama = grupo.getOrganigrama();
         this.objetivoYDesarollo = grupo.getObjetivoYDesarollo();
     }
+
 
 
     public String getFacultadRegional() {

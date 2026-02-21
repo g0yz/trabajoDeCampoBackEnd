@@ -12,6 +12,10 @@ public interface PersonaRepository extends JpaRepository <Persona, Long> {
 
     List<Persona> findByActivoTrue();
 
+
+
+    List<Persona> findByGrupo_OidGrupoAndActivoTrue(Long oidGrupo);
+
     Optional<Persona> findByOidPersonaAndGrupoOidGrupoAndActivoTrue(
             Long oidPersona,
             Long oidGrupo

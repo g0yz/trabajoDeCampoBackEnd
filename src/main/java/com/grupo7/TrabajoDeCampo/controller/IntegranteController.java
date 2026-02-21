@@ -1,7 +1,6 @@
 package com.grupo7.TrabajoDeCampo.controller;
 
 
-import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoArchivoResponse;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
@@ -12,7 +11,7 @@ import com.grupo7.TrabajoDeCampo.dto.tipoPersona.IntegranteConsejoEducativoRespo
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.InvestigadorResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.PersonalResponse;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
-import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExportIntegrante;
+import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExport;
 
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
@@ -23,7 +22,6 @@ import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.IntegranteConsejoEd
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService;
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +29,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -65,7 +62,7 @@ public class IntegranteController {
     private MemoriaService memoriaService;
 
     @Autowired
-    private MemoriaExcelExportIntegrante memoriaExcelExportIntegrante;
+    private MemoriaExcelExport memoriaExcelExport;
 
 
     //-----------------------------------GRUPO-----------------------------------
@@ -225,7 +222,7 @@ public class IntegranteController {
         MemoriaDetalleResponse memoria =
                 memoriaService.obtenerMemoriaEspecificaGrupo(auth,oidMemoria);
 
-        byte[] archivo = memoriaExcelExportIntegrante.exportarMemoriaCompleta(
+        byte[] archivo = memoriaExcelExport.exportarMemoriaCompleta(
                 new GrupoResponse(memoria.getGrupo()),
                 memoria.getPersonas(),
                 memoria.getDocumentos(),

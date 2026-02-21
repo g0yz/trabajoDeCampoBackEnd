@@ -264,6 +264,7 @@ import java.util.List;
             return memoriaPersonaRepository.findByMemoria(memoria)
                     .stream()
                     .map(mp -> new MemoriaPersonaResponse(
+                            mp.getOidPersona(),
                             mp.getNombre(),
                             mp.getApellido(),
                             mp.getHorasSemanales(),

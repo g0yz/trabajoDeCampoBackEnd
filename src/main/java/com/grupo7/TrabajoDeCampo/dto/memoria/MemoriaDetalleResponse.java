@@ -12,10 +12,6 @@ public class MemoriaDetalleResponse {
 
         private Long oidMemoria;
 
-        private Integer anio;
-
-        private Timestamp fechaCreacion;
-
         private Grupo grupo;
 
         private List<MemoriaPersonaResponse> personas;
@@ -27,16 +23,12 @@ public class MemoriaDetalleResponse {
 
     public MemoriaDetalleResponse(
             Long oidMemoria,
-            Integer anio,
-            Timestamp fechaCreacion,
             Grupo grupo,
             List<MemoriaDocumentoResponse> documentos,
             List<MemoriaEquipoResponse> equipos,
             List<MemoriaPersonaResponse> personas
     ) {
         this.oidMemoria = oidMemoria;
-        this.anio = anio;
-        this.fechaCreacion = fechaCreacion;
         this.grupo = grupo;
         this.documentos = documentos;
         this.equipos = equipos;
@@ -44,8 +36,6 @@ public class MemoriaDetalleResponse {
     }
 
         public Long getOidMemoria() { return oidMemoria; }
-        public Integer getAnio() { return anio; }
-        public Timestamp getFechaCreacion() { return fechaCreacion; }
         public List<MemoriaDocumentoResponse> getDocumentos() { return documentos; }
         public List<MemoriaEquipoResponse> getEquipos() { return equipos; }
         public List<MemoriaPersonaResponse> getPersonas() { return personas; }

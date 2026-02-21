@@ -1,12 +1,10 @@
 package com.grupo7.TrabajoDeCampo.controller;
 
 
-import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoArchivoResponse;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoRequest;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoRequest;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
-import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoRequest;
 import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaResponse;
@@ -18,7 +16,7 @@ import com.grupo7.TrabajoDeCampo.dto.tipoPersona.InvestigadorResponse;
 import com.grupo7.TrabajoDeCampo.dto.tipoPersona.PersonalResponse;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
-import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExportIntegrante;
+import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExport;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.equipo.EquipoService;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
@@ -33,7 +31,6 @@ import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 import com.grupo7.TrabajoDeCampo.service.usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +39,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -58,7 +54,7 @@ public class ViceDirectorController {
     private MemoriaService memoriaService;
 
     @Autowired
-    private MemoriaExcelExportIntegrante memoriaExcelExportIntegrante;
+    private MemoriaExcelExport memoriaExcelExport;
 
     @Autowired
     private DocumentoService documentoService;
@@ -425,7 +421,7 @@ public class ViceDirectorController {
         MemoriaDetalleResponse memoria =
                 memoriaService.obtenerMemoriaEspecificaGrupo(auth,oidMemoria);
 
-        byte[] archivo = memoriaExcelExportIntegrante.exportarMemoriaCompleta(
+        byte[] archivo = memoriaExcelExport.exportarMemoriaCompleta(
                 new GrupoResponse(memoria.getGrupo()),
                 memoria.getPersonas(),
                 memoria.getDocumentos(),

@@ -1,8 +1,8 @@
 package com.grupo7.TrabajoDeCampo.controller;
-import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoArchivoResponse;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoRequest;
 import com.grupo7.TrabajoDeCampo.dto.documento.DocumentoResponse;
 import com.grupo7.TrabajoDeCampo.dto.equipo.EquipoResponse;
+import com.grupo7.TrabajoDeCampo.dto.grupo.GrupoResponse;
 import com.grupo7.TrabajoDeCampo.dto.memoria.MemoriaDetalleResponse;
 import com.grupo7.TrabajoDeCampo.dto.persona.PersonaRequest;
 import com.grupo7.TrabajoDeCampo.dto.persona.PersonaResponse;
@@ -18,11 +18,11 @@ import com.grupo7.TrabajoDeCampo.model.documento.Documento;
 import com.grupo7.TrabajoDeCampo.model.equipo.Equipo;
 import com.grupo7.TrabajoDeCampo.model.grupo.Grupo;
 import com.grupo7.TrabajoDeCampo.model.memoria.Memoria;
-import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaDetalle;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaEquipo;
 import com.grupo7.TrabajoDeCampo.model.memoria.MemoriaPersona;
 import com.grupo7.TrabajoDeCampo.model.persona.Persona;
 import com.grupo7.TrabajoDeCampo.model.usuario.Usuario;
+import com.grupo7.TrabajoDeCampo.service.MemoriaExcelExport;
 import com.grupo7.TrabajoDeCampo.service.documento.DocumentoService;
 import com.grupo7.TrabajoDeCampo.service.grupo.GrupoService;
 import com.grupo7.TrabajoDeCampo.service.persona.PersonaService;
@@ -38,7 +38,6 @@ import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.InvestigadorService
 import com.grupo7.TrabajoDeCampo.service.persona.tipoPersona.PersonalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +46,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,6 +80,10 @@ public class AdministradorController {
     private MemoriaEquipoService memoriaEquipoService;
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private MemoriaExcelExport memoriaExcelExport;
+
 
 
 
@@ -250,6 +252,12 @@ public class AdministradorController {
     //quitar una persona
     @PutMapping("/personas/quitarPersona/{oidPersona}") public void eliminarPersona (@PathVariable Long oidPersona) {
         personaService.desactivarPersona(oidPersona); }
+
+
+    @GetMapping("/grupos/{oidGrupo}/personas/listarPersonas")
+    public List<PersonaResponse> listarPersonasPorGrupo(@PathVariable Long oidGrupo) {
+        return personaService.listarPersonasPorGrupo(oidGrupo);
+    }
 
 
     //-----------------------------------BECARIOS-----------------------------------
@@ -433,6 +441,29 @@ public class AdministradorController {
                 oidMemoria,
                 oidPersona
         );
+    }
+
+    @GetMapping("/memorias/{oidMemoria}/exportarExcel")
+    public ResponseEntity<byte[]> exportarMemoriaExcel(
+            @PathVariable Long oidMemoria) {
+
+        MemoriaDetalleResponse memoria =
+                memoriaService.obtenerMemoriaEspecifica(oidMemoria);
+
+        byte[] archivo = memoriaExcelExport.exportarMemoriaCompleta(
+                new GrupoResponse(memoria.getGrupo()),
+                memoria.getPersonas(),
+                memoria.getDocumentos(),
+                memoria.getEquipos()
+        );
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=memoria_" + oidMemoria + ".xlsx")
+                .contentType(MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ))
+                .body(archivo);
     }
 
 

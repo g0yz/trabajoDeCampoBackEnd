@@ -52,7 +52,6 @@ public class MemoriaService {
                 });
 
         Memoria memoria = new Memoria(
-                new Timestamp(System.currentTimeMillis()),
                 anio,
                 grupo
         );
@@ -66,7 +65,6 @@ public class MemoriaService {
                 .map(m -> new MemoriaResponse(
                         m.getOidMemoria(),
                         m.getAnio(),
-                        m.getFechaCreacion(),
                         m.getGrupo().getOidGrupo(),
                         m.getGrupo().getNombreGrupo()
                 ))
@@ -82,6 +80,7 @@ public class MemoriaService {
                 memoriaPersonaRepository.findByMemoria(memoria)
                         .stream()
                         .map(mp -> new MemoriaPersonaResponse(
+                                mp.getOidPersona(),
                                 mp.getNombre(),
                                 mp.getApellido(),
                                 mp.getHorasSemanales(),
@@ -123,8 +122,6 @@ public class MemoriaService {
 
         return new MemoriaDetalleResponse(
                 memoria.getOidMemoria(),
-                memoria.getAnio(),
-                memoria.getFechaCreacion(),
                 memoria.getGrupo(),
                 documentos,
                 equipos,
@@ -159,6 +156,7 @@ public class MemoriaService {
                 memoriaPersonaRepository.findByMemoria(memoria)
                         .stream()
                         .map(mp -> new MemoriaPersonaResponse(
+                                mp.getOidPersona(),
                                 mp.getNombre(),
                                 mp.getApellido(),
                                 mp.getHorasSemanales(),
@@ -200,8 +198,6 @@ public class MemoriaService {
 
         return new MemoriaDetalleResponse(
                 memoria.getOidMemoria(),
-                memoria.getAnio(),
-                memoria.getFechaCreacion(),
                 memoria.getGrupo(),
                 documentos,
                 equipos,
@@ -245,6 +241,7 @@ public class MemoriaService {
 
     private MemoriaPersonaResponse mapMemoriaPersona(MemoriaPersona mp) {
         return new MemoriaPersonaResponse(
+                mp.getOidPersona(),
                 mp.getNombre(),
                 mp.getApellido(),
                 mp.getHorasSemanales(),
@@ -269,7 +266,8 @@ public class MemoriaService {
                 .map(m -> new MemoriaResponse(
                         m.getOidMemoria(),
                         m.getAnio(),
-                        m.getFechaCreacion()
+                        m.getGrupo().getOidGrupo(),
+                        m.getGrupo().getNombreGrupo()
                 ))
                 .toList();
     }
@@ -306,7 +304,6 @@ public class MemoriaService {
 
         // Crear memoria
         Memoria memoria = new Memoria(
-                new Timestamp(System.currentTimeMillis()),
                 anio,
                 grupo
         );
@@ -316,7 +313,6 @@ public class MemoriaService {
         return new MemoriaResponse(
                 memoria.getOidMemoria(),
                 memoria.getAnio(),
-                memoria.getFechaCreacion(),
                 grupo.getOidGrupo(),
                 grupo.getNombreGrupo()
         );

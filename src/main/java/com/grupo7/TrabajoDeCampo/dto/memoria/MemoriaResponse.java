@@ -7,7 +7,6 @@ public class MemoriaResponse {
 
     private Long oidMemoria;
     private Integer anio;
-    private Timestamp fechaCreacion;
 
     private Long oidGrupo;
     private String nombreGrupo;
@@ -15,13 +14,11 @@ public class MemoriaResponse {
     public MemoriaResponse(
             Long oidMemoria,
             Integer anio,
-            Timestamp fechaCreacion,
             Long oidGrupo,
             String nombreGrupo) {
 
         this.oidMemoria = oidMemoria;
         this.anio = anio;
-        this.fechaCreacion = fechaCreacion;
         this.oidGrupo = oidGrupo;
         this.nombreGrupo = nombreGrupo;
     }
@@ -29,7 +26,6 @@ public class MemoriaResponse {
     public MemoriaResponse(Long oidMemoria, Integer anio, Timestamp fechaCreacion) {
         this.oidMemoria = oidMemoria;
         this.anio = anio;
-        this.fechaCreacion = fechaCreacion;
     }
 
 
@@ -41,9 +37,6 @@ public class MemoriaResponse {
         return anio;
     }
 
-    public Timestamp getFechaCreacion() {
-        return fechaCreacion;
-    }
 
     public Long getOidGrupo() {
         return oidGrupo;
