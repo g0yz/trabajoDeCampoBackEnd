@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.grupo7.TrabajoDeCampo.repository.usuario.UsuarioRepository;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -63,11 +64,20 @@ public class AuthController {
 
         String token = jwtService.generarToken(usuario);
 
-        return ResponseEntity.ok(Map.of(
-                "token", token,
-                "role", usuario.getRole().name()
-        ));
-    }
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("role", usuario.getRole().name());
+        response.put("email", usuario.getEmail());
 
+        if (usuario.getPersona() != null) {
+            response.put("nombre", usuario.getPersona().getNombre());
+            response.put("grupo", usuario.getPersona().getGrupo());
+        } else {
+            response.put("nombre", null);
+            response.put("grupo", null);
+        }
+
+        return ResponseEntity.ok(response);
+    }
 
 }
